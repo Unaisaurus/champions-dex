@@ -1,45 +1,69 @@
 import { ArrowLeft } from 'lucide-react';
 import { useState, type CSSProperties } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import type { Species } from '@/data/contracts';
+import type { FamilyNode, Form, Id, Species } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
-import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { ArtImage } from '@/ui/components/ArtImage';
 import { FavouriteButton } from '@/ui/components/FavouriteButton';
 import { Notice } from '@/ui/components/Notice';
 import { StatBars } from '@/ui/components/StatBars';
 import { TypeList } from '@/ui/components/TypeBadge';
+import { formatHeight, formatNumber, formatWeight } from '@/ui/format';
 import { formatDexNumber } from '@/ui/images';
 import { useFormLabels } from '@/ui/useFormLabels';
+import { DexEntries } from './DexEntries';
+import { EvolutionTree } from './EvolutionTree';
+import { Learnset } from './Learnset';
+import { TypeMatchups } from './TypeMatchups';
 import styles from './PokemonPage.module.css';
 
-function useFormatters(language: string) {
-  const locale = localeOf(language as Parameters<typeof localeOf>[0]);
-  const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 });
-  const unit = (value: number, unitName: 'meter' | 'kilogram') =>
-    new Intl.NumberFormat(locale, {
-      style: 'unit',
-      unit: unitName,
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1,
-    }).format(value);
-  return { number, unit };
+/** Every form that appears in a family tree. */
+function familyMembers(roots: readonly FamilyNode[] | undefined): Set<Id> {
+  const members = new Set<Id>();
+  const visit = (node: FamilyNode) => {
+    members.add(node.form);
+    node.children.forEach(visit);
+  };
+  roots?.forEach(visit);
+  return members;
+}
+
+const SECTIONS = ['base-stats', 'matchups', 'evolutions', 'dex-entries', 'learnset'] as const;
+
+/** Jump links to the sections below (buttons: the address bar already holds the page route). */
+function SectionLinks({ available }: { available: ReadonlySet<string> }) {
+  const { t } = useTranslation();
+  return (
+    <nav className={styles.sectionLinks} aria-label={t('pokemon.sections.label')}>
+      {SECTIONS.filter((id) => available.has(id)).map((id) => (
+        <button
+          key={id}
+          type="button"
+          className={styles.sectionLink}
+          onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+        >
+          {t(`pokemon.sections.${id}`)}
+        </button>
+      ))}
+    </nav>
+  );
 }
 
 export function PokemonPage() {
   const { formId = '' } = useParams();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const data = useGameData();
   const text = useGameText();
   const labels = useFormLabels();
   const [shiny, setShiny] = useState(false);
-  const format = useFormatters(text.language);
 
   const requested = data.formsById.get(formId);
   const entry = requested?.parentEntry ? data.formsById.get(requested.parentEntry) : requested;
   const species: Species | undefined = entry ? data.speciesById.get(entry.speciesId) : undefined;
+  const members = familyMembers(species ? data.familiesById.get(species.familyId)?.roots : undefined);
   if (!requested || !entry || !species) {
     return (
       <div className={styles.missing}>
@@ -50,18 +74,33 @@ export function PokemonPage() {
   }
 
   const profiles = [entry, ...(data.profilesByEntry.get(entry.id) ?? [])];
-  const appearances = data.appearancesByEntry.get(entry.id) ?? [];
-  const profile = requested.display === 'profile' ? requested : entry;
+  const allAppearances = data.appearancesByEntry.get(entry.id) ?? [];
+  // Gender differences get their own switch; the rest are appearance chips.
+  const femaleVariant = allAppearances.find((form) => form.kind === 'gender') ?? null;
+  const appearances = allAppearances.filter((form) => form.kind !== 'gender');
   const appearance = requested.display === 'appearance' ? requested : null;
+  // An appearance plays like its gameplay form (Vivillon patterns like Vivillon).
+  const gameplay = appearance?.gameplayForm ? data.formsById.get(appearance.gameplayForm) : undefined;
+  const profile: Form = requested.display === 'profile' ? requested : (gameplay ?? entry);
   const shown = appearance ?? profile;
-  const colour = profile.color ?? species.color;
+  const inChampions = entry.availability === 'champions';
 
+  const colour = profile.color ?? species.color;
   const title = text.name('pokemon-names', species.id);
   const subtitle = labels.get(shown.id) ?? null;
   const fullName = subtitle ? `${title} (${subtitle})` : title;
   const artKeys = shiny ? [shown.art.officialShiny, shown.art.official] : [shown.art.official];
   const genus = text.get('genus', species.id)?.text;
   const femalePercent = species.gender.kind === 'ratio' ? species.gender.femaleEighths * 12.5 : null;
+  const megaStone = profile.megaStone ? data.itemsById.get(profile.megaStone) : undefined;
+  const current = new Set([members.has(profile.id) ? profile.id : entry.id]);
+  const goTo = (form: Form) => navigate(`/pokemon/${form.id}`, { replace: true });
+
+  const hasEntries = text.dexEntries(species.id).length > 0;
+  const hasMoves = inChampions;
+  const available = new Set<string>(['base-stats', 'matchups', 'evolutions']);
+  if (hasEntries) available.add('dex-entries');
+  if (hasMoves) available.add('learnset');
 
   return (
     <article className={styles.page}>
@@ -95,12 +134,23 @@ export function PokemonPage() {
               />
               <span>{t('pokemon.showShiny')}</span>
             </label>
-            {entry.availability === 'champions' && <FavouriteButton formId={entry.id} name={fullName} />}
+            {femaleVariant && (
+              <label className={styles.switch}>
+                <input
+                  type="checkbox"
+                  role="switch"
+                  checked={shown.id === femaleVariant.id}
+                  onChange={(e) => goTo(e.target.checked ? femaleVariant : entry)}
+                />
+                <span>{t('pokemon.showFemale')}</span>
+              </label>
+            )}
+            {inChampions && <FavouriteButton formId={entry.id} name={fullName} />}
           </div>
         </div>
       </section>
 
-      {entry.availability !== 'champions' && <Notice tone="warning">{t('pokemon.notInChampions')}</Notice>}
+      {!inChampions && <Notice tone="warning">{t('pokemon.notInChampions')}</Notice>}
 
       {profiles.length > 1 && (
         <nav className={styles.chipRow} aria-label={t('pokemon.forms')}>
@@ -137,6 +187,8 @@ export function PokemonPage() {
         </nav>
       )}
 
+      <SectionLinks available={available} />
+
       <div className={styles.panels}>
         <section className={styles.panel} aria-labelledby="base-stats">
           <h2 id="base-stats">{t('terms.baseStats')}</h2>
@@ -152,13 +204,13 @@ export function PokemonPage() {
             {profile.heightDm !== null && (
               <div>
                 <dt>{t('terms.height')}</dt>
-                <dd>{format.unit(profile.heightDm / 10, 'meter')}</dd>
+                <dd>{formatHeight(profile.heightDm, text.language)}</dd>
               </div>
             )}
             {profile.weightHg !== null && (
               <div>
                 <dt>{t('terms.weight')}</dt>
-                <dd>{format.unit(profile.weightHg / 10, 'kilogram')}</dd>
+                <dd>{formatWeight(profile.weightHg, text.language)}</dd>
               </div>
             )}
             <div>
@@ -167,8 +219,8 @@ export function PokemonPage() {
                 {femalePercent === null
                   ? t('terms.genderless')
                   : t('pokemon.genderRatio', {
-                      female: format.number.format(femalePercent),
-                      male: format.number.format(100 - femalePercent),
+                      female: formatNumber(femalePercent, text.language),
+                      male: formatNumber(100 - femalePercent, text.language),
                     })}
               </dd>
             </div>
@@ -178,11 +230,23 @@ export function PokemonPage() {
                 <dd>{profile.abilities.map((id) => text.name('ability-names', id)).join(', ')}</dd>
               </div>
             )}
+            {megaStone && (
+              <div>
+                <dt>{t('pokemon.megaStone')}</dt>
+                <dd className={styles.item}>
+                  <ArtImage keys={[megaStone.icon]} alt="" width={28} height={28} />
+                  {text.name('item-names', megaStone.id)}
+                </dd>
+              </div>
+            )}
           </dl>
         </section>
       </div>
 
-      <Notice>{t('pokemon.comingSoon')}</Notice>
+      <TypeMatchups form={profile} />
+      <EvolutionTree species={species} current={current} />
+      <DexEntries speciesId={species.id} />
+      {hasMoves && <Learnset form={shown} />}
     </article>
   );
 }

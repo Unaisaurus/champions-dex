@@ -126,12 +126,13 @@ export function buildDexEntries(ctx: Context, speciesNos: readonly number[]): De
           const versions = [...group.versions].sort((a, b) => a - b);
           versions.forEach((v) => versionsUsed.add(v));
           return {
-            first: versions[0] ?? 0,
+            newest: versions[versions.length - 1] ?? 0,
             games: versions.map((v) => ctx.versionIdentifier.get(v) ?? String(v)),
             text: group.text,
           };
         })
-        .sort((a, b) => a.first - b.first)
+        // Ordered by the newest game each text appears in, so the app can show the latest first.
+        .sort((a, b) => a.newest - b.newest)
         .map(({ games, text }) => ({ games, text }));
     }
   }

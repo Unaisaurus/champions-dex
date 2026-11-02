@@ -44,6 +44,8 @@ export interface GameData extends CoreData {
   profilesByEntry: ReadonlyMap<Id, readonly Form[]>;
   /** Art-only variants (Vivillon patterns…) of each entry, in display order. */
   appearancesByEntry: ReadonlyMap<Id, readonly Form[]>;
+  /** Mega form → the form that Mega Evolves into it (from the Mega Stones). */
+  megaBase: ReadonlyMap<Id, Id>;
 }
 
 function byId<T extends { id: Id }>(list: readonly T[]): Map<Id, T> {
@@ -106,6 +108,9 @@ export function indexGameData(manifest: Manifest, core: CoreData): GameData {
       .sort(compare),
     profilesByEntry,
     appearancesByEntry,
+    megaBase: new Map(
+      core.items.flatMap((item) => item.megaEvolutions.map(({ from, to }) => [to, from] as const)),
+    ),
   };
 }
 

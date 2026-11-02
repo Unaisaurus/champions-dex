@@ -155,7 +155,62 @@
     "speciesInfo": "Species",
     "genderLabel": "Gender",
     "genderRatio": "{{female}}% female, {{male}}% male",
-    "comingSoon": "Pokédex entries, type matchups, evolutions and the full Champions learnset arrive in a later stage."
+    "megaStone": "Mega Stone",
+    "sections": {
+      "label": "Sections",
+      "base-stats": "Stats",
+      "matchups": "Matchups",
+      "evolutions": "Evolutions",
+      "dex-entries": "Pokédex entries",
+      "learnset": "Moves"
+    },
+    "matchups": {
+      "title": "Type matchups",
+      "hint": "How much damage moves of each type do to this Pokémon.",
+      "weak": "Weak to",
+      "resists": "Resists",
+      "immune": "Immune to",
+      "none": "None"
+    },
+    "evolution": {
+      "title": "Evolutions",
+      "none": "This Pokémon doesn't evolve.",
+      "notInChampions": "Not in Champions"
+    },
+    "dex": {
+      "title": "Pokédex entries",
+      "inEnglish": "In English",
+      "showAll_one": "Show all {{count}} entries",
+      "showAll_other": "Show all {{count}} entries",
+      "showFewer": "Show fewer"
+    },
+    "moves": {
+      "title": "Moves in Champions",
+      "hint": "Every move this Pokémon can learn in Pokémon Champions. Tap a move for its details.",
+      "megaNote": "Mega Evolutions use the moves of {{name}}.",
+      "search": "Search moves",
+      "type": "Type",
+      "allTypes": "All types",
+      "category": "Category",
+      "newOnly": "Only moves new in Champions",
+      "count_one": "{{count}} move",
+      "count_other": "{{count}} moves",
+      "noMatches": "No moves match.",
+      "move": "Move",
+      "power": "Power",
+      "accuracy": "Accuracy",
+      "pp": "PP",
+      "learnedBefore": "Learned before",
+      "new": "New",
+      "changed": "Changed",
+      "changedTitle": "Changed in Champions.",
+      "mainSeriesValues": "In the main series games: {{values}}.",
+      "target": "Target",
+      "contact": "Makes contact",
+      "noContact": "Doesn't make contact",
+      "priority": "Priority",
+      "neverMisses": "Never misses"
+    }
   },
   "teams": {
     "title": "Teams",
@@ -300,5 +355,116 @@
       "stoneMismatch": "This Mega Stone doesn't match this Pokémon, so it can't Mega Evolve.",
       "onlyOnePerBattle": "{{count}} team members can Mega Evolve, but only one can per battle."
     }
+  },
+  "moveCategories": {
+    "physical": "Physical",
+    "special": "Special",
+    "status": "Status"
+  },
+  "learnMethods": {
+    "level-up": {
+      "short": "Level",
+      "long": "By level-up in an earlier game"
+    },
+    "machine": {
+      "short": "TM",
+      "long": "With a TM in an earlier game"
+    },
+    "tutor": {
+      "short": "Tutor",
+      "long": "From a move tutor in an earlier game"
+    },
+    "egg": {
+      "short": "Egg",
+      "long": "As an Egg Move in an earlier game"
+    },
+    "event": {
+      "short": "Event",
+      "long": "On an event Pokémon"
+    },
+    "pre-evolution": {
+      "short": "Pre-evo",
+      "long": "Only a pre-evolution could learn it"
+    },
+    "form-change": {
+      "short": "Form",
+      "long": "By changing form"
+    },
+    "other": {
+      "short": "Other",
+      "long": "Another way"
+    }
+  },
+  "moveTargets": {
+    "selected-pokemon": "One target",
+    "selected-pokemon-me-first": "One target",
+    "user": "The user",
+    "all-opponents": "Both opponents",
+    "all-other-pokemon": "Everyone else on the field",
+    "entire-field": "The whole field",
+    "users-field": "The user's side",
+    "random-opponent": "A random opponent",
+    "user-and-allies": "The user and its ally",
+    "specific-move": "Depends on the move received",
+    "opponents-field": "The opponents' side",
+    "ally": "The ally",
+    "all-pokemon": "Every Pokémon",
+    "user-or-ally": "The user or its ally",
+    "all-allies": "All allies",
+    "fainting-pokemon": "A fainted ally"
+  },
+  "evolution": {
+    "level": "Level {{level}}",
+    "levelUp": "Level up",
+    "trade": "Trade",
+    "useMove": "Use {{move}} {{count}} times",
+    "agileStyle": "Use {{move}} in Agile Style {{count}} times",
+    "strongStyle": "Use {{move}} in Strong Style {{count}} times",
+    "recoil": "Lose {{damage}} HP to recoil",
+    "takeDamage": "Take {{damage}} damage",
+    "criticalHits": "Land 3 critical hits in one battle",
+    "bisharp": "Defeat 3 Bisharp that lead Pawniard",
+    "spin": "Spin around holding a Sweet",
+    "coins": "Collect 999 Gimmighoul Coins",
+    "candies": "Use 400 Meltan Candy",
+    "shed": "With a free party slot",
+    "tower": {
+      "darkness": "Tower of Darkness",
+      "waters": "Tower of Waters"
+    },
+    "other": "Special method",
+    "holding": "holding {{item}}",
+    "knowingMove": "knowing {{move}}",
+    "knowingMoveType": "knowing a {{type}}-type move",
+    "friendship": "high friendship",
+    "affection": "high affection",
+    "beauty": "high Beauty",
+    "time": {
+      "day": "during the day",
+      "night": "at night",
+      "dusk": "at dusk",
+      "full-moon": "under a full moon"
+    },
+    "gender": {
+      "male": "male",
+      "female": "female"
+    },
+    "region": "in {{region}}",
+    "partySpecies": "with {{pokemon}} in the party",
+    "partyType": "with a {{type}}-type Pokémon in the party",
+    "tradeFor": "for {{pokemon}}",
+    "relativeStats": {
+      "higher": "Attack higher than Defense",
+      "equal": "Attack equal to Defense",
+      "lower": "Attack lower than Defense"
+    },
+    "rain": "in the rain",
+    "upsideDown": "holding the console upside down",
+    "natures": "certain natures",
+    "multiplayer": "in a Union Circle",
+    "steps": "after walking {{steps}} steps with it",
+    "specialRock": "near a special rock",
+    "specialPlace": "at a special place",
+    "or": " or "
   }
 }

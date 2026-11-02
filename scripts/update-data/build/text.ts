@@ -3,6 +3,7 @@
  * Spanish), and the multi-language names used by search.
  */
 import type { SearchNames, TextDomain } from '../../../src/data/contracts';
+import { slugify } from '../../../src/domain/ids';
 import { GAME_LANGUAGES, type GameLanguage, typeFromTextLabel } from '../sources/champions';
 import type { AbilitiesResult, ItemsResult, MovesResult } from './catalog';
 import type { Context } from './context';
@@ -87,13 +88,24 @@ export function buildText(ctx: Context, input: TextInputs): TextFiles {
       const translated = game('zkn_form_syn').get(label);
       if (english && translated) sameLabel.set(english, translated);
     }
+    // Forms named after an Ability (Own Tempo Rockruff) borrow the Ability's name.
+    const abilityByName = new Map<string, string>();
+    for (const [label, english] of ctx.champions.text('usa', 'tokusei')) {
+      const translated = game('tokusei').get(label);
+      if (english && translated) abilityByName.set(slugify(english), translated);
+    }
     for (const draft of input.drafts) {
       const { form, personal, apiForm } = draft;
       if (personal) {
         put('form-names', form.id, game('zkn_form_syn').get(formLabel(personal.no, personal.fo)));
       } else if (apiForm && !(apiForm.isDefault && draft.apiPokemon.isDefault)) {
         const own = ctx.apiNames.form(language, apiForm.id);
-        put('form-names', form.id, own || sameLabel.get(ctx.apiNames.form('en', apiForm.id)));
+        const suffix = draft.apiPokemon.identifier.slice(form.speciesId.length + 1);
+        put(
+          'form-names',
+          form.id,
+          own || sameLabel.get(ctx.apiNames.form('en', apiForm.id)) || abilityByName.get(suffix),
+        );
       }
     }
 

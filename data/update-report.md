@@ -1,6 +1,6 @@
-# Data update 2026-11-02
+# Data update 2026-11-02.2
 
-Generated 2026-11-02T14:12:24Z.
+Generated 2026-11-02T17:32:01Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -18,14 +18,14 @@ Game: version 1.2.2, Regulation M-C.
 
 ## Changes since the previous update
 
-First update from the real game data (the earlier files were a small sample).
+No changes to Pokémon, moves, items or learnsets.
 
 ## Sources
 
 - [Pokémon Champions datamine (Project Pokémon)](https://github.com/projectpokemon/champout) at `50e7233b78c3`
 - [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `e5b79b2e15d7`
 - [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1dd55c0436d2`
-- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `6e416a3a53e2`
+- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `035c1a1f3c2e`
 - [Pokémon Scarlet/Violet text dump](https://github.com/giginet/PMSV) at `bd901b379066`
 
 ## Things to check (1)

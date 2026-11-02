@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { Form, Id } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
+import { learnsetFormId } from '@/domain/learnsetView';
 import type { PokedexSource } from '@/domain/pokedex';
 import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
@@ -25,12 +26,8 @@ export function usePokedexSource(): PokedexSource {
       new Map([...data.learnsetsByForm].map(([id, entries]) => [id, new Set(entries.map((e) => e.move))])),
     [data],
   );
-  // Mega form → the form holding the stone; and every form that can Mega Evolve.
-  const megaBase = useMemo(
-    () =>
-      new Map(data.items.flatMap((item) => item.megaEvolutions.map(({ from, to }) => [to, from] as const))),
-    [data],
-  );
+  const megaBase = data.megaBase;
+  // Every form that can Mega Evolve.
   const canMega = useMemo(() => new Set(megaBase.values()), [megaBase]);
   const collator = useMemo(
     () => new Intl.Collator(localeOf(text.language), { sensitivity: 'base', numeric: true }),
@@ -38,12 +35,14 @@ export function usePokedexSource(): PokedexSource {
   );
 
   return useMemo(() => {
-    const movesOf = (form: Form): ReadonlySet<Id> =>
-      moveSets.get(form.id) ??
-      moveSets.get(megaBase.get(form.id) ?? '') ??
-      moveSets.get(form.gameplayForm ?? '') ??
-      moveSets.get(form.parentEntry ?? '') ??
-      NO_MOVES;
+    const movesOf = (form: Form): ReadonlySet<Id> => {
+      const id = learnsetFormId(
+        form,
+        (formId) => moveSets.has(formId),
+        (formId) => megaBase.get(formId),
+      );
+      return (id && moveSets.get(id)) || NO_MOVES;
+    };
     return {
       entries: data.championsEntries,
       profilesOf: (id) => data.profilesByEntry.get(id) ?? [],

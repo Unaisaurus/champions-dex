@@ -155,7 +155,62 @@
     "speciesInfo": "",
     "genderLabel": "",
     "genderRatio": "",
-    "comingSoon": ""
+    "megaStone": "",
+    "sections": {
+      "label": "",
+      "base-stats": "",
+      "matchups": "",
+      "evolutions": "",
+      "dex-entries": "",
+      "learnset": ""
+    },
+    "matchups": {
+      "title": "",
+      "hint": "",
+      "weak": "",
+      "resists": "",
+      "immune": "",
+      "none": ""
+    },
+    "evolution": {
+      "title": "",
+      "none": "",
+      "notInChampions": ""
+    },
+    "dex": {
+      "title": "",
+      "inEnglish": "",
+      "showAll_one": "",
+      "showAll_other": "",
+      "showFewer": ""
+    },
+    "moves": {
+      "title": "",
+      "hint": "",
+      "megaNote": "",
+      "search": "",
+      "type": "",
+      "allTypes": "",
+      "category": "",
+      "newOnly": "",
+      "count_one": "",
+      "count_other": "",
+      "noMatches": "",
+      "move": "",
+      "power": "",
+      "accuracy": "",
+      "pp": "",
+      "learnedBefore": "",
+      "new": "",
+      "changed": "",
+      "changedTitle": "",
+      "mainSeriesValues": "",
+      "target": "",
+      "contact": "",
+      "noContact": "",
+      "priority": "",
+      "neverMisses": ""
+    }
   },
   "teams": {
     "title": "",
@@ -300,5 +355,116 @@
       "stoneMismatch": "",
       "onlyOnePerBattle": ""
     }
+  },
+  "moveCategories": {
+    "physical": "",
+    "special": "",
+    "status": ""
+  },
+  "learnMethods": {
+    "level-up": {
+      "short": "",
+      "long": ""
+    },
+    "machine": {
+      "short": "",
+      "long": ""
+    },
+    "tutor": {
+      "short": "",
+      "long": ""
+    },
+    "egg": {
+      "short": "",
+      "long": ""
+    },
+    "event": {
+      "short": "",
+      "long": ""
+    },
+    "pre-evolution": {
+      "short": "",
+      "long": ""
+    },
+    "form-change": {
+      "short": "",
+      "long": ""
+    },
+    "other": {
+      "short": "",
+      "long": ""
+    }
+  },
+  "moveTargets": {
+    "selected-pokemon": "",
+    "selected-pokemon-me-first": "",
+    "user": "",
+    "all-opponents": "",
+    "all-other-pokemon": "",
+    "entire-field": "",
+    "users-field": "",
+    "random-opponent": "",
+    "user-and-allies": "",
+    "specific-move": "",
+    "opponents-field": "",
+    "ally": "",
+    "all-pokemon": "",
+    "user-or-ally": "",
+    "all-allies": "",
+    "fainting-pokemon": ""
+  },
+  "evolution": {
+    "level": "",
+    "levelUp": "",
+    "trade": "",
+    "useMove": "",
+    "agileStyle": "",
+    "strongStyle": "",
+    "recoil": "",
+    "takeDamage": "",
+    "criticalHits": "",
+    "bisharp": "",
+    "spin": "",
+    "coins": "",
+    "candies": "",
+    "shed": "",
+    "tower": {
+      "darkness": "",
+      "waters": ""
+    },
+    "other": "",
+    "holding": "",
+    "knowingMove": "",
+    "knowingMoveType": "",
+    "friendship": "",
+    "affection": "",
+    "beauty": "",
+    "time": {
+      "day": "",
+      "night": "",
+      "dusk": "",
+      "full-moon": ""
+    },
+    "gender": {
+      "male": "",
+      "female": ""
+    },
+    "region": "",
+    "partySpecies": "",
+    "partyType": "",
+    "tradeFor": "",
+    "relativeStats": {
+      "higher": "",
+      "equal": "",
+      "lower": ""
+    },
+    "rain": "",
+    "upsideDown": "",
+    "natures": "",
+    "multiplayer": "",
+    "steps": "",
+    "specialRock": "",
+    "specialPlace": "",
+    "or": ""
   }
 }

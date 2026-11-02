@@ -226,6 +226,148 @@
   font-weight: 600;
 }
 
+.panel h2 {
+  font-size: 20px;
+}
+
+.panelHint {
+  margin: calc(var(--space-2) * -1) 0 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.item img {
+  width: 28px;
+  height: 28px;
+}
+
+/* Jump links */
+.sectionLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.sectionLink {
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  padding: var(--space-1) var(--space-3);
+  min-height: 32px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.sectionLink:hover {
+  background: var(--line);
+}
+
+/* Type matchups */
+.matchupGroups {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.matchupGroups > div {
+  display: grid;
+  grid-template-columns: minmax(96px, 9em) 1fr;
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.matchupGroups dt {
+  color: var(--ink-muted);
+  padding-top: 2px;
+}
+
+.matchupGroups dd {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-3);
+}
+
+.matchup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.multiplier {
+  font-size: 14px;
+  font-weight: 700;
+  font-stretch: 75%;
+  font-variant-numeric: tabular-nums;
+}
+
+.none {
+  color: var(--ink-muted);
+}
+
+.abilityNotes {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: var(--space-2);
+  font-size: 14px;
+}
+
+.abilityNotes li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+/* Pokédex entries */
+.entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.entry {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.entryGames {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink-muted);
+}
+
+.fallback {
+  margin-left: var(--space-2);
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--surface-sunken);
+  font-weight: 600;
+}
+
+.entryText {
+  margin: 0;
+  max-width: 75ch;
+  line-height: 1.55;
+}
+
+.more {
+  justify-self: start;
+}
+
 @media (max-width: 720px) {
   .hero {
     grid-template-columns: 1fr;

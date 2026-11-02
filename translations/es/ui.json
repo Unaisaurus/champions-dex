@@ -155,7 +155,62 @@
     "speciesInfo": "Especie",
     "genderLabel": "Sexo",
     "genderRatio": "{{female}} % hembras, {{male}} % machos",
-    "comingSoon": "Las entradas de la Pokédex, las debilidades, las evoluciones y la lista completa de movimientos de Champions llegarán en una fase posterior."
+    "megaStone": "Megapiedra",
+    "sections": {
+      "label": "Secciones",
+      "base-stats": "Características",
+      "matchups": "Tipos",
+      "evolutions": "Evoluciones",
+      "dex-entries": "Entradas de la Pokédex",
+      "learnset": "Movimientos"
+    },
+    "matchups": {
+      "title": "Eficacia de tipos",
+      "hint": "Cuánto daño le hacen los movimientos de cada tipo a este Pokémon.",
+      "weak": "Débil contra",
+      "resists": "Resiste",
+      "immune": "Inmune a",
+      "none": "Ninguno"
+    },
+    "evolution": {
+      "title": "Evoluciones",
+      "none": "Este Pokémon no evoluciona.",
+      "notInChampions": "No está en Champions"
+    },
+    "dex": {
+      "title": "Entradas de la Pokédex",
+      "inEnglish": "En inglés",
+      "showAll_one": "Ver las {{count}} entradas",
+      "showAll_other": "Ver las {{count}} entradas",
+      "showFewer": "Ver menos"
+    },
+    "moves": {
+      "title": "Movimientos en Champions",
+      "hint": "Todos los movimientos que puede aprender este Pokémon en Pokémon Champions. Toca un movimiento para ver los detalles.",
+      "megaNote": "Las megaevoluciones usan los movimientos de {{name}}.",
+      "search": "Buscar movimientos",
+      "type": "Tipo",
+      "allTypes": "Todos los tipos",
+      "category": "Categoría",
+      "newOnly": "Solo los nuevos en Champions",
+      "count_one": "{{count}} movimiento",
+      "count_other": "{{count}} movimientos",
+      "noMatches": "Ningún movimiento coincide.",
+      "move": "Movimiento",
+      "power": "Potencia",
+      "accuracy": "Precisión",
+      "pp": "PP",
+      "learnedBefore": "Lo aprendía antes",
+      "new": "Nuevo",
+      "changed": "Cambiado",
+      "changedTitle": "Cambiado en Champions.",
+      "mainSeriesValues": "En los juegos principales: {{values}}.",
+      "target": "Objetivo",
+      "contact": "Es de contacto",
+      "noContact": "No es de contacto",
+      "priority": "Prioridad",
+      "neverMisses": "No falla nunca"
+    }
   },
   "teams": {
     "title": "Equipos",
@@ -300,5 +355,116 @@
       "stoneMismatch": "Esta megapiedra no corresponde a este Pokémon, así que no puede megaevolucionar.",
       "onlyOnePerBattle": "{{count}} miembros del equipo pueden megaevolucionar, pero solo uno puede hacerlo en cada combate."
     }
+  },
+  "moveCategories": {
+    "physical": "Físico",
+    "special": "Especial",
+    "status": "Estado"
+  },
+  "learnMethods": {
+    "level-up": {
+      "short": "Nivel",
+      "long": "Por nivel en algún juego anterior"
+    },
+    "machine": {
+      "short": "MT",
+      "long": "Con una MT en algún juego anterior"
+    },
+    "tutor": {
+      "short": "Tutor",
+      "long": "Con un tutor de movimientos en algún juego anterior"
+    },
+    "egg": {
+      "short": "Huevo",
+      "long": "Como movimiento huevo en algún juego anterior"
+    },
+    "event": {
+      "short": "Evento",
+      "long": "En un Pokémon de evento"
+    },
+    "pre-evolution": {
+      "short": "Preevo.",
+      "long": "Solo podía aprenderlo una de sus preevoluciones"
+    },
+    "form-change": {
+      "short": "Forma",
+      "long": "Al cambiar de forma"
+    },
+    "other": {
+      "short": "Otro",
+      "long": "De otra manera"
+    }
+  },
+  "moveTargets": {
+    "selected-pokemon": "Un objetivo",
+    "selected-pokemon-me-first": "Un objetivo",
+    "user": "El usuario",
+    "all-opponents": "Ambos rivales",
+    "all-other-pokemon": "Todos los demás Pokémon",
+    "entire-field": "Todo el campo",
+    "users-field": "El lado del usuario",
+    "random-opponent": "Un rival al azar",
+    "user-and-allies": "El usuario y su aliado",
+    "specific-move": "Según el movimiento recibido",
+    "opponents-field": "El lado rival",
+    "ally": "El aliado",
+    "all-pokemon": "Todos los Pokémon",
+    "user-or-ally": "El usuario o su aliado",
+    "all-allies": "Todos los aliados",
+    "fainting-pokemon": "Un aliado debilitado"
+  },
+  "evolution": {
+    "level": "Nivel {{level}}",
+    "levelUp": "Subir de nivel",
+    "trade": "Intercambio",
+    "useMove": "Usar {{move}} {{count}} veces",
+    "agileStyle": "Usar {{move}} con estilo rápido {{count}} veces",
+    "strongStyle": "Usar {{move}} con estilo fuerte {{count}} veces",
+    "recoil": "Perder {{damage}} PS por retroceso",
+    "takeDamage": "Recibir {{damage}} de daño",
+    "criticalHits": "Asestar 3 golpes críticos en un combate",
+    "bisharp": "Derrotar a 3 Bisharp que lideren Pawniard",
+    "spin": "Girar llevando un Confite",
+    "coins": "Reunir 999 monedas de Gimmighoul",
+    "candies": "Usar 400 caramelos de Meltan",
+    "shed": "Con un hueco libre en el equipo",
+    "tower": {
+      "darkness": "Torre de la Oscuridad",
+      "waters": "Torre del Agua"
+    },
+    "other": "Método especial",
+    "holding": "llevando {{item}}",
+    "knowingMove": "conociendo {{move}}",
+    "knowingMoveType": "conociendo un movimiento de tipo {{type}}",
+    "friendship": "mucha amistad",
+    "affection": "mucho cariño",
+    "beauty": "mucha belleza",
+    "time": {
+      "day": "de día",
+      "night": "de noche",
+      "dusk": "al atardecer",
+      "full-moon": "con luna llena"
+    },
+    "gender": {
+      "male": "macho",
+      "female": "hembra"
+    },
+    "region": "en {{region}}",
+    "partySpecies": "con {{pokemon}} en el equipo",
+    "partyType": "con un Pokémon de tipo {{type}} en el equipo",
+    "tradeFor": "por {{pokemon}}",
+    "relativeStats": {
+      "higher": "más Ataque que Defensa",
+      "equal": "el mismo Ataque que Defensa",
+      "lower": "menos Ataque que Defensa"
+    },
+    "rain": "bajo la lluvia",
+    "upsideDown": "con la consola del revés",
+    "natures": "ciertas naturalezas",
+    "multiplayer": "en un Círculo Unión",
+    "steps": "tras caminar {{steps}} pasos con él",
+    "specialRock": "cerca de una roca especial",
+    "specialPlace": "en un lugar especial",
+    "or": " o "
   }
 }

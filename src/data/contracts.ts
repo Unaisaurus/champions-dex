@@ -453,7 +453,8 @@ export type TextFile = z.infer<typeof TextFileSchema>;
 /**
  * Pokédex entries, per language, already de-duplicated: games that share the
  * exact same text are grouped. Keyed by species ID (or form ID for regional
- * forms with their own entries).
+ * forms with their own entries). Entries are ordered by the newest game each
+ * text appears in, oldest first.
  */
 export const DexEntriesFileSchema = z.record(
   z.string(),

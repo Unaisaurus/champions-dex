@@ -16,9 +16,11 @@ and a visual review.
       toggle, type, colour, category, favourites, moves, Abilities, Megas,
       regional forms), Megas and other forms on their own cards, all kept in
       the page address.
-- [ ] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
-      Pokédex entries, type matchups, evolution tree with pre-evolutions,
-      Champions learnset with historical learn methods.
+- [x] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
+      Pokédex entries, type matchups with Ability notes, evolution tree with
+      pre-evolutions and their methods (members outside Champions open a basic
+      page), Champions learnset with historical learn methods, "new in
+      Champions" and "changed in Champions" marks.
 - [ ] **Stage 4: Team builder.** Member editor, items with icons and tooltips,
       Stat Alignment, Stat Point sliders with live stats, legal moves, warnings.
 - [ ] **Stage 5: Analysis and sharing.** Type coverage and weaknesses, team

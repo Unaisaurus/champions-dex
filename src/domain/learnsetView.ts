@@ -1,0 +1,103 @@
+/**
+ * The learnset table on a Pokémon's page: which learnset a form uses, and the
+ * filtering and sorting of its rows.
+ */
+import type { Form, Id, LearnsetEntry, Move, MoveCategory } from '@/data/contracts';
+import { matchesSearch } from './search';
+
+/**
+ * The form whose learnset applies: the form's own, else (Megas) the form that
+ * Mega Evolves into it, else the form it borrows its data from.
+ */
+export function learnsetFormId(
+  form: Form,
+  hasLearnset: (formId: Id) => boolean,
+  megaBaseOf: (formId: Id) => Id | undefined,
+): Id | null {
+  const candidates = [form.id, megaBaseOf(form.id), form.gameplayForm, form.parentEntry];
+  return candidates.find((id): id is Id => !!id && hasLearnset(id)) ?? null;
+}
+
+export const MOVE_SORT_KEYS = ['name', 'type', 'category', 'power', 'accuracy', 'pp'] as const;
+export type MoveSortKey = (typeof MOVE_SORT_KEYS)[number];
+
+export interface LearnsetQuery {
+  search: string;
+  type: Id | null;
+  category: MoveCategory | null;
+  newOnly: boolean;
+  sort: MoveSortKey;
+  direction: 'asc' | 'desc';
+}
+
+export const DEFAULT_LEARNSET_QUERY: LearnsetQuery = {
+  search: '',
+  type: null,
+  category: null,
+  newOnly: false,
+  sort: 'name',
+  direction: 'asc',
+};
+
+/** Names sort A–Z first; numbers highest first. */
+export function defaultMoveDirection(sort: MoveSortKey): 'asc' | 'desc' {
+  return sort === 'power' || sort === 'accuracy' || sort === 'pp' ? 'desc' : 'asc';
+}
+
+export interface LearnsetRow {
+  entry: LearnsetEntry;
+  move: Move;
+  name: string;
+}
+
+export interface LearnsetViewSource {
+  move(id: Id): Move | undefined;
+  name(moveId: Id): string;
+  /** Normalised names of the move in every language. */
+  searchText(moveId: Id): string;
+  compareNames(a: string, b: string): number;
+  /** Position of a type in the usual type order. */
+  typeOrder(type: Id): number;
+}
+
+const CATEGORY_ORDER: Record<MoveCategory, number> = { physical: 0, special: 1, status: 2 };
+
+/** A move that never misses is the most accurate of all. */
+const accuracyValue = (move: Move) => move.accuracy ?? 101;
+
+export function viewLearnset(
+  entries: readonly LearnsetEntry[],
+  source: LearnsetViewSource,
+  query: LearnsetQuery,
+): LearnsetRow[] {
+  const rows: LearnsetRow[] = [];
+  for (const entry of entries) {
+    const move = source.move(entry.move);
+    if (!move) continue;
+    if (query.type && move.type !== query.type) continue;
+    if (query.category && move.category !== query.category) continue;
+    if (query.newOnly && !entry.newInChampions) continue;
+    if (query.search.trim() && !matchesSearch(source.searchText(move.id), query.search)) continue;
+    rows.push({ entry, move, name: source.name(move.id) });
+  }
+
+  const direction = query.direction === 'asc' ? 1 : -1;
+  const byName = (a: LearnsetRow, b: LearnsetRow) => source.compareNames(a.name, b.name);
+  const compare: Record<MoveSortKey, (a: LearnsetRow, b: LearnsetRow) => number> = {
+    name: byName,
+    type: (a, b) => source.typeOrder(a.move.type) - source.typeOrder(b.move.type),
+    category: (a, b) => CATEGORY_ORDER[a.move.category] - CATEGORY_ORDER[b.move.category],
+    power: (a, b) => (a.move.power ?? -1) - (b.move.power ?? -1),
+    accuracy: (a, b) => accuracyValue(a.move) - accuracyValue(b.move),
+    pp: (a, b) => a.move.pp - b.move.pp,
+  };
+  const primary = compare[query.sort];
+  rows.sort((a, b) => {
+    // Moves without power (status moves) stay at the bottom when sorting by power.
+    if (query.sort === 'power' && (a.move.power === null) !== (b.move.power === null)) {
+      return a.move.power === null ? 1 : -1;
+    }
+    return primary(a, b) * direction || byName(a, b);
+  });
+  return rows;
+}

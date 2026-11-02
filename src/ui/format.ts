@@ -27,3 +27,10 @@ export const formatHeight = (dm: number, language: LanguageCode) =>
 /** Weights are stored in hectograms. */
 export const formatWeight = (hg: number, language: LanguageCode) =>
   formatter(language, 'kilogram').format(hg / 10);
+
+const FRACTIONS: Record<number, string> = { 0.125: '⅛', 0.25: '¼', 0.5: '½', 1.25: '1¼', 2.5: '2½' };
+
+/** Damage multipliers as the games write them: "×2", "×½", "×0". */
+export function formatMultiplier(value: number): string {
+  return `×${FRACTIONS[value] ?? String(value)}`;
+}
