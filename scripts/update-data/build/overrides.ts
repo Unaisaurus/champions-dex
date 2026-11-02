@@ -48,6 +48,7 @@ export const FormsFileSchema = z.object({
         parentEntry: IdSchema.nullable().optional(),
         gameplayForm: IdSchema.nullable().optional(),
         color: PokedexColorSchema.nullable().optional(),
+        showdownName: z.string().optional(),
         caveats: z.array(CaveatSchema).optional(),
       }),
     )

@@ -1,0 +1,82 @@
+.body {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.hint {
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.text {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  padding: var(--space-2) var(--space-3);
+  font-family: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.fileRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.preview {
+  display: grid;
+  gap: var(--space-2);
+  font-size: 14px;
+}
+
+.preview:empty {
+  display: none;
+}
+
+.error {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.ready {
+  color: var(--success);
+  font-weight: 650;
+}
+
+.found,
+.problems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.found li {
+  overflow-wrap: anywhere;
+}
+
+.problems {
+  max-height: 160px;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-control);
+  background: color-mix(in oklab, var(--warning) 12%, var(--surface));
+}
+
+.line {
+  font-weight: 700;
+  font-stretch: 87.5%;
+}

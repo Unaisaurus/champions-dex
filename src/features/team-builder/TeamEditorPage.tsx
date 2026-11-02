@@ -1,4 +1,4 @@
-import { ArrowLeft, CloudAlert, CloudCheck, LoaderCircle, Pencil, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, CloudAlert, CloudCheck, LoaderCircle, Pencil, Plus, Share2, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -23,15 +23,20 @@ import { modifySavedTeam, useTeamEditor, type TeamEditor } from '@/state/teamEdi
 import { useTeamActions } from '@/state/userData';
 import { Button } from '@/ui/components/Button';
 import { ConfirmDialog, PromptDialog } from '@/ui/components/Dialogs';
+import { SegmentedControl } from '@/ui/components/SegmentedControl';
 import { showToast } from '@/ui/toasts';
+import { useAddressChoice } from '@/ui/useAddressChoice';
+import { ExportDialog } from './ExportDialog';
 import { IssueList } from './IssueList';
 import { MemberEditor } from './MemberEditor';
 import { PokemonPicker } from './PokemonPicker';
 import { TeamMembersBar } from './TeamMembersBar';
+import { TeamOverview } from './TeamOverview';
 import styles from './TeamEditor.module.css';
 
 type Picker = { kind: 'add' } | { kind: 'change'; member: TeamMember } | null;
-type Dialog = 'rename' | 'delete' | null;
+type View = 'edit' | 'overview';
+type Dialog = 'rename' | 'delete' | 'export' | null;
 
 /** One team: its members in a row at the top and the editor of the selected member below. */
 export function TeamEditorPage() {
@@ -76,17 +81,29 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
   }, [issues]);
   const teamIssues = issues.filter((issue) => !issue.memberId);
 
-  // The selected member is kept in the address (so reloading keeps it), but a
-  // click switches at once instead of waiting for the address to update. A
-  // change of address from elsewhere (an "Open team" link) still wins.
-  const fromAddress = params.get('member');
-  const [choice, setChoice] = useState({ id: fromAddress, address: fromAddress });
-  const selectedId = fromAddress === choice.address || fromAddress === choice.id ? choice.id : fromAddress;
+  // The selected member and the view (editing or overview) are kept in the
+  // address, so reloading keeps them; see useAddressChoice.
+  const [selectedId, chooseMember] = useAddressChoice(params.get('member'));
+  const [view, chooseView] = useAddressChoice<View>(params.get('view') === 'overview' ? 'overview' : 'edit');
   const selected = team.members.find((member) => member.id === selectedId) ?? team.members[0] ?? null;
   const selectedIndex = selected ? team.members.indexOf(selected) : -1;
+  /** Edits a member (showing the editor, if the overview was open). */
   const select = (memberId: string | null) => {
-    setChoice({ id: memberId, address: fromAddress });
+    chooseMember(memberId);
+    chooseView('edit');
     setParams(memberId ? { member: memberId } : {}, { replace: true });
+  };
+  const setView = (next: View) => {
+    chooseView(next);
+    setParams(
+      (current) => {
+        const updated = new URLSearchParams(current);
+        if (next === 'overview') updated.set('view', 'overview');
+        else updated.delete('view');
+        return updated;
+      },
+      { replace: true },
+    );
   };
 
   const nameOf = (member: TeamMember) => {
@@ -152,6 +169,10 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
           <SaveStatus status={editor.status} />
         </div>
         <div className={styles.headerActions}>
+          <Button variant="quiet" onClick={() => setDialog('export')}>
+            <Share2 size={17} aria-hidden="true" />
+            {t('teamEditor.export.button')}
+          </Button>
           <Button variant="quiet" onClick={() => setDialog('rename')}>
             <Pencil size={17} aria-hidden="true" />
             {t('common.rename')}
@@ -163,40 +184,64 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
         </div>
       </header>
 
-      <TeamMembersBar
-        team={team}
-        selectedId={selected?.id ?? null}
-        issuesByMember={issuesByMember}
-        onSelect={select}
-        onAdd={() => setPicker({ kind: 'add' })}
+      <SegmentedControl<View>
+        label={t('teamEditor.view.label')}
+        labelHidden
+        options={[
+          { value: 'edit', label: t('teamEditor.view.edit') },
+          { value: 'overview', label: t('teamEditor.view.overview') },
+        ]}
+        value={view}
+        onChange={setView}
       />
 
-      {teamIssues.length > 0 && (
-        <section className={styles.teamIssues} aria-label={t('teamEditor.teamChecks')}>
-          <IssueList issues={teamIssues} />
-        </section>
-      )}
-
-      {selected ? (
-        <MemberEditor
-          key={selected.id}
-          member={selected}
-          index={selectedIndex}
-          memberCount={team.members.length}
-          issues={issuesByMember.get(selected.id) ?? []}
-          onChange={(change) => update((current) => updateMember(current, selected.id, change))}
-          onChangePokemon={() => setPicker({ kind: 'change', member: selected })}
-          onMove={(offset) => update((current) => moveMember(current, selected.id, offset))}
-          onRemove={() => remove(selected)}
+      {view === 'overview' ? (
+        <TeamOverview
+          team={team}
+          issues={issues}
+          onEdit={(memberId) => {
+            select(memberId);
+            window.scrollTo({ top: 0 });
+          }}
         />
       ) : (
-        <div className={styles.emptyTeam}>
-          <p>{t('teamEditor.emptyTeam', { count: data.rules.teamSize })}</p>
-          <Button variant="primary" onClick={() => setPicker({ kind: 'add' })}>
-            <Plus size={18} aria-hidden="true" />
-            {t('teamEditor.addPokemon')}
-          </Button>
-        </div>
+        <>
+          <TeamMembersBar
+            team={team}
+            selectedId={selected?.id ?? null}
+            issuesByMember={issuesByMember}
+            onSelect={select}
+            onAdd={() => setPicker({ kind: 'add' })}
+          />
+
+          {teamIssues.length > 0 && (
+            <section className={styles.teamIssues} aria-label={t('teamEditor.teamChecks')}>
+              <IssueList issues={teamIssues} />
+            </section>
+          )}
+
+          {selected ? (
+            <MemberEditor
+              key={selected.id}
+              member={selected}
+              index={selectedIndex}
+              memberCount={team.members.length}
+              issues={issuesByMember.get(selected.id) ?? []}
+              onChange={(change) => update((current) => updateMember(current, selected.id, change))}
+              onChangePokemon={() => setPicker({ kind: 'change', member: selected })}
+              onMove={(offset) => update((current) => moveMember(current, selected.id, offset))}
+              onRemove={() => remove(selected)}
+            />
+          ) : (
+            <div className={styles.emptyTeam}>
+              <p>{t('teamEditor.emptyTeam', { count: data.rules.teamSize })}</p>
+              <Button variant="primary" onClick={() => setPicker({ kind: 'add' })}>
+                <Plus size={18} aria-hidden="true" />
+                {t('teamEditor.addPokemon')}
+              </Button>
+            </div>
+          )}
+        </>
       )}
 
       <PokemonPicker
@@ -211,6 +256,7 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
         }}
         onClose={() => setPicker(null)}
       />
+      <ExportDialog open={dialog === 'export'} team={team} onClose={() => setDialog(null)} />
       <PromptDialog
         open={dialog === 'rename'}
         title={t('teams.renameTitle')}

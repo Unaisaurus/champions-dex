@@ -1,5 +1,10 @@
 {
   "note": "Corrections for forms. 'matches' forces which PokéAPI form a game form is matched to (\"dex-form\": \"pokeapi-form-identifier\"); 'patches' corrects fields of finished forms by form ID. Each entry can have its own \"note\" saying why.",
   "matches": {},
-  "patches": {}
+  "patches": {
+    "maushold": {
+      "note": "Showdown's plain \"Maushold\" is the Family of Three; the Family of Four (this form) is \"Maushold-Four\".",
+      "showdownName": "Maushold-Four"
+    }
+  }
 }

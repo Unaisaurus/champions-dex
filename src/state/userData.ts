@@ -116,6 +116,10 @@ export function useTeamActions() {
     addMember(teamId: string, member: TeamMember): Promise<AddResult> {
       return addMemberToTeam(teamId, member, rules);
     },
+    /** Saves imported teams (they already have new IDs). */
+    async importTeams(teams: readonly Team[]): Promise<void> {
+      await db.teams.bulkAdd([...teams]);
+    },
     /** Deletes a team after saving a snapshot, so it can be recovered. */
     async remove(id: string): Promise<void> {
       await snapshot('before-delete');

@@ -100,6 +100,19 @@ describe.runIf(real)('generated game data', () => {
     expect(es.kingambit?.map((e) => e.games)).toEqual([['scarlet'], ['violet']]);
   });
 
+  it("knows every Champions form's name on Pokémon Showdown", () => {
+    const missing = core.forms.filter((f) => f.availability === 'champions' && !f.showdownName);
+    expect(missing.map((f) => f.id)).toEqual([]);
+    expect(forms.get('meowstic-female')?.showdownName).toBe('Meowstic-F');
+    expect(forms.get('meowstic-male-mega')?.showdownName).toBe('Meowstic-M-Mega');
+    expect(forms.get('vivillon-high-plains')?.showdownName).toBe('Vivillon-High Plains');
+    expect(forms.get('tauros-paldea-combat-breed')?.showdownName).toBe('Tauros-Paldea-Combat');
+    expect(forms.get('squawkabilly-blue-plumage')?.showdownName).toBe('Squawkabilly-Blue');
+    // Female Pyroar only looks different: Showdown has no separate form.
+    expect(forms.get('pyroar-female')?.showdownName).toBe('Pyroar');
+    expect(forms.get('maushold')?.showdownName).toBe('Maushold-Four');
+  });
+
   it('keeps Champions move changes', () => {
     const move = core.moves.find((m) => m.id === 'protect');
     expect(move?.pp).toBe(8);

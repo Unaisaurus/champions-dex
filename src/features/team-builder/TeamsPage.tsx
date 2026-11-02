@@ -1,4 +1,4 @@
-import { CircleAlert, Pencil, Plus, Trash2, TriangleAlert } from 'lucide-react';
+import { CircleAlert, Download, Pencil, Plus, Trash2, TriangleAlert, Upload } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -13,20 +13,33 @@ import { activeMechanics } from '@/mechanics/registry';
 import { useTeamActions, useTeams } from '@/state/userData';
 import { Button } from '@/ui/components/Button';
 import { ConfirmDialog, PromptDialog } from '@/ui/components/Dialogs';
+import { createTeamFile, teamFileName } from '@/storage/teamFile';
+import { downloadJson } from '@/ui/download';
+import { ImportDialog } from './ImportDialog';
 import { TeamSlots } from './TeamSlots';
 import styles from './TeamsPage.module.css';
 
-type DialogState = { kind: 'rename'; team: Team } | { kind: 'delete'; team: Team } | null;
+type DialogState =
+  { kind: 'rename'; team: Team } | { kind: 'delete'; team: Team } | { kind: 'import' } | null;
 
 /** All your teams: open one to edit it, or create, rename and delete them. */
 export function TeamsPage() {
   const { t } = useTranslation();
   const [language] = useLanguage();
   const navigate = useNavigate();
+  const data = useGameData();
   const teams = useTeams();
   const actions = useTeamActions();
   const [dialog, setDialog] = useState<DialogState>(null);
   const dateFormat = new Intl.DateTimeFormat(localeOf(language), { dateStyle: 'medium', timeStyle: 'short' });
+
+  const exportAll = () => {
+    if (!teams || teams.length === 0) return;
+    downloadJson(
+      teamFileName(teams),
+      createTeamFile(teams, { appVersion: __APP_VERSION__, dataVersion: data.manifest.dataVersion }),
+    );
+  };
 
   const createTeam = async () => {
     const name = nextTeamName(
@@ -42,10 +55,22 @@ export function TeamsPage() {
       <header className={styles.header}>
         <div className={styles.headingRow}>
           <h1>{t('teams.title')}</h1>
-          <Button variant="primary" onClick={() => void createTeam()}>
-            <Plus size={18} aria-hidden="true" />
-            {t('teams.create')}
-          </Button>
+          <div className={styles.headerButtons}>
+            <Button variant="quiet" onClick={() => setDialog({ kind: 'import' })}>
+              <Upload size={17} aria-hidden="true" />
+              {t('teamEditor.import.button')}
+            </Button>
+            {teams && teams.length > 0 && (
+              <Button variant="quiet" onClick={exportAll}>
+                <Download size={17} aria-hidden="true" />
+                {t('teams.exportAll')}
+              </Button>
+            )}
+            <Button variant="primary" onClick={() => void createTeam()}>
+              <Plus size={18} aria-hidden="true" />
+              {t('teams.create')}
+            </Button>
+          </div>
         </div>
         <p className={styles.intro}>{t('teams.intro')}</p>
       </header>
@@ -85,20 +110,21 @@ export function TeamsPage() {
         open={dialog?.kind === 'rename'}
         title={t('teams.renameTitle')}
         label={t('teams.nameLabel')}
-        initialValue={dialog?.team.name ?? ''}
+        initialValue={dialog?.kind === 'rename' ? dialog.team.name : ''}
         confirmLabel={t('common.save')}
-        onConfirm={(name) => dialog && void actions.rename(dialog.team.id, name)}
+        onConfirm={(name) => dialog?.kind === 'rename' && void actions.rename(dialog.team.id, name)}
         onClose={() => setDialog(null)}
       />
       <ConfirmDialog
         open={dialog?.kind === 'delete'}
         title={t('common.delete')}
-        message={t('teams.deleteConfirm', { name: dialog?.team.name ?? '' })}
+        message={t('teams.deleteConfirm', { name: dialog?.kind === 'delete' ? dialog.team.name : '' })}
         confirmLabel={t('common.delete')}
         danger
-        onConfirm={() => dialog && void actions.remove(dialog.team.id)}
+        onConfirm={() => dialog?.kind === 'delete' && void actions.remove(dialog.team.id)}
         onClose={() => setDialog(null)}
       />
+      <ImportDialog open={dialog?.kind === 'import'} onClose={() => setDialog(null)} />
     </div>
   );
 }

@@ -31,8 +31,11 @@ and a visual review.
       from the Champions learnset; warnings next to each field; automatic
       saving; undo after removing a member or losing moves; "Add to team" from
       Pokédex cards and Pokémon pages.
-- [ ] **Stage 5: Analysis and sharing.** Type coverage and weaknesses, team
-      overview, JSON and Showdown import/export.
+- [x] **Stage 5: Analysis and sharing.** Team overview (checks, team sheet,
+      weaknesses per type counting Abilities, coverage of the chosen moves,
+      Speed order, optionally as Mega Evolutions), Pokémon Showdown text
+      export and import (Champions sets, or main-series EVs converted), team
+      files and backups as JSON.
 - [ ] **Stage 6: Translation tools and polish.** In-app Basque editor, install as
       an app (works offline), data changelog page.
 
@@ -51,6 +54,10 @@ damage calculator.
 - **Spanish:** Spain's localisation only (`esp` in the game files, `es` in PokéAPI).
 - **IDs:** a species' default form has the species' ID (`meowstic`, not
   `meowstic-male`); other forms use PokéAPI's naming where it exists.
+- **Showdown text:** Stat Points are written in Showdown's `EVs:` line and
+  Stat Alignments as natures, which is how Showdown's Champions formats store
+  them. Form names come from Showdown's own data (`Meowstic-F`,
+  `Vivillon-High Plains`).
 - **Mechanics:** Mega Evolution active; Terastallization, Dynamax and Z-Moves
   switched off in `rules.json` until Champions enables them.
 

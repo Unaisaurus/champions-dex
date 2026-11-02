@@ -16,10 +16,28 @@ export interface ShowdownData {
   learnset(speciesId: string): Record<string, string[]> | undefined;
   itemStatus(itemId: string): Availability;
   speciesStatus(speciesId: string): Availability;
+  /** Showdown's name for a species, form or cosmetic form ID: "Meowstic-F", "Vivillon-High Plains". */
+  speciesName(showdownId: string): string | undefined;
 }
 
 /** Showdown's IDs: lowercase letters and digits only. */
 export const toShowdownId = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+/**
+ * The Showdown IDs a form may have, most likely first. Showdown writes genders
+ * as letters ("Meowstic-F", "Meowstic-M-Mega") and drops words such as
+ * "breed" and "plumage" ("Tauros-Paldea-Combat", "Squawkabilly-Blue").
+ */
+export function showdownCandidates(formId: string): string[] {
+  const shorter = formId.replace(/-breed$/, '').replace(/-plumage$/, '');
+  return [
+    ...new Set([
+      toShowdownId(formId),
+      toShowdownId(shorter.replace(/-male(?=-|$)/, '').replace(/-female(?=-|$)/, '-f')),
+      toShowdownId(shorter.replace(/-male(?=-|$)/, '-m').replace(/-female(?=-|$)/, '-f')),
+    ]),
+  ];
+}
 
 /**
  * Showdown learn-source letters → the app's learn methods. `V` (moves carried
@@ -65,7 +83,8 @@ type Table = Record<string, Record<string, unknown>>;
 
 export async function loadShowdown(revision: string): Promise<ShowdownData> {
   const file = (path: string) => sourceFile(SOURCES.showdown, revision, path);
-  const [learnsets, legendsArceus, legendsZa, items, formats] = await Promise.all([
+  const [pokedex, learnsets, legendsArceus, legendsZa, items, formats] = await Promise.all([
+    file('data/pokedex.ts').then(evaluate),
     file('data/learnsets.ts').then(evaluate),
     // The two Legends games keep their move pools in separate files.
     file('data/mods/gen8legends/learnsets.ts').then(evaluate),
@@ -76,6 +95,13 @@ export async function loadShowdown(revision: string): Promise<ShowdownData> {
   const learnsetTables = [learnsets, legendsArceus, legendsZa].map((m) => (m.Learnsets ?? {}) as Table);
   const itemTable = (items.Items ?? {}) as Table;
   const formatsTable = (formats.FormatsData ?? {}) as Table;
+  // Species and forms by ID, plus cosmetic forms, which Showdown only lists by name.
+  const speciesNames = new Map<string, string>();
+  for (const [id, entry] of Object.entries((pokedex.Pokedex ?? {}) as Table)) {
+    if (typeof entry.name === 'string') speciesNames.set(id, entry.name);
+    const cosmetic = Array.isArray(entry.cosmeticFormes) ? (entry.cosmeticFormes as unknown[]) : [];
+    for (const name of cosmetic) if (typeof name === 'string') speciesNames.set(toShowdownId(name), name);
+  }
 
   return {
     learnset(speciesId) {
@@ -100,5 +126,6 @@ export async function loadShowdown(revision: string): Promise<ShowdownData> {
       if (entry.isNonstandard || entry.tier === 'Illegal') return 'unavailable';
       return 'available';
     },
+    speciesName: (showdownId) => speciesNames.get(showdownId),
   };
 }

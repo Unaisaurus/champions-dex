@@ -50,6 +50,14 @@
     "spe": "",
     "total": ""
   },
+  "statsShort": {
+    "hp": "",
+    "atk": "",
+    "def": "",
+    "spa": "",
+    "spd": "",
+    "spe": ""
+  },
   "terms": {
     "ability": "",
     "abilities": "",
@@ -231,7 +239,8 @@
     "errors_one": "",
     "errors_other": "",
     "warnings_one": "",
-    "warnings_other": ""
+    "warnings_other": "",
+    "exportAll": ""
   },
   "teamEditor": {
     "allTeams": "",
@@ -305,6 +314,81 @@
       "added": "",
       "openTeam": "",
       "teamFull": ""
+    },
+    "view": {
+      "label": "",
+      "edit": "",
+      "overview": ""
+    },
+    "overview": {
+      "empty": "",
+      "noProblems": "",
+      "unfinished_one": "",
+      "unfinished_other": "",
+      "sheet": "",
+      "edit": "",
+      "editMember": "",
+      "noMoves": "",
+      "megaEvolved": "",
+      "defence": "",
+      "defenceHint": "",
+      "weakSpots": "",
+      "noWeakSpots": "",
+      "attackingType": "",
+      "weak": "",
+      "resist": "",
+      "coverage": "",
+      "coverageHint": "",
+      "notCovered": "",
+      "allCovered": "",
+      "noAttacks": "",
+      "speed": "",
+      "withScarf": ""
+    },
+    "export": {
+      "button": "",
+      "title": "",
+      "format": "",
+      "showdown": "",
+      "file": "",
+      "showdownHint": "",
+      "fileHint": "",
+      "copy": "",
+      "copied": "",
+      "copyByHand": "",
+      "downloadText": "",
+      "downloadFile": ""
+    },
+    "import": {
+      "button": "",
+      "title": "",
+      "hint": "",
+      "paste": "",
+      "chooseFile": "",
+      "defaultName": "",
+      "ready_one": "",
+      "ready_other": "",
+      "import": "",
+      "done_one": "",
+      "done_other": "",
+      "line": "",
+      "errors": {
+        "notATeamFile": "",
+        "tooNew": "",
+        "invalid": "",
+        "nothingFound": ""
+      },
+      "problems": {
+        "unknownPokemon": "",
+        "notInChampions": "",
+        "unknownMove": "",
+        "unknownItem": "",
+        "unknownAbility": "",
+        "unknownNature": "",
+        "tooManyMoves": "",
+        "tooManyMembers": "",
+        "evsConverted": ""
+      }
     }
   },
   "settings": {

@@ -1,10 +1,10 @@
 {
 "format": "champions-dex-data",
 "schemaVersion": 1,
-"dataVersion": "2026-11-02.2",
-"generatedAt": "2026-11-02T17:32:01Z",
+"dataVersion": "2026-11-02.3",
+"generatedAt": "2026-11-02T22:36:10Z",
 "sample": false,
-"contentHash": "c1744d7f47624db7",
+"contentHash": "3346adb7ba5f26e0",
 "game": {"version":"1.2.2","regulation":"M-C"},
 "sources": [{"id":"champout","name":"Pokémon Champions datamine (Project Pokémon)","url":"https://github.com/projectpokemon/champout","revision":"50e7233b78c3b81df29563f9695386c28e77fc95"},{"id":"pokeapi","name":"PokéAPI data","url":"https://github.com/PokeAPI/pokeapi","revision":"e5b79b2e15d7c50735a945936afd4cd1cfd94eae"},{"id":"pokeapi-sprites","name":"PokéAPI sprites","url":"https://github.com/PokeAPI/sprites","revision":"1dd55c0436d2a5b6e324c0b780e1b1b416fbfb64"},{"id":"showdown","name":"Pokémon Showdown","url":"https://github.com/smogon/pokemon-showdown","revision":"035c1a1f3c2ed286cda4c0d8623800699cd2c1c0"},{"id":"pmsv","name":"Pokémon Scarlet/Violet text dump","url":"https://github.com/giginet/PMSV","revision":"bd901b379066b17449d6a100312d83b6618869db"}],
 "textLanguages": ["en","es"],

@@ -50,6 +50,14 @@
     "spe": "Speed",
     "total": "Total"
   },
+  "statsShort": {
+    "hp": "HP",
+    "atk": "Atk",
+    "def": "Def",
+    "spa": "SpA",
+    "spd": "SpD",
+    "spe": "Spe"
+  },
   "terms": {
     "ability": "Ability",
     "abilities": "Abilities",
@@ -231,7 +239,8 @@
     "errors_one": "{{count}} problem",
     "errors_other": "{{count}} problems",
     "warnings_one": "{{count}} warning",
-    "warnings_other": "{{count}} warnings"
+    "warnings_other": "{{count}} warnings",
+    "exportAll": "Export all"
   },
   "teamEditor": {
     "allTeams": "All teams",
@@ -305,6 +314,81 @@
       "added": "{{name}} was added to {{team}}.",
       "openTeam": "Open team",
       "teamFull": "That team is already full."
+    },
+    "view": {
+      "label": "View",
+      "edit": "Edit",
+      "overview": "Overview"
+    },
+    "overview": {
+      "empty": "Add Pokémon to see the team overview.",
+      "noProblems": "No problems found.",
+      "unfinished_one": "{{count}} choice still to make (an Ability, a Stat Alignment or moves).",
+      "unfinished_other": "{{count}} choices still to make (Abilities, Stat Alignments or moves).",
+      "sheet": "Team sheet",
+      "edit": "Edit",
+      "editMember": "Edit {{name}}",
+      "noMoves": "No moves yet",
+      "megaEvolved": "Use Mega Evolutions in the analysis",
+      "defence": "Weaknesses",
+      "defenceHint": "How much damage moves of each type do to each team member, counting their Abilities.",
+      "weakSpots": "Weak spots:",
+      "noWeakSpots": "No type is a problem for several team members.",
+      "attackingType": "Attacking type",
+      "weak": "Weak",
+      "resist": "Resist",
+      "coverage": "Coverage",
+      "coverageHint": "The best your attacking moves can do against each type.",
+      "notCovered": "No super-effective move against:",
+      "allCovered": "Every type is hit super-effectively by at least one move.",
+      "noAttacks": "Choose some attacking moves to see the coverage.",
+      "speed": "Speed order",
+      "withScarf": "With Choice Scarf (×1.5); {{speed}} without"
+    },
+    "export": {
+      "button": "Export",
+      "title": "Export “{{name}}”",
+      "format": "Format",
+      "showdown": "Showdown text",
+      "file": "Team file",
+      "showdownHint": "For Pokémon Showdown's team builder (Import from text). Names are in English, and Stat Points appear as EVs, which is how Showdown's Champions formats store them.",
+      "fileHint": "A file with this team, to import it in this app on another device or to share it.",
+      "copy": "Copy",
+      "copied": "Copied. Paste it into Showdown's team builder.",
+      "copyByHand": "The text is selected: copy it from there.",
+      "downloadText": "Download .txt",
+      "downloadFile": "Download file"
+    },
+    "import": {
+      "button": "Import",
+      "title": "Import teams",
+      "hint": "Paste a team from Pokémon Showdown, or choose a team file or a backup saved from this app.",
+      "paste": "Paste the team here",
+      "chooseFile": "Choose a file",
+      "defaultName": "Imported team",
+      "ready_one": "Ready to import {{count}} team:",
+      "ready_other": "Ready to import {{count}} teams:",
+      "import": "Import",
+      "done_one": "Imported {{count}} team.",
+      "done_other": "Imported {{count}} teams.",
+      "line": "Line {{n}}:",
+      "errors": {
+        "notATeamFile": "This isn't a team file or Showdown text the app understands.",
+        "tooNew": "This file comes from a newer version of the app. Update the app first.",
+        "invalid": "This file is damaged or incomplete.",
+        "nothingFound": "No Pokémon found that could be imported."
+      },
+      "problems": {
+        "unknownPokemon": "“{{value}}” isn't a Pokémon the app knows, so it was left out.",
+        "notInChampions": "{{value}} isn't available in Pokémon Champions, so it was left out.",
+        "unknownMove": "Unknown move “{{value}}”, left out.",
+        "unknownItem": "“{{value}}” isn't a held item in Pokémon Champions, so it was left out.",
+        "unknownAbility": "Unknown Ability “{{value}}”: the first Ability was chosen instead.",
+        "unknownNature": "Unknown nature “{{value}}”: no Stat Alignment was chosen.",
+        "tooManyMoves": "Too many moves: “{{value}}” was left out.",
+        "tooManyMembers": "The team is full: {{value}} was left out.",
+        "evsConverted": "These are main-series EVs, so they were turned into Stat Points (252 EVs = 32 points)."
+      }
     }
   },
   "settings": {
@@ -401,16 +485,16 @@
     },
     "ability": {
       "missing": "No Ability chosen yet.",
-      "unknown": "This Ability isn't in the game data anymore.",
-      "notAllowed": "This Pokémon can't have this Ability."
+      "unknown": "The Ability “{{ability}}” isn't in the game data anymore.",
+      "notAllowed": "This Pokémon can't have {{ability}}."
     },
     "item": {
-      "unknown": "This item isn't in the game data anymore.",
-      "notInChampions": "This item isn't available in Pokémon Champions."
+      "unknown": "The item “{{item}}” isn't in the game data anymore.",
+      "notInChampions": "{{item}} isn't available in Pokémon Champions."
     },
     "alignment": {
       "missing": "No Stat Alignment chosen yet.",
-      "unknown": "This Stat Alignment isn't in the game data anymore."
+      "unknown": "The Stat Alignment “{{alignment}}” isn't in the game data anymore."
     },
     "sp": {
       "invalid": "Stat Points must be whole numbers from 0 upwards.",
@@ -423,18 +507,18 @@
       "emptySlots_one": "{{count}} move slot is empty.",
       "emptySlots_other": "{{count}} move slots are empty.",
       "learnsetUnknown": "This Pokémon's moves aren't known yet, so they can't be checked.",
-      "duplicate": "This move is chosen twice.",
-      "unknown": "This move isn't in the game data anymore.",
-      "notInChampions": "This move isn't available in Pokémon Champions.",
-      "notInLearnset": "This Pokémon can't learn this move in Pokémon Champions."
+      "duplicate": "{{move}} is chosen twice.",
+      "unknown": "The move “{{move}}” isn't in the game data anymore.",
+      "notInChampions": "{{move}} isn't available in Pokémon Champions.",
+      "notInLearnset": "This Pokémon can't learn {{move}} in Pokémon Champions."
     },
     "team": {
       "tooManyMembers": "A team can have at most {{limit}} Pokémon.",
-      "duplicateSpecies": "Two team members are the same species, which most tournaments don't allow.",
-      "duplicateItem": "Two team members hold the same item, which most tournaments don't allow."
+      "duplicateSpecies": "Two team members are {{species}}, which most tournaments don't allow.",
+      "duplicateItem": "Two team members hold {{item}}, which most tournaments don't allow."
     },
     "mega": {
-      "stoneMismatch": "This Mega Stone doesn't match this Pokémon, so it can't Mega Evolve.",
+      "stoneMismatch": "{{item}} doesn't match this Pokémon, so it can't Mega Evolve.",
       "onlyOnePerBattle": "{{count}} team members can Mega Evolve, but only one can per battle."
     }
   },

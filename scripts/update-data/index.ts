@@ -46,7 +46,7 @@ import { OUTPUT_DIR, ROOT } from './lib/paths';
 import { GAME_LANGUAGES, loadChampions } from './sources/champions';
 import { SOURCES, type Revisions, type SourceKey } from './sources/config';
 import { loadPokeApi } from './sources/pokeapi';
-import { loadShowdown } from './sources/showdown';
+import { loadShowdown, showdownCandidates, toShowdownId } from './sources/showdown';
 import { IMAGE_GROUPS, loadSpriteIndex } from './sources/sprites';
 import { loadSvText } from './sources/svText';
 import { writeFileSync } from 'node:fs';
@@ -186,6 +186,25 @@ async function main() {
     versions: dex.versionsUsed,
   });
   const searchNames = buildSearchNames(ctx, drafts, text);
+
+  // Pokémon Showdown's name of each form, for importing and exporting teams.
+  // Art-only variants Showdown doesn't list (female Pyroar) use their species' name.
+  const withoutShowdownName: string[] = [];
+  for (const { form } of drafts) {
+    const own = showdownCandidates(form.id)
+      .map((id) => showdown.speciesName(id))
+      .find(Boolean);
+    const borrowed =
+      form.kind === 'mega' || form.kind === 'regional'
+        ? undefined
+        : showdown.speciesName(toShowdownId(form.speciesId));
+    const name = own ?? borrowed;
+    if (name) form.showdownName = name;
+    else if (form.availability === 'champions') withoutShowdownName.push(form.id);
+  }
+  if (withoutShowdownName.length > 0) {
+    log.warn(`No Pokémon Showdown name for: ${withoutShowdownName.join(', ')}`);
+  }
 
   // Hand-made corrections from data/overrides/forms.json.
   const formById = new Map(drafts.map((d) => [d.form.id, d.form]));

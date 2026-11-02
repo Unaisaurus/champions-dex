@@ -11,7 +11,7 @@ import { identifierTokens, isRegionalIdentifier, tokens } from './build/matching
 import { flatten } from './build/text';
 import { int, intOrNull, parseCsv } from './lib/csv';
 import { formatJson } from './lib/output';
-import { methodFromShowdownSource, toShowdownId } from './sources/showdown';
+import { methodFromShowdownSource, toShowdownId, showdownCandidates } from './sources/showdown';
 import { cleanDumpText, isPlaceholder, parseDump } from './sources/svText';
 import { typeFromTextLabel } from './sources/champions';
 
@@ -77,6 +77,20 @@ describe('evolution conditions', () => {
       { trigger: 'in-battle-level-up', minLevel: 25, chancePercent: 1 },
     ]);
     expect(merged).toEqual([{ trigger: 'in-battle-level-up', minLevel: 25 }]);
+  });
+});
+
+describe('Pokémon Showdown names', () => {
+  it('tries the ways Showdown writes genders and drops extra words', () => {
+    expect(showdownCandidates('rotom-wash')).toEqual(['rotomwash']);
+    expect(showdownCandidates('meowstic-female')).toEqual(['meowsticfemale', 'meowsticf']);
+    expect(showdownCandidates('meowstic-male-mega')).toEqual([
+      'meowsticmalemega',
+      'meowsticmega',
+      'meowsticmmega',
+    ]);
+    expect(showdownCandidates('tauros-paldea-combat-breed')).toContain('taurospaldeacombat');
+    expect(showdownCandidates('squawkabilly-blue-plumage')).toContain('squawkabillyblue');
   });
 });
 

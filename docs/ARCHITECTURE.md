@@ -92,6 +92,13 @@ so a data update can't silently change a team.
   team", "Undo") go through `modifySavedTeam` in `src/state/teamEditor.ts`.
 - "Add to team" buttons (Pokédex cards, Pokémon pages) open one shared dialog:
   `src/state/addToTeam.ts` and `AddToTeamDialog.tsx`.
+- The overview's numbers come from `src/domain/teamAnalysis.ts` (damage taken
+  per type with Abilities, coverage of the chosen moves, Speed order).
+- Sharing: `src/domain/showdown.ts` writes and reads Pokémon Showdown text
+  (names matched the way Showdown does, ignoring case and punctuation; each
+  form's Showdown name comes from the updater), and `src/storage/teamFile.ts`
+  writes and reads team files. Imported teams get new IDs and renamed game IDs
+  are updated, as when restoring a backup.
 
 ## Key rules
 

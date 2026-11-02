@@ -16,20 +16,9 @@ import {
 } from '@/storage/backup';
 import { db } from '@/storage/db';
 import { Button } from '@/ui/components/Button';
+import { downloadJson } from '@/ui/download';
 import { ChoiceDialog } from '@/ui/components/Dialogs';
 import styles from './SettingsPage.module.css';
-
-function downloadJson(fileName: string, value: unknown): void {
-  const blob = new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = fileName;
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export function BackupSection() {
   const { t } = useTranslation();

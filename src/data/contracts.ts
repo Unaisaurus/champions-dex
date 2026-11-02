@@ -243,6 +243,11 @@ export const FormSchema = z.object({
   /** Item that triggers this form in battle (Mega Stones). */
   megaStone: IdSchema.nullable(),
   art: ArtSchema,
+  /**
+   * The name Pokémon Showdown uses ("Meowstic-F", "Vivillon-Polar"), for
+   * importing and exporting teams. Missing if Showdown doesn't have the form.
+   */
+  showdownName: z.string().optional(),
   caveats: z.array(CaveatSchema).default([]),
 });
 export type Form = z.infer<typeof FormSchema>;

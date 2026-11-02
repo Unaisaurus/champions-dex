@@ -4,9 +4,10 @@ A personal Pokédex and team builder for **Pokémon Champions**, in English,
 Spanish (Spain) and Basque. It runs in your browser, on your phone or your
 computer: no account, no server of your own, nothing to pay.
 
-> **Status: Stage 4 (team builder) done.** The full Champions roster, with
-> search, sorting, filters and complete Pokémon pages, plus a team builder with
-> live stats, legal moves and warnings. Team analysis and import/export come
+> **Status: Stage 5 (analysis and sharing) done.** The full Champions roster,
+> with search, sorting, filters and complete Pokémon pages, plus a team builder
+> with live stats, legal moves, warnings, a team overview with weaknesses and
+> coverage, and Showdown import/export. The Basque editor and offline app come
 > next. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Building teams
@@ -20,6 +21,19 @@ Pokémon…) is pointed out next to the field. Every change is saved as you go.
 Browsing the Pokédex, the **⊕** button on a card (or **Add to team** on a
 Pokémon's page) adds it to one of your teams. Adding a Mega Evolution adds the
 regular Pokémon already holding its Mega Stone.
+
+**Overview** (next to **Edit** on a team) shows the whole team at once: any
+problems, each Pokémon's build, which types the team is weak to, which types
+its moves hit hard, and who moves first.
+
+## Sharing teams
+
+- **Export** (on a team) gives the team as **Pokémon Showdown text** to copy
+  and paste into Showdown's team builder, or as a **team file** for this app.
+- **Import** (on the Teams page) takes Showdown text, a team file or a full
+  backup, and shows what it found (and anything it couldn't use) before adding
+  the teams. Main-series EV spreads are converted to Stat Points.
+- **Export all** saves every team in one file.
 
 ## Using it on your phone (or any device)
 
