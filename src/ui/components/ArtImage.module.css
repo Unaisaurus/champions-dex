@@ -1,0 +1,13 @@
+.placeholder {
+  display: inline-grid;
+  place-items: center;
+  max-width: 100%;
+}
+
+.lens {
+  width: 38%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 3px dashed var(--line-strong);
+  opacity: 0.8;
+}

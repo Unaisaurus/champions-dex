@@ -1,0 +1,6 @@
+# Normalise line endings in the repository; Windows scripts need CRLF.
+* text=auto
+*.bat text eol=crlf
+*.png binary
+*.webp binary
+*.woff2 binary

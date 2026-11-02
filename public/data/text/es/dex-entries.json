@@ -1,0 +1,915 @@
+{
+ "venusaur": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Llena su cuerpo de energía con los rayos solares que captan los anchos pétalos de su flor."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Después de un día de lluvia, la flor de su lomo tiene un aroma más potente y atrae a otros Pokémon."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Venusaur tiene una flor enorme en el lomo que, según parece, adquiere unos colores muy vivos si está bien nutrido y le da mucho el sol. El aroma delicado de la flor tiene un efecto relajante en el ánimo de las personas."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "La flor que tiene en el lomo puede recoger los rayos solares para transformarlos en energía."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "La planta florece cuando absorbe energía solar, lo cual le obliga a buscar siempre la luz del sol."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "La flor que tiene en el lomo libera un delicado aroma, que tiene un efecto relajante en combate."
+  }
+ ],
+ "charizard": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Cuando lanza una descarga de fuego supercaliente, la roja llama de su cola brilla más intensamente."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Con las alas que tiene puede alcanzar una altura de casi 1400 m. Suele escupir fuego por la boca."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Charizard se dedica a volar por los cielos en busca de oponentes fuertes. Echa fuego por la boca y es capaz de derretir cualquier cosa. No obstante, si su rival es más débil que él, no usará este ataque."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "Cuando exhala fuego abrasador, la llama de la punta de la cola se aviva y adquiere un intenso color rojo."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Escupe un fuego tan caliente que funde las rocas. Causa incendios forestales sin querer."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Sus potentes alas le permiten volar a una altura de 1400 m. Escupe llamaradas que llegan a alcanzar temperaturas elevadísimas."
+  }
+ ],
+ "pikachu": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Levanta su cola para vigilar los alrededores. A veces, puede ser alcanzado por un rayo en esa pose."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Las bolsas de las mejillas están llenas de electricidad, que libera cuando se siente amenazado."
+  },
+  {
+   "games": [
+    "omega-ruby"
+   ],
+   "text": "Cada vez que un Pikachu se encuentra con algo nuevo, le lanza una descarga eléctrica. Cuando se ve alguna baya chamuscada, es muy probable que sea obra de un Pikachu, ya que a veces no controlan la intensidad de la descarga."
+  },
+  {
+   "games": [
+    "alpha-sapphire"
+   ],
+   "text": "Este Pokémon tiene unas bolsas en las mejillas donde almacena electricidad. Parece ser que se recargan por la noche, mientras Pikachu duerme. A veces, cuando se acaba de despertar y está aún medio dormido, descarga un poco."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Recientemente se ha presentado un proyecto para reunir numerosos Pikachu y crear con ellos una central eléctrica."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Pikachu almacena electricidad en su cuerpo. Si no la libera de vez en cuando y se desfoga, puede sufrir estrés."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Acumulan electricidad de forma natural. Los bosques donde habitan en grupos están en peligro constante de ser alcanzados por rayos."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Mientras duerme, acumula electricidad en las bolsas de sus mejillas. Si no logra conciliar el sueño, solo puede emitir débiles descargas."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "Los bosques son su hábitat natural. En las bolsas de las mejillas acumula electricidad, por lo que quien las toque puede recibir una descarga."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Cuanto más potente es la energía eléctrica que genera este Pokémon, más suaves y elásticas se vuelven las bolsas de sus mejillas."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Los miembros de esta especie se saludan entre sí uniendo sus colas y transmitiéndose corriente eléctrica."
+  }
+ ],
+ "raichu": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Cuando se carga de electricidad, sus músculos se tensan y se vuelve más agresivo de lo normal."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Puede emitir ráfagas de 100 000 voltios capaces de acabar con rivales enormes."
+  },
+  {
+   "games": [
+    "omega-ruby"
+   ],
+   "text": "Si las bolsas de los mofletes se le cargan demasiado, Raichu planta la cola en el suelo para liberar electricidad. Es común encontrar zonas chamuscadas cerca de la madriguera de este Pokémon."
+  },
+  {
+   "games": [
+    "alpha-sapphire"
+   ],
+   "text": "Este Pokémon libera una débil carga eléctrica por todo su cuerpo que le hace brillar en la oscuridad. Raichu descarga electricidad plantando la cola en el suelo."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Suelta descargas eléctricas de hasta 100 000 voltios, con lo que es capaz de derribar al mayor de los Pokémon."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Se vuelve más agresivo cuando se carga de electricidad. Puede incluso llegar a atacar a su Entrenador si este no se anda con cuidado."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Se vuelve más agresivo a medida que acumula electricidad. Hay quien afirma que esta le provoca estrés."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Como la mayoría de Entrenadores prefiere a Pikachu, no se ven muchos ejemplares de este Pokémon."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "Al acumular cierta cantidad de electricidad en el cuerpo, se vuelve agresivo. También brilla en la oscuridad."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Su larga cola le sirve como toma de tierra para protegerse a sí mismo del alto voltaje que genera su cuerpo."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Cuando ha descargado las bolsas de las mejillas, levanta la cola y absorbe la carga eléctrica que hay en el ambiente."
+  }
+ ],
+ "vaporeon": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Prefiere las bellas costas. Con células parecidas al agua, podría fundirse en la misma."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Ha evolucionado para adaptarse a la vida acuática. Se mimetiza a la perfección con el agua."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Vaporeon sufrió una mutación repentina y desarrolló aletas y branquias que le permiten vivir bajo el agua. Asimismo, este Pokémon tiene la habilidad de controlar las aguas."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Su composición celular es muy parecida a la estructura molecular del agua. Vive cerca de ríos y mares y a veces lo toman por una sirena."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Se funde con el agua y se oculta por completo. Entonces espera pacientemente a que aparezca algún Pokémon pez para atraparlo."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Suele habitar en cuerpos de agua cristalina. Si advierte un posible ataque enemigo, se sumerge bajo el agua para ocultarse."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Sus aletas detectan la humedad del ambiente. Si comienzan a vibrar, es señal de que lloverá en las próximas horas."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "Su estructura celular se parece a las moléculas de agua, por eso es invisible cuando está en este elemento."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Cuando las aletas de Vaporeon comienzan a vibrar, significa que lloverá en las próximas horas."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "La composición celular de su cuerpo es tan similar a la estructura molecular del agua que se vuelve invisible al fundirse en ella."
+  }
+ ],
+ "jolteon": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Todos los pelos de su cuerpo se ponen de punta si empieza a cargarse de electricidad."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Acumula iones negativos de la atmósfera para lanzar rayos de 10 000 voltios de potencia."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Las células de Jolteon generan un nivel bajo de electricidad, cuya intensidad aumenta con la electricidad estática que acumula en un pelaje formado por agujas cargadas de electricidad. Esta característica le permite lanzar rayos."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Lanza rayos de 10 000 voltios de potencia. Es difícil congeniar con este Pokémon debido a su naturaleza nerviosa."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Cuando su pelaje se pone de punta, es señal de que va a soltar una descarga. Hay que tener cuidado porque pueden caer rayos cerca."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Posee un órgano en los pulmones que genera electricidad. Cuando respira se puede oír un crepitar eléctrico."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Lanza sus pelos erizados a modo de púas. Tras debilitar a su rival, lo remata con una descarga de 10 000 voltios."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "Un Pokémon muy sensible que se entristece o enfada con mucha facilidad. Se carga de electricidad cada vez que cambia de humor."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Si se enfada o asusta, se le eriza el pelaje. Cada uno de sus pelos se convierte en una afilada púa que hace trizas al rival."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Acumula iones negativos de la atmósfera para lanzar rayos de 10 000 V de potencia."
+  }
+ ],
+ "flareon": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Almacena llamas en su cuerpo, que alcanza una temperatura de 900 °C antes de un combate."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Almacena llamas en el interior de su cuerpo. Tras inhalar profundamente, las lanza a una temperatura de 1700 °C."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "La suavidad del pelaje de Flareon tiene una función clara: libera calor para que el Pokémon no se asfixie. La temperatura corporal de este Pokémon puede alcanzar los 900 °C."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Antes de hincarle el diente a algo, ya sean bayas o alguna presa, lo cocina con sus llamas hasta que queda bien hecho."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "La temperatura corporal de este Pokémon ronda los 700 u 800 °C. Las llamas que almacena en su bolsa interior pueden llegar a los 1700 °C."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Cuando inspira profundamente es señal de que se dispone a atacar. Expele llamaradas que alcanzan temperaturas de 1700 °C."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Cuando su ánimo se altera, las llamas que almacena en su bolsa interior se avivan y su temperatura corporal llega a los 900 °C."
+  },
+  {
+   "games": [
+    "lets-go-pikachu",
+    "lets-go-eevee"
+   ],
+   "text": "La bolsa en el interior de su cuerpo le permite convertir el aire que aspira en llamas a 1700 °C que luego exhala por la boca."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Una vez que ha almacenado el calor suficiente, puede alcanzar una temperatura de 900 °C."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Almacena parte del aire que inhala en la saca de fuego de su interior, que llega a calentarse a más de 1700 °C."
+  }
+ ],
+ "espeon": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Al predecir el siguiente movimiento de su rival, chasquea el extremo de la cola bífida que tiene."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Su pelaje es tan sensible que percibe los cambios en el aire y predice así los ataques de sus enemigos y el tiempo."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Espeon es tremendamente leal al Entrenador al que considera digno de ello. Dicen que este Pokémon desarrolló sus poderes adivinatorios para evitar que su Entrenador sufra daño alguno."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Su corto y fino pelaje percibe los cambios en el aire y esto le permite predecir los movimientos de sus oponentes."
+  },
+  {
+   "games": [
+    "moon",
+    "shield"
+   ],
+   "text": "Lucha con los poderes psíquicos que brotan de la esfera de su frente, que se oscurece cuando su energía disminuye."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Originariamente, carecía de habilidades especiales, pero terminó desarrollando facultades premonitorias para protegerse."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "La luz del sol imbuye de poder psíquico la esfera de su frente, por lo que los combates nocturnos son su punto débil."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Basándose en las corrientes de aire, predice cosas como el tiempo atmosférico o la próxima acción del enemigo."
+  }
+ ],
+ "umbreon": [
+  {
+   "games": [
+    "x"
+   ],
+   "text": "Creado cuando la luz lunar alteró la estructura genética de Eevee. Busca presas en la oscuridad."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Cuando lo baña la luz de la luna, los círculos de su pelaje brillan levemente y se ve revestido de un poder misterioso."
+  },
+  {
+   "games": [
+    "omega-ruby",
+    "alpha-sapphire"
+   ],
+   "text": "Umbreon evolucionó tras haber estado expuesto a ondas lunares. Suele esconderse en la oscuridad en silencio y esperar a que su presa se mueva. Cuando se lanza al ataque, le brillan los anillos del cuerpo."
+  },
+  {
+   "games": [
+    "sun",
+    "sword"
+   ],
+   "text": "Cuando se enfurece, secreta un sudor venenoso por los poros que lanza a los ojos de sus enemigos."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Su pelaje le permite camuflarse en la oscuridad, donde espera con paciencia a que su presa se distraiga para saltarle al cuello."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Un Pokémon de hábitos nocturnos. Sus grandes pupilas le permiten distinguir con total claridad a sus presas en la más densa oscuridad."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Acecha a sus presas al amparo de la oscuridad. Sus círculos emiten un brillo ominoso cuando se dispone a saltar al ataque."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "En las noches de luna llena, o cuando se exalta, le empiezan a brillar los anillos de color dorado."
+  }
+ ],
+ "gardevoir": [
+  {
+   "games": [
+    "x",
+    "shield"
+   ],
+   "text": "Para proteger a su Entrenador, emplea todo su poder psíquico en crear un pequeño agujero negro."
+  },
+  {
+   "games": [
+    "y"
+   ],
+   "text": "Tiene la capacidad de predecir el futuro. Cuando protege a su Entrenador se vuelve más fuerte."
+  },
+  {
+   "games": [
+    "omega-ruby"
+   ],
+   "text": "Gardevoir es capaz de leer el futuro. Si siente que su Entrenador está en peligro inminente, dicen que libera automáticamente toda su energía psicoquinética."
+  },
+  {
+   "games": [
+    "alpha-sapphire"
+   ],
+   "text": "Gardevoir tiene el poder psicoquinético de alterar las dimensiones y crear un agujero negro pequeño. Este Pokémon intenta proteger siempre a su Entrenador aunque tenga que arriesgar su propia vida."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Tiene la capacidad de predecir el futuro. Para proteger a su Entrenador, emplea hasta la última gota de su poder psíquico."
+  }
+ ],
+ "weavile": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Vive en zonas nevadas. Deja marcas en los árboles con sus garras para comunicarse con sus compañeros."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Viven en zonas frías y forman grupos de cuatro o cinco para cazar con gran coordinación."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Siempre van en grupos de cuatro o cinco. Dejan marcas en rocas y árboles al cazar para coordinarse con sus compañeros."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Habita en lugares fríos. En Alola se alimenta principalmente de Vulpix y Sandshrew, presas que reparte entre sus congéneres."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Trabaja en parejas. Uno pone la zancadilla a un Sandshrew y, cuando está boca arriba, el otro Weavile lo ataca con sus afiladas garras."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Se ha vuelto tan astuto que las disputas por las presas obtenidas son cosa del pasado. Quien se ve golpeado por sus garras sufre congelaciones."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Cazan en grupo, lo que les permite abatir con facilidad presas de gran tamaño, como los Mamoswine."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Se comunican mediante marcas que tallan con sus garras. Se cree que tienen un repertorio de más de 500."
+  }
+ ],
+ "rhyperior": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Lanza Geodude por los agujeros de las manos. Gracias a Protector resiste erupciones volcánicas."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Pone rocas en los agujeros de sus manos y las lanza con los músculos. A veces lanza Geodude."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Introduce rocas o Roggenrola en las cavidades de las manos y los dispara con fuerza. Es capaz de cargar hasta tres proyectiles en cada brazo."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Repele los ataques usando un Protector y aprovecha el momento en que el rival baja la guardia para perforarlo con su taladro."
+  }
+ ],
+ "leafeon": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "En días soleados duerme y hace la fotosíntesis, emitiendo aire puro a su alrededor."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Al igual que una planta, hace la fotosíntesis. Como consecuencia, siempre está rodeado de aire puro."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Su estructura celular se asemeja más a la de las plantas que a la de los animales. Puede obtener energía sin alimentos gracias a la fotosíntesis."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Los Leafeon jóvenes desprenden un intenso aroma a hierba fresca, mientras que el olor de los mayores es más semejante a la hojarasca."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "A pesar de evitar a toda costa los combates, si ha de proteger a sus amigos, no duda en usar la hoja de la cola como una afilada espada."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Realiza la fotosíntesis para obtener nutrientes. Habita en la apacible espesura de los bosques bañados por arroyos de agua cristalina."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "El peculiar aroma que desprenden sus hojas es muy apreciado por los habitantes de Galar y se usa en la elaboración de codiciados perfumes."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Se siente muy orgulloso de su cola afilada como una espada, con la que es capaz de cortar en dos el tronco de un árbol grueso."
+  }
+ ],
+ "glaceon": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Controla su temperatura corporal para congelar el ambiente y causar ráfagas de nieve en polvo."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Al reducir su temperatura corporal, su pelaje se congela y se convierte en afilados pinchos que puede disparar."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Controla a su antojo la temperatura corporal y congela las partículas de agua que flotan en el aire para provocar ráfagas de nieve en polvo."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Al congelar su pelaje, este se eriza formando carámbanos con los que ataca a su presa en cuanto la avista."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Congela su pelaje y lo convierte en afilados pinchos para defenderse. Es capaz de reducir su temperatura corporal hasta -60 ºC."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "En un solo instante congela las partículas de agua a su alrededor y crea cristales de hielo con los que ataca a su presa."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Desprende cristales de hielo. Sus presas se quedan congeladas sin darse cuenta, encandiladas por su belleza."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "El aire gélido que exhala crea una suerte de cristales de hielo que lo hace muy demandado en las estaciones de esquí."
+  }
+ ],
+ "gallade": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Puede presentir los movimientos de sus rivales y por eso ataca siempre antes que ellos."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Lucha con las espadas que salen de sus codos. Es un maestro de la cortesía y la esgrima."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Este Pokémon es considerado todo un justiciero. Solo utiliza las espadas que le salen de los codos si tiene una causa que defender."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Es capaz de percibir al instante cuando alguien está en un aprieto y corre raudo a su lado para prestarle ayuda."
+  }
+ ],
+ "rotom": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Desde hace mucho tiempo se estudia su singular motor como fuente de energía motriz."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Su cuerpo está hecho de plasma. Puede infiltrarse en dispositivos electrónicos e inutilizarlos."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Gracias a la inventiva de cierto joven, se ha iniciado la fabricación de diversos artilugios que aprovechan todo el potencial de Rotom."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "Su cuerpo de plasma le permite infiltrarse en toda clase de dispositivos electrónicos. Adora sobresaltar a la gente."
+  }
+ ],
+ "vivillon": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "En el mundo existen Vivillon con diferentes motivos en sus alas. El clima de cada región influye en sus rasgos."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Las alas cambian de motivo según el clima y las características naturales del terreno que habite. Esparce escamas de lo más coloridas."
+  }
+ ],
+ "pyroar": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "El macho con la melena de fuego más grande de toda la manada es el líder de sus compañeros."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Intimida con ferocidad al enemigo exhalando su aliento abrasador a 6000 °C de temperatura. Las hembras protegen a los cachorros de la manada."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Por lo general, el macho suele ser un holgazán, pero si aparece un enemigo poderoso, no duda en plantarle cara para proteger a los suyos."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Su aliento alcanza temperaturas de 6000 ºC, aunque no lo emplea contra sus presas, ya que prefiere la carne más bien cruda."
+  }
+ ],
+ "meowstic": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "Cuando percibe peligro, yergue sus orejas y desata un poder psíquico capaz de levantar un camión de unas 10 toneladas."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Las marcas en forma de ojos que tiene en las orejas emiten poderes psíquicos, pero su potencia es tan avasalladora que las mantiene tapadas."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Emite sus poderes psíquicos por las marcas en forma de ojos que tiene en las orejas, aunque, por lo general, las mantiene ocultas."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "El fuerte instinto protector de los machos los lleva a liberar todo su poder cuando se trata de defenderse a sí mismos o a su Entrenador."
+  }
+ ],
+ "sylveon": [
+  {
+   "games": [
+    "x",
+    "omega-ruby"
+   ],
+   "text": "A través de sus apéndices sensitivos con forma de cinta, emite unas ondas tranquilizadoras mediante las cuales detiene los combates."
+  },
+  {
+   "games": [
+    "y",
+    "alpha-sapphire"
+   ],
+   "text": "Enrolla sus apéndices sensoriales con forma de cinta en los brazos de su querido Entrenador cuando caminan juntos."
+  },
+  {
+   "games": [
+    "sun"
+   ],
+   "text": "Con sus apéndices sensoriales con forma de cinta, puede emitir ondas que neutralizan la hostilidad y hacen bajar la guardia a su presa."
+  },
+  {
+   "games": [
+    "moon"
+   ],
+   "text": "Al detectar a una presa, agita sus apéndices sensoriales con forma de cinta para distraerla y, cuando lo consigue, se abalanza sobre ella."
+  },
+  {
+   "games": [
+    "ultra-sun"
+   ],
+   "text": "Cuando se enfrasca en un combate lo da todo sin titubear un segundo, aunque se enfrente a un Pokémon de tipo Dragón más grande que él."
+  },
+  {
+   "games": [
+    "ultra-moon"
+   ],
+   "text": "Al rodear el brazo de su Entrenador con los apéndices sensoriales en forma de cintas, es capaz de comprender sus sentimientos."
+  },
+  {
+   "games": [
+    "sword"
+   ],
+   "text": "Con sus apéndices sensoriales en forma de cinta, puede emitir ondas que neutralizan la hostilidad y detener así cualquier contienda."
+  },
+  {
+   "games": [
+    "shield"
+   ],
+   "text": "En un cuento infantil de Galar se narra la victoria de un Sylveon de extraordinaria belleza sobre un temible Pokémon de tipo Dragón."
+  }
+ ],
+ "sneasler": [],
+ "kingambit": []
+}

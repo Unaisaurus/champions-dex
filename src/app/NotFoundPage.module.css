@@ -1,0 +1,11 @@
+.page {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-4);
+  padding-top: var(--space-6);
+}
+
+.link {
+  color: var(--accent);
+  font-weight: 600;
+}

@@ -1,0 +1,245 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.missing {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}
+
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+/*
+ * The one bold moment: the Pokémon's Pokédex colour fills the panel, with its
+ * number set huge and condensed behind the artwork.
+ */
+.hero {
+  --hero-ink: var(--ink);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: end;
+  gap: var(--space-4);
+  min-height: 340px;
+  padding: var(--space-6) var(--space-6) var(--space-5);
+  border-radius: 28px;
+  background: var(--hero-bg);
+  color: var(--hero-ink);
+  isolation: isolate;
+}
+
+.bigNumber {
+  position: absolute;
+  z-index: -1;
+  top: -0.12em;
+  left: -0.04em;
+  font-size: clamp(120px, 24vw, 280px);
+  font-weight: 800;
+  font-stretch: 62.5%;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: color-mix(in oklab, var(--hero-bg), var(--ink) 11%);
+  user-select: none;
+}
+
+.art {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  justify-self: center;
+  width: min(100%, 380px);
+}
+
+.art img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.identity {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+}
+
+.number {
+  font-weight: 650;
+  font-stretch: 75%;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+}
+
+.name {
+  font-size: clamp(34px, 6vw, 56px);
+  font-weight: 750;
+  font-stretch: 81.25%;
+  line-height: 1;
+}
+
+.formLabel {
+  font-size: 19px;
+  font-weight: 600;
+  font-stretch: 87.5%;
+}
+
+.genus {
+  opacity: 0.8;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.switch input {
+  appearance: none;
+  width: 42px;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--hero-bg), var(--ink) 30%);
+  position: relative;
+  margin: 0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.switch input::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: transform 0.15s;
+}
+
+.switch input:checked {
+  background: var(--accent);
+}
+
+.switch input:checked::after {
+  transform: translateX(18px);
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chipLabel {
+  font-weight: 650;
+  margin-right: var(--space-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.chip img {
+  width: 28px;
+  height: 28px;
+  margin-left: -6px;
+}
+
+.chip[aria-current='page'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.panel {
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.facts {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: minmax(96px, 9em) 1fr;
+  gap: var(--space-3);
+}
+
+.facts dt {
+  color: var(--ink-muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: var(--space-5) var(--space-4) var(--space-4);
+    min-height: 0;
+  }
+
+  .art {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(78%, 300px);
+  }
+
+  .identity {
+    grid-row: 2;
+  }
+}

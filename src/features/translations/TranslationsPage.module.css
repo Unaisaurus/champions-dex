@@ -1,0 +1,98 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 860px;
+}
+
+.header {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.intro {
+  color: var(--ink-muted);
+  max-width: 72ch;
+}
+
+.language {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.domains {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-3) var(--space-5);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.progress {
+  display: grid;
+  gap: 6px;
+}
+
+.progressText {
+  display: grid;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.progressLabel {
+  font-weight: 600;
+}
+
+.progressCount {
+  color: var(--ink-muted);
+}
+
+.track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  background: var(--lens);
+  border-radius: inherit;
+}
+
+.done {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.missing summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.missing dl {
+  margin: var(--space-3) 0 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.missingRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--space-3);
+  font-size: 14px;
+}
+
+.missingRow dt code {
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+  color: var(--ink-muted);
+}
+
+.missingRow dd {
+  margin: 0;
+}

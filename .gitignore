@@ -1,0 +1,16 @@
+# Installed packages and build output
+node_modules
+dist
+coverage
+*.tsbuildinfo
+
+# Raw downloads made by the data updater (re-created on every update)
+data/sources/
+
+# Editors and operating systems
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.log

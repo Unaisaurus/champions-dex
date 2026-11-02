@@ -1,0 +1,64 @@
+.table {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(84px, 120px) 48px 1fr;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.label {
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.value {
+  margin: 0;
+  text-align: right;
+  font-weight: 650;
+  font-stretch: 87.5%;
+  font-size: 17px;
+}
+
+.track {
+  margin: 0;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.low {
+  background: var(--stat-low);
+}
+
+.mid {
+  background: var(--stat-mid);
+}
+
+.high {
+  background: var(--stat-high);
+}
+
+.top {
+  background: var(--stat-top);
+}
+
+.totalRow {
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.totalRow .value {
+  font-size: 19px;
+}

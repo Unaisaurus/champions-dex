@@ -1,0 +1,167 @@
+/*
+ * Design tokens: every colour, size and font the app uses.
+ * Change a value here and it changes everywhere. See docs/DESIGN.md.
+ */
+:root {
+  --font-sans: 'Saira Variable', 'Saira', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Surfaces and text (light) */
+  --paper: #edf0f4;
+  --surface: #ffffff;
+  --surface-sunken: #e3e7ed;
+  --ink: #18202c;
+  --ink-muted: #586374;
+  --line: #d4dae3;
+  --line-strong: #b4bdca;
+
+  /* The Pokédex itself: red shell, blue lens */
+  --accent: #d63a2f;
+  --accent-strong: #b52c22;
+  --accent-ink: #ffffff;
+  --lens: #2f7fd8;
+  --focus: #2f7fd8;
+
+  /* Stat bars, by how high the value is */
+  --stat-low: #e8833a;
+  --stat-mid: #e3c042;
+  --stat-high: #57b36a;
+  --stat-top: #2f9ac9;
+
+  --success: #2d7d46;
+  --warning: #9a6200;
+  --danger: #c0352b;
+  --info-bg: #e3edfa;
+  --info-ink: #1d4f8f;
+
+  /* Shape and spacing */
+  --radius-card: 16px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --content-width: 1180px;
+  --header-height: 60px;
+  --tabbar-height: 64px;
+
+  /* Type colours (badge background / text on it) */
+  --type-normal: #9fa19f;
+  --type-normal-ink: #18202c;
+  --type-fire: #e12728;
+  --type-fire-ink: #ffffff;
+  --type-water: #2575db;
+  --type-water-ink: #ffffff;
+  --type-electric: #fac000;
+  --type-electric-ink: #18202c;
+  --type-grass: #3fa129;
+  --type-grass-ink: #18202c;
+  --type-ice: #3dcef3;
+  --type-ice-ink: #18202c;
+  --type-fighting: #ff8000;
+  --type-fighting-ink: #18202c;
+  --type-poison: #9141cb;
+  --type-poison-ink: #ffffff;
+  --type-ground: #915121;
+  --type-ground-ink: #ffffff;
+  --type-flying: #81b9ef;
+  --type-flying-ink: #18202c;
+  --type-psychic: #d2396a;
+  --type-psychic-ink: #ffffff;
+  --type-bug: #91a119;
+  --type-bug-ink: #18202c;
+  --type-rock: #afa981;
+  --type-rock-ink: #18202c;
+  --type-ghost: #704170;
+  --type-ghost-ink: #ffffff;
+  --type-dragon: #5060e1;
+  --type-dragon-ink: #ffffff;
+  --type-dark: #624d4e;
+  --type-dark-ink: #ffffff;
+  --type-steel: #60a1b8;
+  --type-steel-ink: #18202c;
+  --type-fairy: #ef70ef;
+  --type-fairy-ink: #18202c;
+  --type-unknown: #8d96a3;
+  --type-unknown-ink: #18202c;
+
+  /* Pokédex colours: field behind a Pokémon page, and filter swatch */
+  --dex-black: #d3d7de;
+  --dex-black-swatch: #2b3038;
+  --dex-blue: #d2e1f7;
+  --dex-blue-swatch: #3a78d6;
+  --dex-brown: #ead9c8;
+  --dex-brown-swatch: #976440;
+  --dex-gray: #dfe3e8;
+  --dex-gray-swatch: #8e96a1;
+  --dex-green: #d1ebd3;
+  --dex-green-swatch: #3e9f57;
+  --dex-pink: #f8d9e5;
+  --dex-pink-swatch: #e77fa8;
+  --dex-purple: #e3d7f2;
+  --dex-purple-swatch: #8656c1;
+  --dex-red: #f6d4ce;
+  --dex-red-swatch: #d9443a;
+  --dex-white: #f6f6f3;
+  --dex-white-swatch: #f2f2ee;
+  --dex-yellow: #f7eab5;
+  --dex-yellow-swatch: #e8be2e;
+
+  color-scheme: light;
+}
+
+/* Dark appearance: follows the device unless chosen in Settings. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #0f141b;
+    --surface: #171e28;
+    --surface-sunken: #0b0f15;
+    --ink: #e7ecf3;
+    --ink-muted: #9aa5b5;
+    --line: #263140;
+    --line-strong: #3a4759;
+    --accent: #e5483c;
+    --accent-strong: #c93a2f;
+    --info-bg: #15263c;
+    --info-ink: #a9c8f0;
+    --dex-black: #0d1015;
+    --dex-blue: #162b48;
+    --dex-brown: #352416;
+    --dex-gray: #242930;
+    --dex-green: #15361e;
+    --dex-pink: #43202e;
+    --dex-purple: #2c1c43;
+    --dex-red: #451c18;
+    --dex-white: #2b2f35;
+    --dex-yellow: #3d3210;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #0f141b;
+  --surface: #171e28;
+  --surface-sunken: #0b0f15;
+  --ink: #e7ecf3;
+  --ink-muted: #9aa5b5;
+  --line: #263140;
+  --line-strong: #3a4759;
+  --accent: #e5483c;
+  --accent-strong: #c93a2f;
+  --info-bg: #15263c;
+  --info-ink: #a9c8f0;
+  --dex-black: #0d1015;
+  --dex-blue: #162b48;
+  --dex-brown: #352416;
+  --dex-gray: #242930;
+  --dex-green: #15361e;
+  --dex-pink: #43202e;
+  --dex-purple: #2c1c43;
+  --dex-red: #451c18;
+  --dex-white: #2b2f35;
+  --dex-yellow: #3d3210;
+  color-scheme: dark;
+}

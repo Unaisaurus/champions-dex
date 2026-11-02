@@ -1,0 +1,262 @@
+{
+  "app": {
+    "name": "Champions Dex",
+    "tagline": "Pokédex and team builder for Pokémon Champions",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "label": "Main",
+    "pokedex": "Pokédex",
+    "teams": "Teams",
+    "settings": "Settings",
+    "translations": "Translations"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "rename": "Rename",
+    "create": "Create",
+    "close": "Close",
+    "back": "Back",
+    "tryAgain": "Try again",
+    "loading": "Loading…",
+    "unknown": "Unknown",
+    "laterStage": "Arrives in a later stage"
+  },
+  "notFound": {
+    "title": "This page doesn't exist",
+    "action": "Go to the Pokédex"
+  },
+  "data": {
+    "loading": "Loading Pokémon data…",
+    "sampleNotice": "This is a small sample of the game data, for building the app. The full Champions roster arrives with the data updater.",
+    "unverified": "Not yet confirmed from the game files",
+    "error": {
+      "title": "The game data couldn't be loaded",
+      "missing": "The file {{file}} is missing. Run update-data, then reload this page.",
+      "invalid": "The file {{file}} isn't in the expected format. Run update-data again. If that doesn't help, the details below show what's wrong.",
+      "tooNew": "This game data is newer than the app. Download the latest version of the app with GitHub Desktop, then reload.",
+      "tooOld": "This game data is older than the app. Run update-data, then reload.",
+      "details": "Technical details"
+    }
+  },
+  "stats": {
+    "hp": "HP",
+    "atk": "Attack",
+    "def": "Defense",
+    "spa": "Sp. Atk",
+    "spd": "Sp. Def",
+    "spe": "Speed",
+    "total": "Total"
+  },
+  "terms": {
+    "ability": "Ability",
+    "abilities": "Abilities",
+    "heldItem": "Held item",
+    "moves": "Moves",
+    "statAlignment": "Stat Alignment",
+    "statPoints": "Stat Points",
+    "baseStats": "Base stats",
+    "types": "Types",
+    "generation": "Generation",
+    "generationShort": "Gen {{n}}",
+    "nationalDexNumber": "No. {{n}}",
+    "height": "Height",
+    "weight": "Weight",
+    "shiny": "Shiny",
+    "male": "Male",
+    "female": "Female",
+    "genderless": "Gender unknown",
+    "megaEvolution": "Mega Evolution"
+  },
+  "colors": {
+    "black": "Black",
+    "blue": "Blue",
+    "brown": "Brown",
+    "gray": "Gray",
+    "green": "Green",
+    "pink": "Pink",
+    "purple": "Purple",
+    "red": "Red",
+    "white": "White",
+    "yellow": "Yellow"
+  },
+  "categories": {
+    "starter": "Starter",
+    "legendary": "Legendary",
+    "mythical": "Mythical",
+    "ultra-beast": "Ultra Beast",
+    "paradox": "Paradox",
+    "fossil": "Fossil",
+    "baby": "Baby",
+    "mega": "Can Mega Evolve"
+  },
+  "pokedex": {
+    "title": "Pokédex",
+    "searchLabel": "Search Pokémon",
+    "searchPlaceholder": "Name or number, in any language",
+    "results_one": "{{count}} Pokémon",
+    "results_other": "{{count}} Pokémon",
+    "noResults": "No Pokémon match “{{query}}”. Try another name or a Pokédex number.",
+    "favouriteAdd": "Add {{name}} to favourites",
+    "favouriteRemove": "Remove {{name}} from favourites",
+    "openDetails": "Open {{name}}"
+  },
+  "pokemon": {
+    "notFound": "There's no Pokémon with the ID “{{id}}” in the current data.",
+    "backToList": "Back to the Pokédex",
+    "forms": "Forms",
+    "appearances": "Appearance",
+    "showShiny": "Shiny colours",
+    "showFemale": "Female",
+    "notInChampions": "Not available in Pokémon Champions",
+    "speciesInfo": "Species",
+    "genderLabel": "Gender",
+    "genderRatio": "{{female}}% female, {{male}}% male",
+    "comingSoon": "Pokédex entries, type matchups, evolutions and the full Champions learnset arrive in a later stage."
+  },
+  "teams": {
+    "title": "Teams",
+    "intro": "Build and save as many teams as you like. They're stored on this device; download a backup in Settings to move them elsewhere.",
+    "create": "New team",
+    "defaultName": "Team {{n}}",
+    "empty": "No teams yet. Create one to start building.",
+    "members_one": "{{count}} Pokémon",
+    "members_other": "{{count}} Pokémon",
+    "nameLabel": "Team name",
+    "renameTitle": "Rename team",
+    "deleteConfirm": "Delete “{{name}}”? You can still recover it from Settings → Automatic backups.",
+    "editorLater": "The team editor arrives in a later stage. For now you can create, rename and delete teams."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": {
+      "title": "Language",
+      "description": "Untranslated texts are shown in English."
+    },
+    "theme": {
+      "title": "Appearance",
+      "system": "Match device",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "backup": {
+      "title": "Backups",
+      "description": "Download a file with your teams, favourites and settings, or restore one. Backup files are also how you move teams between devices.",
+      "download": "Download backup",
+      "restore": "Restore from a file",
+      "restoreMerge": "Add to what's here",
+      "restoreReplace": "Replace everything",
+      "restoreQuestion": "This backup has {{teams}} teams and {{favourites}} favourites. How do you want to restore it?",
+      "restored": "Backup restored: {{added}} teams added, {{updated}} updated.",
+      "notABackup": "This file isn't a Champions Dex backup.",
+      "tooNew": "This backup was made by a newer version of the app. Update the app first.",
+      "invalid": "This backup file is damaged, so nothing was restored."
+    },
+    "snapshots": {
+      "title": "Automatic backups",
+      "description": "Once a day, and before every restore, a copy of your data is kept inside the browser. Restoring one first saves the current state, so it can be undone too.",
+      "empty": "No automatic backups yet. One is made each day you have teams or favourites.",
+      "summary": "{{teams}} teams, {{favourites}} favourites",
+      "reason": {
+        "auto": "Daily",
+        "before-restore": "Before a restore",
+        "before-delete": "Before deleting a team",
+        "before-update": "Before a data update",
+        "manual": "Manual"
+      },
+      "restore": "Restore this copy",
+      "restoreConfirm": "Replace your current teams and favourites with this copy?"
+    },
+    "storage": {
+      "title": "Storage",
+      "persisted": "The browser has agreed to keep your data, even when space runs low.",
+      "notPersisted": "The browser may delete your data if the device runs low on space.",
+      "unknown": "This browser doesn't say whether it keeps your data.",
+      "request": "Ask the browser to keep my data",
+      "usage": "Using {{used}} of the space available.",
+      "addressNote": "Saved data belongs to the address the app runs at. Always open it at http://localhost:5173, the address start-app opens."
+    },
+    "data": {
+      "title": "Game data",
+      "version": "Data version",
+      "gameVersion": "Champions version",
+      "regulation": "Regulation",
+      "sources": "Sources",
+      "healthy": "All data files passed their consistency checks.",
+      "problems_one": "{{count}} consistency problem found in the data files:",
+      "problems_other": "{{count}} consistency problems found in the data files:"
+    }
+  },
+  "translations": {
+    "title": "Translations",
+    "intro": "Progress of each language. Untranslated texts fall back to English. Basque texts live in the translations/eu folder; see docs/TRANSLATING.md.",
+    "interface": "Interface",
+    "percent": "{{percent}}% translated",
+    "count": "{{translated}} of {{total}}",
+    "missingTitle": "Missing interface texts",
+    "allDone": "Everything is translated.",
+    "reference": "English",
+    "dexEntries": "Pokédex entries",
+    "domains": {
+      "pokemon-names": "Pokémon names",
+      "form-names": "Form names",
+      "genus": "Categories (“Seed Pokémon”)",
+      "move-names": "Move names",
+      "move-descriptions": "Move descriptions",
+      "ability-names": "Ability names",
+      "ability-descriptions": "Ability descriptions",
+      "item-names": "Item names",
+      "item-descriptions": "Item descriptions",
+      "type-names": "Type names",
+      "alignment-names": "Stat Alignment names",
+      "game-names": "Game names"
+    }
+  },
+  "validation": {
+    "member": {
+      "unknownForm": "This Pokémon isn't in the game data anymore.",
+      "notInChampions": "This Pokémon isn't available in Pokémon Champions.",
+      "battleOnlyForm": "This form only appears during battle. Choose the regular form and give it the right item."
+    },
+    "ability": {
+      "missing": "No Ability chosen yet.",
+      "unknown": "This Ability isn't in the game data anymore.",
+      "notAllowed": "This Pokémon can't have this Ability."
+    },
+    "item": {
+      "unknown": "This item isn't in the game data anymore.",
+      "notInChampions": "This item isn't available in Pokémon Champions."
+    },
+    "alignment": {
+      "missing": "No Stat Alignment chosen yet.",
+      "unknown": "This Stat Alignment isn't in the game data anymore."
+    },
+    "sp": {
+      "invalid": "Stat Points must be whole numbers from 0 upwards.",
+      "perStatExceeded": "One stat can have at most {{limit}} Stat Points.",
+      "totalExceeded": "That's {{value}} Stat Points; the maximum is {{limit}}."
+    },
+    "move": {
+      "tooMany": "Only {{limit}} moves are allowed.",
+      "none": "No moves chosen yet.",
+      "emptySlots_one": "{{count}} move slot is empty.",
+      "emptySlots_other": "{{count}} move slots are empty.",
+      "learnsetUnknown": "This Pokémon's moves aren't known yet, so they can't be checked.",
+      "duplicate": "This move is chosen twice.",
+      "unknown": "This move isn't in the game data anymore.",
+      "notInChampions": "This move isn't available in Pokémon Champions.",
+      "notInLearnset": "This Pokémon can't learn this move in Pokémon Champions."
+    },
+    "team": {
+      "tooManyMembers": "A team can have at most {{limit}} Pokémon.",
+      "duplicateSpecies": "Two team members are the same species, which most tournaments don't allow.",
+      "duplicateItem": "Two team members hold the same item, which most tournaments don't allow."
+    },
+    "mega": {
+      "stoneMismatch": "This Mega Stone doesn't match this Pokémon, so it can't Mega Evolve.",
+      "onlyOnePerBattle": "{{count}} team members can Mega Evolve, but only one can per battle."
+    }
+  }
+}

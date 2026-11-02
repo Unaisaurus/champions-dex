@@ -1,0 +1,262 @@
+{
+  "app": {
+    "name": "",
+    "tagline": "",
+    "skipToContent": ""
+  },
+  "nav": {
+    "label": "",
+    "pokedex": "",
+    "teams": "",
+    "settings": "",
+    "translations": ""
+  },
+  "common": {
+    "cancel": "",
+    "save": "",
+    "delete": "",
+    "rename": "",
+    "create": "",
+    "close": "",
+    "back": "",
+    "tryAgain": "",
+    "loading": "",
+    "unknown": "",
+    "laterStage": ""
+  },
+  "notFound": {
+    "title": "",
+    "action": ""
+  },
+  "data": {
+    "loading": "",
+    "sampleNotice": "",
+    "unverified": "",
+    "error": {
+      "title": "",
+      "missing": "",
+      "invalid": "",
+      "tooNew": "",
+      "tooOld": "",
+      "details": ""
+    }
+  },
+  "stats": {
+    "hp": "",
+    "atk": "",
+    "def": "",
+    "spa": "",
+    "spd": "",
+    "spe": "",
+    "total": ""
+  },
+  "terms": {
+    "ability": "",
+    "abilities": "",
+    "heldItem": "",
+    "moves": "",
+    "statAlignment": "",
+    "statPoints": "",
+    "baseStats": "",
+    "types": "",
+    "generation": "",
+    "generationShort": "",
+    "nationalDexNumber": "",
+    "height": "",
+    "weight": "",
+    "shiny": "",
+    "male": "",
+    "female": "",
+    "genderless": "",
+    "megaEvolution": ""
+  },
+  "colors": {
+    "black": "",
+    "blue": "",
+    "brown": "",
+    "gray": "",
+    "green": "",
+    "pink": "",
+    "purple": "",
+    "red": "",
+    "white": "",
+    "yellow": ""
+  },
+  "categories": {
+    "starter": "",
+    "legendary": "",
+    "mythical": "",
+    "ultra-beast": "",
+    "paradox": "",
+    "fossil": "",
+    "baby": "",
+    "mega": ""
+  },
+  "pokedex": {
+    "title": "",
+    "searchLabel": "",
+    "searchPlaceholder": "",
+    "results_one": "",
+    "results_other": "",
+    "noResults": "",
+    "favouriteAdd": "",
+    "favouriteRemove": "",
+    "openDetails": ""
+  },
+  "pokemon": {
+    "notFound": "",
+    "backToList": "",
+    "forms": "",
+    "appearances": "",
+    "showShiny": "",
+    "showFemale": "",
+    "notInChampions": "",
+    "speciesInfo": "",
+    "genderLabel": "",
+    "genderRatio": "",
+    "comingSoon": ""
+  },
+  "teams": {
+    "title": "",
+    "intro": "",
+    "create": "",
+    "defaultName": "",
+    "empty": "",
+    "members_one": "",
+    "members_other": "",
+    "nameLabel": "",
+    "renameTitle": "",
+    "deleteConfirm": "",
+    "editorLater": ""
+  },
+  "settings": {
+    "title": "",
+    "language": {
+      "title": "",
+      "description": ""
+    },
+    "theme": {
+      "title": "",
+      "system": "",
+      "light": "",
+      "dark": ""
+    },
+    "backup": {
+      "title": "",
+      "description": "",
+      "download": "",
+      "restore": "",
+      "restoreMerge": "",
+      "restoreReplace": "",
+      "restoreQuestion": "",
+      "restored": "",
+      "notABackup": "",
+      "tooNew": "",
+      "invalid": ""
+    },
+    "snapshots": {
+      "title": "",
+      "description": "",
+      "empty": "",
+      "summary": "",
+      "reason": {
+        "auto": "",
+        "before-restore": "",
+        "before-delete": "",
+        "before-update": "",
+        "manual": ""
+      },
+      "restore": "",
+      "restoreConfirm": ""
+    },
+    "storage": {
+      "title": "",
+      "persisted": "",
+      "notPersisted": "",
+      "unknown": "",
+      "request": "",
+      "usage": "",
+      "addressNote": ""
+    },
+    "data": {
+      "title": "",
+      "version": "",
+      "gameVersion": "",
+      "regulation": "",
+      "sources": "",
+      "healthy": "",
+      "problems_one": "",
+      "problems_other": ""
+    }
+  },
+  "translations": {
+    "title": "",
+    "intro": "",
+    "interface": "",
+    "percent": "",
+    "count": "",
+    "missingTitle": "",
+    "allDone": "",
+    "reference": "",
+    "dexEntries": "",
+    "domains": {
+      "pokemon-names": "",
+      "form-names": "",
+      "genus": "",
+      "move-names": "",
+      "move-descriptions": "",
+      "ability-names": "",
+      "ability-descriptions": "",
+      "item-names": "",
+      "item-descriptions": "",
+      "type-names": "",
+      "alignment-names": "",
+      "game-names": ""
+    }
+  },
+  "validation": {
+    "member": {
+      "unknownForm": "",
+      "notInChampions": "",
+      "battleOnlyForm": ""
+    },
+    "ability": {
+      "missing": "",
+      "unknown": "",
+      "notAllowed": ""
+    },
+    "item": {
+      "unknown": "",
+      "notInChampions": ""
+    },
+    "alignment": {
+      "missing": "",
+      "unknown": ""
+    },
+    "sp": {
+      "invalid": "",
+      "perStatExceeded": "",
+      "totalExceeded": ""
+    },
+    "move": {
+      "tooMany": "",
+      "none": "",
+      "emptySlots_one": "",
+      "emptySlots_other": "",
+      "learnsetUnknown": "",
+      "duplicate": "",
+      "unknown": "",
+      "notInChampions": "",
+      "notInLearnset": ""
+    },
+    "team": {
+      "tooManyMembers": "",
+      "duplicateSpecies": "",
+      "duplicateItem": ""
+    },
+    "mega": {
+      "stoneMismatch": "",
+      "onlyOnePerBattle": ""
+    }
+  }
+}

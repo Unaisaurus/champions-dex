@@ -1,0 +1,262 @@
+{
+  "app": {
+    "name": "Champions Dex",
+    "tagline": "Pokédex y creador de equipos para Pokémon Champions",
+    "skipToContent": "Saltar al contenido"
+  },
+  "nav": {
+    "label": "Principal",
+    "pokedex": "Pokédex",
+    "teams": "Equipos",
+    "settings": "Opciones",
+    "translations": "Traducciones"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Borrar",
+    "rename": "Cambiar nombre",
+    "create": "Crear",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "tryAgain": "Volver a intentarlo",
+    "loading": "Cargando…",
+    "unknown": "Desconocido",
+    "laterStage": "Llegará en una fase posterior"
+  },
+  "notFound": {
+    "title": "Esta página no existe",
+    "action": "Ir a la Pokédex"
+  },
+  "data": {
+    "loading": "Cargando los datos de los Pokémon…",
+    "sampleNotice": "Esto es una pequeña muestra de los datos del juego, para construir la aplicación. La lista completa de Champions llegará con el actualizador de datos.",
+    "unverified": "Aún sin confirmar en los archivos del juego",
+    "error": {
+      "title": "No se han podido cargar los datos del juego",
+      "missing": "Falta el archivo {{file}}. Ejecuta update-data y vuelve a cargar esta página.",
+      "invalid": "El archivo {{file}} no tiene el formato esperado. Vuelve a ejecutar update-data. Si no se arregla, los detalles de abajo indican qué falla.",
+      "tooNew": "Estos datos son más nuevos que la aplicación. Descarga la última versión con GitHub Desktop y vuelve a cargar.",
+      "tooOld": "Estos datos son más antiguos que la aplicación. Ejecuta update-data y vuelve a cargar.",
+      "details": "Detalles técnicos"
+    }
+  },
+  "stats": {
+    "hp": "PS",
+    "atk": "Ataque",
+    "def": "Defensa",
+    "spa": "At. Esp.",
+    "spd": "Def. Esp.",
+    "spe": "Velocidad",
+    "total": "Total"
+  },
+  "terms": {
+    "ability": "Habilidad",
+    "abilities": "Habilidades",
+    "heldItem": "Objeto",
+    "moves": "Movimientos",
+    "statAlignment": "Variación de características",
+    "statPoints": "Puntos de característica",
+    "baseStats": "Características base",
+    "types": "Tipos",
+    "generation": "Generación",
+    "generationShort": "{{n}}.ª gen.",
+    "nationalDexNumber": "N.º {{n}}",
+    "height": "Altura",
+    "weight": "Peso",
+    "shiny": "Variocolor",
+    "male": "Macho",
+    "female": "Hembra",
+    "genderless": "Sexo desconocido",
+    "megaEvolution": "Megaevolución"
+  },
+  "colors": {
+    "black": "Negro",
+    "blue": "Azul",
+    "brown": "Marrón",
+    "gray": "Gris",
+    "green": "Verde",
+    "pink": "Rosa",
+    "purple": "Morado",
+    "red": "Rojo",
+    "white": "Blanco",
+    "yellow": "Amarillo"
+  },
+  "categories": {
+    "starter": "Inicial",
+    "legendary": "Legendario",
+    "mythical": "Singular",
+    "ultra-beast": "Ultraente",
+    "paradox": "Paradójico",
+    "fossil": "Fósil",
+    "baby": "Bebé",
+    "mega": "Puede megaevolucionar"
+  },
+  "pokedex": {
+    "title": "Pokédex",
+    "searchLabel": "Buscar Pokémon",
+    "searchPlaceholder": "Nombre o número, en cualquier idioma",
+    "results_one": "{{count}} Pokémon",
+    "results_other": "{{count}} Pokémon",
+    "noResults": "Ningún Pokémon coincide con «{{query}}». Prueba con otro nombre o con un número de la Pokédex.",
+    "favouriteAdd": "Añadir {{name}} a favoritos",
+    "favouriteRemove": "Quitar {{name}} de favoritos",
+    "openDetails": "Abrir {{name}}"
+  },
+  "pokemon": {
+    "notFound": "No hay ningún Pokémon con el identificador «{{id}}» en los datos actuales.",
+    "backToList": "Volver a la Pokédex",
+    "forms": "Formas",
+    "appearances": "Aspecto",
+    "showShiny": "Colores variocolor",
+    "showFemale": "Hembra",
+    "notInChampions": "No disponible en Pokémon Champions",
+    "speciesInfo": "Especie",
+    "genderLabel": "Sexo",
+    "genderRatio": "{{female}} % hembras, {{male}} % machos",
+    "comingSoon": "Las entradas de la Pokédex, las debilidades, las evoluciones y la lista completa de movimientos de Champions llegarán en una fase posterior."
+  },
+  "teams": {
+    "title": "Equipos",
+    "intro": "Crea y guarda todos los equipos que quieras. Se guardan en este dispositivo; descarga una copia de seguridad en Opciones para llevarlos a otro.",
+    "create": "Nuevo equipo",
+    "defaultName": "Equipo {{n}}",
+    "empty": "Aún no tienes equipos. Crea uno para empezar.",
+    "members_one": "{{count}} Pokémon",
+    "members_other": "{{count}} Pokémon",
+    "nameLabel": "Nombre del equipo",
+    "renameTitle": "Cambiar el nombre del equipo",
+    "deleteConfirm": "¿Borrar «{{name}}»? Podrás recuperarlo desde Opciones → Copias automáticas.",
+    "editorLater": "El editor de equipos llegará en una fase posterior. De momento puedes crear, renombrar y borrar equipos."
+  },
+  "settings": {
+    "title": "Opciones",
+    "language": {
+      "title": "Idioma",
+      "description": "Los textos sin traducir se muestran en inglés."
+    },
+    "theme": {
+      "title": "Apariencia",
+      "system": "Como el dispositivo",
+      "light": "Clara",
+      "dark": "Oscura"
+    },
+    "backup": {
+      "title": "Copias de seguridad",
+      "description": "Descarga un archivo con tus equipos, favoritos y opciones, o restaura uno. Estos archivos también sirven para pasar equipos de un dispositivo a otro.",
+      "download": "Descargar copia",
+      "restore": "Restaurar desde un archivo",
+      "restoreMerge": "Añadir a lo que hay",
+      "restoreReplace": "Sustituirlo todo",
+      "restoreQuestion": "Esta copia tiene {{teams}} equipos y {{favourites}} favoritos. ¿Cómo quieres restaurarla?",
+      "restored": "Copia restaurada: {{added}} equipos añadidos y {{updated}} actualizados.",
+      "notABackup": "Este archivo no es una copia de seguridad de Champions Dex.",
+      "tooNew": "Esta copia se hizo con una versión más nueva de la aplicación. Actualiza la aplicación primero.",
+      "invalid": "Este archivo de copia está dañado, así que no se ha restaurado nada."
+    },
+    "snapshots": {
+      "title": "Copias automáticas",
+      "description": "Una vez al día, y antes de cada restauración, se guarda una copia de tus datos dentro del navegador. Restaurar una guarda antes el estado actual, así que también se puede deshacer.",
+      "empty": "Aún no hay copias automáticas. Se hace una cada día que tengas equipos o favoritos.",
+      "summary": "{{teams}} equipos, {{favourites}} favoritos",
+      "reason": {
+        "auto": "Diaria",
+        "before-restore": "Antes de restaurar",
+        "before-delete": "Antes de borrar un equipo",
+        "before-update": "Antes de actualizar los datos",
+        "manual": "Manual"
+      },
+      "restore": "Restaurar esta copia",
+      "restoreConfirm": "¿Sustituir tus equipos y favoritos actuales por esta copia?"
+    },
+    "storage": {
+      "title": "Almacenamiento",
+      "persisted": "El navegador se ha comprometido a conservar tus datos aunque falte espacio.",
+      "notPersisted": "El navegador podría borrar tus datos si el dispositivo se queda sin espacio.",
+      "unknown": "Este navegador no indica si conserva tus datos.",
+      "request": "Pedir al navegador que conserve mis datos",
+      "usage": "Se está usando {{used}} del espacio disponible.",
+      "addressNote": "Los datos guardados pertenecen a la dirección en la que se abre la aplicación. Ábrela siempre en http://localhost:5173, la dirección que abre start-app."
+    },
+    "data": {
+      "title": "Datos del juego",
+      "version": "Versión de los datos",
+      "gameVersion": "Versión de Champions",
+      "regulation": "Reglamento",
+      "sources": "Fuentes",
+      "healthy": "Todos los archivos de datos han superado las comprobaciones de coherencia.",
+      "problems_one": "Se ha encontrado {{count}} problema de coherencia en los archivos de datos:",
+      "problems_other": "Se han encontrado {{count}} problemas de coherencia en los archivos de datos:"
+    }
+  },
+  "translations": {
+    "title": "Traducciones",
+    "intro": "Progreso de cada idioma. Los textos sin traducir se muestran en inglés. Los textos en euskera están en la carpeta translations/eu; consulta docs/TRANSLATING.md.",
+    "interface": "Interfaz",
+    "percent": "{{percent}} % traducido",
+    "count": "{{translated}} de {{total}}",
+    "missingTitle": "Textos de la interfaz sin traducir",
+    "allDone": "Está todo traducido.",
+    "reference": "Inglés",
+    "dexEntries": "Entradas de la Pokédex",
+    "domains": {
+      "pokemon-names": "Nombres de Pokémon",
+      "form-names": "Nombres de formas",
+      "genus": "Categorías («Pokémon Semilla»)",
+      "move-names": "Nombres de movimientos",
+      "move-descriptions": "Descripciones de movimientos",
+      "ability-names": "Nombres de habilidades",
+      "ability-descriptions": "Descripciones de habilidades",
+      "item-names": "Nombres de objetos",
+      "item-descriptions": "Descripciones de objetos",
+      "type-names": "Nombres de tipos",
+      "alignment-names": "Nombres de variaciones de características",
+      "game-names": "Nombres de juegos"
+    }
+  },
+  "validation": {
+    "member": {
+      "unknownForm": "Este Pokémon ya no está en los datos del juego.",
+      "notInChampions": "Este Pokémon no está disponible en Pokémon Champions.",
+      "battleOnlyForm": "Esta forma solo aparece en combate. Elige la forma normal y dale el objeto adecuado."
+    },
+    "ability": {
+      "missing": "Aún no has elegido una habilidad.",
+      "unknown": "Esta habilidad ya no está en los datos del juego.",
+      "notAllowed": "Este Pokémon no puede tener esta habilidad."
+    },
+    "item": {
+      "unknown": "Este objeto ya no está en los datos del juego.",
+      "notInChampions": "Este objeto no está disponible en Pokémon Champions."
+    },
+    "alignment": {
+      "missing": "Aún no has elegido una variación de características.",
+      "unknown": "Esta variación de características ya no está en los datos del juego."
+    },
+    "sp": {
+      "invalid": "Los puntos de característica deben ser números enteros desde 0.",
+      "perStatExceeded": "Una característica puede tener como máximo {{limit}} puntos.",
+      "totalExceeded": "Son {{value}} puntos de característica; el máximo es {{limit}}."
+    },
+    "move": {
+      "tooMany": "Solo se permiten {{limit}} movimientos.",
+      "none": "Aún no has elegido movimientos.",
+      "emptySlots_one": "Hay {{count}} hueco de movimiento vacío.",
+      "emptySlots_other": "Hay {{count}} huecos de movimiento vacíos.",
+      "learnsetUnknown": "Aún no se conocen los movimientos de este Pokémon, así que no se pueden comprobar.",
+      "duplicate": "Este movimiento está elegido dos veces.",
+      "unknown": "Este movimiento ya no está en los datos del juego.",
+      "notInChampions": "Este movimiento no está disponible en Pokémon Champions.",
+      "notInLearnset": "Este Pokémon no puede aprender este movimiento en Pokémon Champions."
+    },
+    "team": {
+      "tooManyMembers": "Un equipo puede tener como máximo {{limit}} Pokémon.",
+      "duplicateSpecies": "Dos miembros del equipo son de la misma especie, algo que la mayoría de torneos no permite.",
+      "duplicateItem": "Dos miembros del equipo llevan el mismo objeto, algo que la mayoría de torneos no permite."
+    },
+    "mega": {
+      "stoneMismatch": "Esta megapiedra no corresponde a este Pokémon, así que no puede megaevolucionar.",
+      "onlyOnePerBattle": "{{count}} miembros del equipo pueden megaevolucionar, pero solo uno puede hacerlo en cada combate."
+    }
+  }
+}

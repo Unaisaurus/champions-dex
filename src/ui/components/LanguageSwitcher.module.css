@@ -1,0 +1,29 @@
+.switcher {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 0.18);
+}
+
+.option {
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: rgb(255 255 255 / 0.88);
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 650;
+  font-stretch: 87.5%;
+  letter-spacing: 0.04em;
+  min-width: 40px;
+  min-height: 32px;
+}
+
+.option[aria-pressed='true'] {
+  background: #ffffff;
+  color: var(--accent-strong);
+}
+
+.option:focus-visible {
+  outline-color: #ffffff;
+}

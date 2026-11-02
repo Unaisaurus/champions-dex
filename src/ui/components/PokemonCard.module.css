@@ -1,0 +1,80 @@
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+}
+
+.card:has(.link:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.link {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+  padding: var(--space-3) var(--space-3) var(--space-2);
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.number {
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: 75%;
+  letter-spacing: 0.03em;
+  color: var(--ink-muted);
+}
+
+.icon {
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  margin-block: var(--space-1);
+}
+
+.icon img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 650;
+  font-stretch: 87.5%;
+  line-height: 1.15;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.form {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.25;
+}
+
+.footer {
+  padding: 0 var(--space-3) var(--space-3);
+}
+
+.favourite {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
