@@ -52,7 +52,7 @@ export function useFilterOptions(source: PokedexSource): FilterOptions {
       ),
       categories: CATEGORY_FILTERS.filter(
         (category) =>
-          runPokedexQuery(source, { ...DEFAULT_QUERY, showForms: true, categories: [category] }).length > 0,
+          runPokedexQuery(source, { ...DEFAULT_QUERY, listMode: 'forms', categories: [category] }).length > 0,
       ),
     };
   }, [data, text, generated, source]);

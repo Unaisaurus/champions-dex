@@ -141,8 +141,13 @@
       "aToZ": "A to Z",
       "zToA": "Z to A"
     },
-    "showForms": "Show Megas and other forms separately",
-    "noMatches": "No Pokémon match these filters."
+    "noMatches": "No Pokémon match these filters.",
+    "list": {
+      "label": "Show",
+      "species": "Species",
+      "regional": "Species and regional forms",
+      "forms": "All forms"
+    }
   },
   "pokemon": {
     "notFound": "There's no Pokémon with the ID “{{id}}” in the current data.",

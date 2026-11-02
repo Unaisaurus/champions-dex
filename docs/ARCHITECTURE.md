@@ -67,10 +67,11 @@ Rules of thumb: `domain/` never imports React; pages use `domain/` and
 **The Pokédex list** (`src/domain/pokedex.ts`) turns a query (search, sort,
 filters) into the cards to show. The query lives in the page address
 (`#/?types=fire&sort=spe…`), so the back button, reloading and shared links
-keep it. By default each Pokédex entry gets one card, showing whichever of its
-forms matched (filtering Dragon shows Charizard as Mega Charizard X); the
-"show forms separately" switch gives every form its own card. Generation and
-favourites always look at the Pokédex entry.
+keep it. The list can show one card per species, one per Pokédex entry (the
+default: regional forms get their own card) or one per form (Megas too). When
+several forms share a card, it shows whichever one matched (filtering Dragon
+shows Charizard as Mega Charizard X). Generation and favourites always look at
+the Pokédex entry a form belongs to.
 
 ## Key rules
 

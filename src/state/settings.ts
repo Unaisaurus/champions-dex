@@ -23,7 +23,7 @@ export const useSettings = create<SettingsState>()(
   persist(
     (set) => ({
       theme: 'system',
-      generationMode: 'family',
+      generationMode: 'strict',
       setTheme: (theme) => set({ theme }),
       setGenerationMode: (generationMode) => set({ generationMode }),
       applyFromBackup: (settings) => {
@@ -39,8 +39,13 @@ export const useSettings = create<SettingsState>()(
     }),
     {
       name: 'champions-dex.settings',
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
+      // Version 2: the generation filter starts without evolution lines.
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as Partial<SettingsState>;
+        return version < 2 ? { ...state, generationMode: 'strict' } : state;
+      },
       partialize: ({ theme, generationMode }) => ({ theme, generationMode }),
     },
   ),

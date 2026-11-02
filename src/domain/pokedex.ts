@@ -2,14 +2,20 @@
  * The Pokédex list: what to show and in which order, from a query that can be
  * kept in the page address (so the back button and shared links keep it).
  *
- * Two ways of listing:
- * - one card per Pokédex entry (default). An entry matches if it or any of its
- *   forms (Megas, Rotom's appliances…) matches, and the card then shows the
- *   form that matched: filtering Dragon shows Charizard as Mega Charizard X.
- * - every form on its own card (`showForms`), each judged on its own data.
+ * Three ways of listing (`listMode`):
+ * - `species`: one card per Pokédex number. Regional forms fold into their
+ *   species' card, like Megas do.
+ * - `regional` (default): one card per Pokédex entry, so regional forms such
+ *   as Alolan Raichu get their own card.
+ * - `forms`: every form on its own card, each judged on its own data.
  *
- * Species-level filters (generation, favourites) always look at the entry:
- * Mega Charizard X is a Generation 1 Pokémon here, not a Generation 6 one.
+ * When forms share a card, the card matches if any of them matches, and shows
+ * the form that matched: filtering Dragon shows Charizard as Mega Charizard X,
+ * filtering Psychic in species mode shows Raichu as Alolan Raichu.
+ *
+ * Species-level filters (generation, favourites) look at the Pokédex entry a
+ * form belongs to: Mega Charizard X is a Generation 1 Pokémon here, not a
+ * Generation 6 one.
  */
 import type { Form, Id, PokedexColor, Species } from '@/data/contracts';
 import { POKEDEX_COLORS, STAT_IDS } from '@/data/contracts';
@@ -34,6 +40,10 @@ export const CATEGORY_FILTERS = [
 ] as const;
 export type CategoryFilter = (typeof CATEGORY_FILTERS)[number];
 
+/** How many cards each Pokémon gets: see the top of this file. */
+export const LIST_MODES = ['species', 'regional', 'forms'] as const;
+export type ListMode = (typeof LIST_MODES)[number];
+
 /** Choosing more types than this would never match anything (Pokémon have two at most). */
 export const MAX_TYPE_FILTERS = 2;
 export const GENERATIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
@@ -51,8 +61,8 @@ export interface PokedexQuery {
   /** Any of these categories. */
   categories: readonly CategoryFilter[];
   favouritesOnly: boolean;
-  /** List Megas and other forms on their own cards. */
-  showForms: boolean;
+  /** One card per species, per Pokédex entry, or per form. */
+  listMode: ListMode;
   /** Can learn this move in Champions. */
   move: Id | null;
   /** Has this Ability in Champions. */
@@ -68,7 +78,7 @@ export const DEFAULT_QUERY: PokedexQuery = {
   colors: [],
   categories: [],
   favouritesOnly: false,
-  showForms: false,
+  listMode: 'regional',
   move: null,
   ability: null,
 };
@@ -115,7 +125,8 @@ export function queryFromParams(params: URLSearchParams): PokedexQuery {
       }),
     ),
     favouritesOnly: params.get('fav') === '1',
-    showForms: params.get('forms') === '1',
+    // `forms=1` is how earlier versions of the app wrote "every form".
+    listMode: oneOf(LIST_MODES, params.get('list')) ?? (params.get('forms') === '1' ? 'forms' : 'regional'),
     move: id(params.get('move')),
     ability: id(params.get('ability')),
   };
@@ -132,13 +143,13 @@ export function paramsFromQuery(query: PokedexQuery): URLSearchParams {
   if (query.colors.length) params.set('colors', query.colors.join(','));
   if (query.categories.length) params.set('cat', query.categories.join(','));
   if (query.favouritesOnly) params.set('fav', '1');
-  if (query.showForms) params.set('forms', '1');
+  if (query.listMode !== DEFAULT_QUERY.listMode) params.set('list', query.listMode);
   if (query.move) params.set('move', query.move);
   if (query.ability) params.set('ability', query.ability);
   return params;
 }
 
-/** How many filters are on (search, sorting and the forms toggle don't count). */
+/** How many filters are on (search, sorting and the list mode don't count). */
 export function countActiveFilters(query: PokedexQuery): number {
   return (
     query.generations.length +
@@ -157,7 +168,7 @@ export function clearFilters(query: PokedexQuery): PokedexQuery {
     search: query.search,
     sort: query.sort,
     direction: query.direction,
-    showForms: query.showForms,
+    listMode: query.listMode,
   };
 }
 
@@ -268,22 +279,45 @@ export function runPokedexQuery(source: PokedexSource, query: PokedexQuery): Pok
     return true;
   };
 
-  const rows: Array<PokedexRow & { order: number }> = [];
+  // Cards: each one a group of candidate forms, in the order they're tried.
+  interface Candidate {
+    form: Form;
+    entry: Form;
+    species: Species;
+    order: number;
+  }
+  const groups: Candidate[][] = [];
+  const groupOfSpecies = new Map<Id, Candidate[]>();
   source.entries.forEach((entry, entryIndex) => {
     const species = source.species(entry.speciesId);
-    if (!species || !entryMatches(entry)) return;
-    const group = [entry, ...source.profilesOf(entry.id)];
-    if (query.showForms) {
-      group.forEach((form, formIndex) => {
-        if (formMatches(form, species))
-          rows.push({ form, entry, species, order: entryIndex * 1000 + formIndex });
-      });
+    if (!species) return;
+    const candidates = [entry, ...source.profilesOf(entry.id)].map((form, formIndex) => ({
+      form,
+      entry,
+      species,
+      order: entryIndex * 1000 + formIndex,
+    }));
+    if (query.listMode === 'forms') {
+      candidates.forEach((candidate) => groups.push([candidate]));
+    } else if (query.listMode === 'species') {
+      const group = groupOfSpecies.get(species.id);
+      if (group) group.push(...candidates);
+      else {
+        groupOfSpecies.set(species.id, candidates);
+        groups.push(candidates);
+      }
     } else {
-      const index = group.findIndex((form) => formMatches(form, species));
-      const form = group[index];
-      if (form) rows.push({ form, entry, species, order: entryIndex * 1000 + index });
+      groups.push(candidates);
     }
   });
+
+  const rows: Candidate[] = [];
+  for (const group of groups) {
+    const match = group.find(
+      (candidate) => entryMatches(candidate.entry) && formMatches(candidate.form, candidate.species),
+    );
+    if (match) rows.push(match);
+  }
 
   const direction = query.direction === 'asc' ? 1 : -1;
   if (query.sort === 'dex') {

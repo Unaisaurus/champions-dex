@@ -14,8 +14,8 @@ and a visual review.
 - [x] **Stage 2: Pokédex.** Sorting (Pokédex number, name, height, weight,
       every base stat, total), filters (generation with the evolution-line
       toggle, type, colour, category, favourites, moves, Abilities, Megas,
-      regional forms), Megas and other forms on their own cards, all kept in
-      the page address.
+      regional forms), one card per species, per Pokédex entry or per form,
+      all kept in the page address.
 - [x] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
       Pokédex entries, type matchups with Ability notes, evolution tree with
       pre-evolutions and their methods (members outside Champions open a basic
@@ -34,8 +34,9 @@ damage calculator.
 
 ## Decisions
 
-- **Generation filter:** strict mode uses the generation a form debuted in;
-  family mode also uses the earliest generation among its pre-evolutions
+- **Generation filter:** by default it uses the generation a form debuted in;
+  with "Include evolution lines" switched on it also uses the earliest
+  generation among its pre-evolutions
   (Rhyperior → Gen 1, Gallade → Gen 3, Kingambit → Gen 5, Alolan Raichu → Gen 1).
   Later babies don't count (Pichu doesn't put Raichu in Gen 2).
 - **Fallback language:** English, for both interface and game text.

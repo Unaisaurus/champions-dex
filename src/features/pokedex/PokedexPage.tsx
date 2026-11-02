@@ -3,6 +3,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useGameData } from '@/data/useGameData';
 import {
+  LIST_MODES,
   clearFilters,
   countActiveFilters,
   runPokedexQuery,
@@ -14,7 +15,7 @@ import { useGameText } from '@/i18n/useGameText';
 import { Button } from '@/ui/components/Button';
 import { Notice } from '@/ui/components/Notice';
 import { PokemonCard } from '@/ui/components/PokemonCard';
-import { Switch } from '@/ui/components/Switch';
+import { SegmentedControl } from '@/ui/components/SegmentedControl';
 import { formatHeight, formatWeight } from '@/ui/format';
 import { useFormLabels } from '@/ui/useFormLabels';
 import { ActiveFilters } from './ActiveFilters';
@@ -135,9 +136,12 @@ export function PokedexPage() {
         <p className={styles.count} aria-live="polite">
           {t('pokedex.results', { count: rows.length })}
         </p>
-        <Switch checked={query.showForms} onChange={(showForms) => update({ showForms })}>
-          {t('pokedex.showForms')}
-        </Switch>
+        <SegmentedControl
+          label={t('pokedex.list.label')}
+          value={query.listMode}
+          onChange={(listMode) => update({ listMode })}
+          options={LIST_MODES.map((mode) => ({ value: mode, label: t(`pokedex.list.${mode}`) }))}
+        />
       </div>
 
       {rows.length === 0 ? (

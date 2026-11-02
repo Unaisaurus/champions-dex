@@ -141,8 +141,13 @@
       "aToZ": "De la A a la Z",
       "zToA": "De la Z a la A"
     },
-    "showForms": "Mostrar las megaevoluciones y otras formas por separado",
-    "noMatches": "Ningún Pokémon coincide con estos filtros."
+    "noMatches": "Ningún Pokémon coincide con estos filtros.",
+    "list": {
+      "label": "Mostrar",
+      "species": "Especies",
+      "regional": "Especies y formas regionales",
+      "forms": "Todas las formas"
+    }
   },
   "pokemon": {
     "notFound": "No hay ningún Pokémon con el identificador «{{id}}» en los datos actuales.",

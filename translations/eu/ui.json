@@ -141,8 +141,13 @@
       "aToZ": "",
       "zToA": ""
     },
-    "showForms": "",
-    "noMatches": ""
+    "noMatches": "",
+    "list": {
+      "label": "",
+      "species": "",
+      "regional": "",
+      "forms": ""
+    }
   },
   "pokemon": {
     "notFound": "",

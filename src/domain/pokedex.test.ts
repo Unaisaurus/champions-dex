@@ -189,12 +189,24 @@ describe('Pokédex list', () => {
   });
 
   it('lists every matching form when forms are shown separately', () => {
-    expect(run({ types: ['fire'], showForms: true })).toEqual([
+    expect(run({ types: ['fire'], listMode: 'forms' })).toEqual([
       'charizard',
       'charizard-mega-x',
       'charizard-mega-y',
     ]);
-    expect(run({ showForms: true })).toHaveLength(7);
+    expect(run({ listMode: 'forms' })).toHaveLength(7);
+  });
+
+  it('folds regional forms into their species when listing one card per species', () => {
+    expect(run({ listMode: 'species' })).toEqual(['charizard', 'raichu', 'rotom']);
+    // The card shows whichever form matched.
+    expect(run({ listMode: 'species', types: ['psychic'] })).toEqual(['raichu-alola']);
+    expect(run({ listMode: 'species', generations: [7] }, { generationMode: 'strict' })).toEqual([
+      'raichu-alola',
+    ]);
+    expect(
+      run({ listMode: 'species', favouritesOnly: true }, { favourites: new Set(['raichu-alola']) }),
+    ).toEqual(['raichu-alola']);
   });
 
   it('needs all chosen types', () => {
@@ -207,21 +219,21 @@ describe('Pokédex list', () => {
     expect(run({ generations: [1] })).toEqual(['charizard', 'raichu', 'raichu-alola']);
     expect(run({ generations: [1] }, { generationMode: 'strict' })).toEqual(['charizard', 'raichu']);
     // Megas count as the entry's generation, not Gen 6.
-    expect(run({ generations: [6], showForms: true })).toEqual([]);
+    expect(run({ generations: [6], listMode: 'forms' })).toEqual([]);
   });
 
   it('filters by colour, category, favourites and moves', () => {
     expect(run({ colors: ['yellow'] })).toEqual(['raichu', 'raichu-alola']);
     expect(run({ categories: ['starter'] })).toEqual(['charizard']);
     expect(run({ categories: ['regional'] })).toEqual(['raichu-alola']);
-    expect(run({ categories: ['mega'], showForms: true })).toEqual([
+    expect(run({ categories: ['mega'], listMode: 'forms' })).toEqual([
       'charizard',
       'charizard-mega-x',
       'charizard-mega-y',
     ]);
     expect(run({ favouritesOnly: true }, { favourites: new Set(['rotom']) })).toEqual(['rotom']);
     expect(run({ move: 'hydro-pump' })).toEqual(['rotom-wash']);
-    expect(run({ move: 'dragon-claw', showForms: true })).toEqual([
+    expect(run({ move: 'dragon-claw', listMode: 'forms' })).toEqual([
       'charizard',
       'charizard-mega-x',
       'charizard-mega-y',
@@ -234,7 +246,7 @@ describe('Pokédex list', () => {
 
   it('sorts by stats, highest first, with unknown values last', () => {
     expect(run({ sort: 'spe', direction: 'desc' })).toEqual(['raichu', 'raichu-alola', 'charizard', 'rotom']);
-    expect(run({ sort: 'total', direction: 'desc', showForms: true }).slice(0, 2)).toEqual([
+    expect(run({ sort: 'total', direction: 'desc', listMode: 'forms' }).slice(0, 2)).toEqual([
       'charizard-mega-x',
       'charizard-mega-y',
     ]);
@@ -277,7 +289,7 @@ describe('Pokédex address', () => {
       colors: ['red'],
       categories: ['starter', 'mega'],
       favouritesOnly: true,
-      showForms: true,
+      listMode: 'forms',
       move: 'thunderbolt',
       ability: 'levitate',
     };
@@ -285,6 +297,12 @@ describe('Pokédex address', () => {
     // Speed sorts highest-first by default, so the direction isn't written.
     expect(params.has('dir')).toBe(false);
     expect(queryFromParams(new URLSearchParams(params.toString()))).toEqual(query);
+  });
+
+  it('still reads addresses from before the three list modes', () => {
+    expect(queryFromParams(new URLSearchParams('forms=1')).listMode).toBe('forms');
+    expect(queryFromParams(new URLSearchParams('list=species')).listMode).toBe('species');
+    expect(queryFromParams(new URLSearchParams('')).listMode).toBe('regional');
   });
 
   it('leaves defaults out of the address', () => {
