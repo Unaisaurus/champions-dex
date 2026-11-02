@@ -24,6 +24,10 @@
   font-size: 15px;
 }
 
+.input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
 .clear {
   position: absolute;
   top: 50%;
@@ -81,6 +85,7 @@
 }
 
 .optionLabel {
+  flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

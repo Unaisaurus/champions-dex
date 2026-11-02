@@ -127,6 +127,9 @@
     --accent-strong: #c93a2f;
     --info-bg: #15263c;
     --info-ink: #a9c8f0;
+    --success: #6fcf8a;
+    --warning: #f0b44c;
+    --danger: #ff7a70;
     --dex-black: #0d1015;
     --dex-blue: #162b48;
     --dex-brown: #352416;
@@ -153,6 +156,9 @@
   --accent-strong: #c93a2f;
   --info-bg: #15263c;
   --info-ink: #a9c8f0;
+  --success: #6fcf8a;
+  --warning: #f0b44c;
+  --danger: #ff7a70;
   --dex-black: #0d1015;
   --dex-blue: #162b48;
   --dex-brown: #352416;

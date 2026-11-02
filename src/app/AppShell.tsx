@@ -1,7 +1,9 @@
 import { LayoutGrid, Settings, Users } from 'lucide-react';
 import { NavLink, Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { AddToTeamDialog } from '@/features/team-builder/AddToTeamDialog';
 import { LanguageSwitcher } from '@/ui/components/LanguageSwitcher';
+import { Toasts } from '@/ui/components/Toasts';
 import styles from './AppShell.module.css';
 
 const NAV_ITEMS = [
@@ -46,6 +48,8 @@ export function AppShell() {
       <nav className={styles.tabBar} aria-label={t('nav.label')}>
         {navLinks(styles.tabLink ?? '')}
       </nav>
+      <AddToTeamDialog />
+      <Toasts />
     </div>
   );
 }

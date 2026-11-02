@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { Form, Id, Species } from '@/data/contracts';
 import { useGameText } from '@/i18n/useGameText';
 import { formatDexNumber } from '@/ui/images';
+import { AddToTeamButton } from './AddToTeamButton';
 import { ArtImage } from './ArtImage';
 import { FavouriteButton } from './FavouriteButton';
 import { TypeList } from './TypeBadge';
@@ -48,7 +49,8 @@ export function PokemonCard({ form, species, subtitle, favouriteId, extra }: Pok
         <TypeList types={form.types} size="sm" />
         {extra && <span className={styles.extra}>{extra}</span>}
       </div>
-      <div className={styles.favourite}>
+      <div className={styles.buttons}>
+        <AddToTeamButton form={form} name={fullName} />
         <FavouriteButton formId={favouriteId ?? form.id} name={fullName} />
       </div>
     </article>

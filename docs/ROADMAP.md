@@ -21,8 +21,14 @@ and a visual review.
       pre-evolutions and their methods (members outside Champions open a basic
       page), Champions learnset with historical learn methods, "new in
       Champions" and "changed in Champions" marks.
-- [ ] **Stage 4: Team builder.** Member editor, items with icons and tooltips,
-      Stat Alignment, Stat Point sliders with live stats, legal moves, warnings.
+- [x] **Stage 4: Team builder.** Team editor with six slots; per member the
+      Pokémon or form, nickname, gender, shiny, Ability (with what it does),
+      held item with icon and description (Mega Stones only for the Pokémon
+      that can use them, with the Mega's types, Ability and stats), Stat
+      Alignment, Stat Point sliders with live level-50 stats, and four moves
+      from the Champions learnset; warnings next to each field; automatic
+      saving; undo after removing a member or losing moves; "Add to team" from
+      Pokédex cards and Pokémon pages.
 - [ ] **Stage 5: Analysis and sharing.** Type coverage and weaknesses, team
       overview, JSON and Showdown import/export.
 - [ ] **Stage 6: Translation tools and polish.** In-app Basque editor, install as

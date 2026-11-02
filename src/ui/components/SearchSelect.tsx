@@ -10,6 +10,8 @@ export interface SearchSelectOption {
   searchText?: string;
   /** Shown after the label in the list, e.g. a type badge. */
   detail?: ReactNode;
+  /** Shown before the label in the list, e.g. an item icon. */
+  icon?: ReactNode;
 }
 
 interface SearchSelectProps {
@@ -24,6 +26,12 @@ interface SearchSelectProps {
   clearLabel: string;
   /** How many matches to list at most (the rest appear as you type more). */
   maxResults?: number;
+  /** Keep the label for screen readers only (when the context already says what this is). */
+  labelHidden?: boolean;
+  /** ID of an element that describes the field (e.g. its warnings). */
+  describedBy?: string;
+  /** Marks the current value as a problem. */
+  invalid?: boolean;
 }
 
 /**
@@ -39,6 +47,9 @@ export function SearchSelect({
   noMatches,
   clearLabel,
   maxResults = 60,
+  labelHidden = false,
+  describedBy,
+  invalid = false,
 }: SearchSelectProps) {
   const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -48,18 +59,25 @@ export function SearchSelect({
   const [active, setActive] = useState(0);
 
   const selected = options.find((option) => option.id === value) ?? null;
+  // Built only while the list is open: a page can have many of these fields.
   const index = useMemo(
     () =>
-      options.map((option) => ({ option, text: buildSearchText([option.label, option.searchText ?? '']) })),
-    [options],
+      open
+        ? options.map((option) => ({
+            option,
+            text: buildSearchText([option.label, option.searchText ?? '']),
+          }))
+        : [],
+    [options, open],
   );
   const matches = useMemo(() => {
+    if (!open) return [];
     const typed = query.trim();
     const all = !typed || typed === selected?.label;
     return (all ? index : index.filter((entry) => matchesSearch(entry.text, typed)))
       .slice(0, maxResults)
       .map((entry) => entry.option);
-  }, [index, query, selected, maxResults]);
+  }, [index, query, selected, maxResults, open]);
 
   useEffect(() => {
     if (!open) return;
@@ -82,7 +100,7 @@ export function SearchSelect({
 
   return (
     <div className={styles.field}>
-      <label htmlFor={`${id}-input`} className={styles.label}>
+      <label htmlFor={`${id}-input`} className={labelHidden ? 'visually-hidden' : styles.label}>
         {label}
       </label>
       <div className={styles.control}>
@@ -97,6 +115,8 @@ export function SearchSelect({
           aria-expanded={open}
           aria-controls={listId}
           aria-autocomplete="list"
+          aria-describedby={describedBy}
+          aria-invalid={invalid || undefined}
           aria-activedescendant={open && matches[active] ? optionId(active) : undefined}
           placeholder={placeholder}
           value={open ? query : (selected?.label ?? '')}
@@ -169,6 +189,7 @@ export function SearchSelect({
                 onMouseEnter={() => setActive(i)}
                 onClick={() => choose(option)}
               >
+                {option.icon}
                 <span className={styles.optionLabel}>{option.label}</span>
                 {option.detail}
               </li>

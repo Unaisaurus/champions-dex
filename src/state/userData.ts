@@ -9,13 +9,14 @@ import { useCallback, useEffect, useRef } from 'react';
 import { create } from 'zustand';
 import type { Id } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
-import { createTeam, type Team } from '@/domain/team';
+import { createTeam, type Team, type TeamMember } from '@/domain/team';
 import { useLanguage } from '@/i18n/useLanguage';
 import { applyAliasesToFormId, applyAliasesToTeam } from '@/storage/aliases';
-import type { BackupMeta } from '@/storage/backup';
+import { restoreBackup, type BackupFile, type BackupMeta, type RestoreMode } from '@/storage/backup';
 import { db, type SnapshotReason } from '@/storage/db';
 import { autoSnapshotIfDue, takeSnapshot } from '@/storage/snapshots';
 import { settingsForBackup } from './settings';
+import { addMemberToTeam, modifySavedTeam, teamDrafts, type AddResult } from './teamEditor';
 
 /** Information stored alongside every backup and snapshot. */
 export function useBackupMeta(): () => BackupMeta {
@@ -33,7 +34,30 @@ export function useBackupMeta(): () => BackupMeta {
 
 export function useSnapshot(): (reason: SnapshotReason) => Promise<void> {
   const meta = useBackupMeta();
-  return useCallback((reason) => takeSnapshot(db, reason, meta()), [meta]);
+  return useCallback(
+    async (reason) => {
+      // Include the change you made a moment ago.
+      await teamDrafts.flush();
+      await takeSnapshot(db, reason, meta());
+    },
+    [meta],
+  );
+}
+
+/** Restores a backup or snapshot, and drops in-memory copies of teams so the restored ones show. */
+export function useRestoreBackup(): (
+  backup: BackupFile,
+  mode: RestoreMode,
+) => ReturnType<typeof restoreBackup> {
+  const snapshot = useSnapshot();
+  return useCallback(
+    async (backup, mode) => {
+      const summary = await restoreBackup(db, backup, mode, snapshot);
+      teamDrafts.discardAll();
+      return summary;
+    },
+    [snapshot],
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -77,18 +101,25 @@ export function useTeams(): Team[] | undefined {
 
 export function useTeamActions() {
   const snapshot = useSnapshot();
+  const { rules } = useGameData();
   return {
-    async create(name: string): Promise<Team> {
+    /** Creates a team, optionally with its first member. */
+    async create(name: string, firstMember?: TeamMember): Promise<Team> {
       const team = createTeam(name);
+      if (firstMember) team.members.push(firstMember);
       await db.teams.add(team);
       return team;
     },
     async rename(id: string, name: string): Promise<void> {
-      await db.teams.update(id, { name, updatedAt: new Date().toISOString() });
+      await modifySavedTeam(id, (team) => (team.name === name ? team : { ...team, name }));
+    },
+    addMember(teamId: string, member: TeamMember): Promise<AddResult> {
+      return addMemberToTeam(teamId, member, rules);
     },
     /** Deletes a team after saving a snapshot, so it can be recovered. */
     async remove(id: string): Promise<void> {
       await snapshot('before-delete');
+      teamDrafts.discard(id);
       await db.teams.delete(id);
     },
   };

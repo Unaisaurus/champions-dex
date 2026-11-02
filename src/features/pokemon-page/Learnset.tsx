@@ -1,7 +1,7 @@
 import { ArrowDownWideNarrow, ArrowUpNarrowWide, ChevronDown, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { Form, Id, LearnMethod, Move, MoveCategory, TextDomain } from '@/data/contracts';
+import type { Form, Id, LearnMethod, Move, MoveCategory } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import {
   DEFAULT_LEARNSET_QUERY,
@@ -13,13 +13,12 @@ import {
   type LearnsetViewSource,
   type MoveSortKey,
 } from '@/domain/learnsetView';
-import { buildSearchText } from '@/domain/search';
-import { HAND_MADE_TEXT } from '@/i18n/gameText';
 import { localeOf } from '@/i18n/languages';
-import { useGameText, useGeneratedText } from '@/i18n/useGameText';
+import { useGameText } from '@/i18n/useGameText';
 import { Switch } from '@/ui/components/Switch';
 import { ToggleChip } from '@/ui/components/ToggleChip';
 import { TypeBadge } from '@/ui/components/TypeBadge';
+import { useTextSearchIndex } from '@/ui/useTextSearchIndex';
 import styles from './Learnset.module.css';
 
 const CATEGORIES: readonly MoveCategory[] = ['physical', 'special', 'status'];
@@ -33,22 +32,6 @@ const METHOD_ORDER: readonly LearnMethod[] = [
   'form-change',
   'other',
 ];
-
-/** Move names in every language, so the search finds "Rayo" and "Thunderbolt" alike. */
-function useMoveSearchIndex(): ReadonlyMap<Id, string> {
-  const data = useGameData();
-  const { generated } = useGeneratedText();
-  return useMemo(() => {
-    const domain: TextDomain = 'move-names';
-    const files = [...Object.values(generated), ...Object.values(HAND_MADE_TEXT)];
-    return new Map(
-      data.moves.map((move) => [
-        move.id,
-        buildSearchText(files.map((f) => f?.[domain]?.[move.id] ?? '').concat(move.id)),
-      ]),
-    );
-  }, [data, generated]);
-}
 
 function MainSeriesChanges({ move }: { move: Move }) {
   const { t } = useTranslation();
@@ -77,7 +60,7 @@ export function Learnset({ form }: { form: Form }) {
   const { t } = useTranslation();
   const data = useGameData();
   const text = useGameText();
-  const searchIndex = useMoveSearchIndex();
+  const searchIndex = useTextSearchIndex('move-names', data.moves);
   const [query, setQuery] = useState<LearnsetQuery>(DEFAULT_LEARNSET_QUERY);
   const [open, setOpen] = useState<ReadonlySet<Id>>(new Set());
 

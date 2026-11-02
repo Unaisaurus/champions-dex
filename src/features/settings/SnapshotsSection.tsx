@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { localeOf } from '@/i18n/languages';
 import { useLanguage } from '@/i18n/useLanguage';
-import { useSnapshot } from '@/state/userData';
-import { restoreBackup } from '@/storage/backup';
+import { useRestoreBackup } from '@/state/userData';
 import { db, type SnapshotRecord } from '@/storage/db';
 import { listSnapshots } from '@/storage/snapshots';
 import { Button } from '@/ui/components/Button';
@@ -14,7 +13,7 @@ import styles from './SettingsPage.module.css';
 export function SnapshotsSection() {
   const { t } = useTranslation();
   const [language] = useLanguage();
-  const snapshot = useSnapshot();
+  const restoreBackup = useRestoreBackup();
   const snapshots = useLiveQuery(() => listSnapshots(db), [], []);
   const [selected, setSelected] = useState<SnapshotRecord | null>(null);
   const dateFormat = new Intl.DateTimeFormat(localeOf(language), { dateStyle: 'medium', timeStyle: 'short' });
@@ -52,7 +51,7 @@ export function SnapshotsSection() {
         message={t('settings.snapshots.restoreConfirm')}
         confirmLabel={t('settings.snapshots.restore')}
         danger
-        onConfirm={() => selected && void restoreBackup(db, selected.backup, 'replace', snapshot)}
+        onConfirm={() => selected && void restoreBackup(selected.backup, 'replace')}
         onClose={() => setSelected(null)}
       />
     </section>

@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { isLanguageCode } from '@/i18n/languages';
 import { useLanguage } from '@/i18n/useLanguage';
 import { useSettings } from '@/state/settings';
-import { useBackupMeta, useSnapshot } from '@/state/userData';
+import { teamDrafts } from '@/state/teamEditor';
+import { useBackupMeta, useRestoreBackup } from '@/state/userData';
 import {
   BackupError,
   backupFileName,
   createBackup,
   readBackup,
-  restoreBackup,
   type BackupFile,
   type RestoreMode,
 } from '@/storage/backup';
@@ -34,7 +34,7 @@ function downloadJson(fileName: string, value: unknown): void {
 export function BackupSection() {
   const { t } = useTranslation();
   const meta = useBackupMeta();
-  const snapshot = useSnapshot();
+  const restoreBackup = useRestoreBackup();
   const [, setLanguage] = useLanguage();
   const applySettings = useSettings((state) => state.applyFromBackup);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -42,6 +42,7 @@ export function BackupSection() {
   const [status, setStatus] = useState<{ ok: boolean; message: string } | null>(null);
 
   const download = async () => {
+    await teamDrafts.flush();
     downloadJson(backupFileName(), await createBackup(db, meta()));
   };
 
@@ -56,7 +57,7 @@ export function BackupSection() {
   };
 
   const restore = async (backup: BackupFile, mode: RestoreMode) => {
-    const summary = await restoreBackup(db, backup, mode, snapshot);
+    const summary = await restoreBackup(backup, mode);
     if (mode === 'replace') {
       applySettings(backup.settings);
       if (isLanguageCode(backup.settings.language)) setLanguage(backup.settings.language);

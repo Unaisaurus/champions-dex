@@ -3,6 +3,26 @@
   gap: var(--space-4);
 }
 
+/* Pickers: a search field on top and a long list that scrolls. */
+.wide {
+  width: min(760px, calc(100vw - 32px));
+  height: min(760px, calc(100dvh - 48px));
+  max-height: none;
+  padding: var(--space-5) var(--space-5) 0;
+}
+
+.wide[open] {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+@media (max-width: 720px) {
+  .wide {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 24px);
+    padding: var(--space-4) var(--space-4) 0;
+  }
+}
+
 .title {
   font-size: 20px;
 }

@@ -7,21 +7,34 @@ import type { TeamMember } from '@/domain/team';
 import { gameplayFormOf, type ValidationContext, type ValidationIssue } from '@/domain/validation';
 import type { MechanicModule } from './types';
 
-function megaStoneOf(member: TeamMember, ctx: ValidationContext): Item | null {
+function megaStoneOf(member: TeamMember, ctx: MegaContext): Item | null {
   if (member.itemId === null) return null;
   const item = ctx.items.get(member.itemId);
   return item && item.megaEvolutions.length > 0 ? item : null;
 }
 
+type MegaContext = Pick<ValidationContext, 'forms' | 'items'>;
+
+/**
+ * The Mega form a form turns into when holding an item, or null if it can't
+ * Mega Evolve with it. The form's own match comes first (female Meowstic gets
+ * the female Mega), then the form it plays as, then its Pokédex entry.
+ */
+export function megaFormWith(formId: Id, itemId: Id | null, ctx: MegaContext): Form | null {
+  const stone = itemId !== null ? ctx.items.get(itemId) : undefined;
+  const form = ctx.forms.get(formId);
+  if (!stone || stone.megaEvolutions.length === 0 || !form) return null;
+  const candidates = [form.id, gameplayFormOf(form, ctx.forms).id, form.parentEntry];
+  for (const candidate of candidates) {
+    const evolution = stone.megaEvolutions.find((entry) => entry.from === candidate);
+    if (evolution) return ctx.forms.get(evolution.to) ?? null;
+  }
+  return null;
+}
+
 /** The Mega form this member turns into in battle, or null if it can't Mega Evolve with its item. */
-export function megaFormFor(member: TeamMember, ctx: ValidationContext): Form | null {
-  const stone = megaStoneOf(member, ctx);
-  const form = ctx.forms.get(member.formId);
-  if (!stone || !form) return null;
-  const candidates = new Set<Id>([form.id, gameplayFormOf(form, ctx.forms).id]);
-  if (form.parentEntry) candidates.add(form.parentEntry);
-  const evolution = stone.megaEvolutions.find((entry) => candidates.has(entry.from));
-  return evolution ? (ctx.forms.get(evolution.to) ?? null) : null;
+export function megaFormFor(member: TeamMember, ctx: MegaContext): Form | null {
+  return megaFormWith(member.formId, member.itemId, ctx);
 }
 
 export const megaMechanic: MechanicModule = {

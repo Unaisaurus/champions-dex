@@ -62,7 +62,7 @@ data version stays the same.
 | `src/ui/`        | Shared components and design tokens                                               |
 
 Rules of thumb: `domain/` never imports React; pages use `domain/` and
-`data/`; nothing outside `storage/` talks to the database directly.
+`data/`; only `storage/` and `state/` talk to the database.
 
 **The Pokédex list** (`src/domain/pokedex.ts`) turns a query (search, sort,
 filters) into the cards to show. The query lives in the page address
@@ -72,6 +72,26 @@ default: regional forms get their own card) or one per form (Megas too). When
 several forms share a card, it shows whichever one matched (filtering Dragon
 shows Charizard as Mega Charizard X). Generation and favourites always look at
 the Pokédex entry a form belongs to.
+
+**The team builder** (`src/features/team-builder/`) edits teams that store
+only IDs and numbers (`src/domain/team.ts`), never names or copied game values,
+so a data update can't silently change a team.
+
+- `src/domain/teamEditing.ts`: adding a Pokémon from any form (a Mega Evolution
+  becomes its regular form holding the Mega Stone; female Pyroar becomes Pyroar
+  set to female), changing a member's Pokémon while keeping what still fits,
+  gender rules, member order.
+- `src/domain/validation.ts` and `src/mechanics/`: the checks. Errors and
+  warnings appear next to the field they're about; info notes ("2 move slots
+  are empty") aren't repeated where the empty field already shows it.
+- Saving: `src/state/teamDrafts.ts` keeps the team being edited in memory, so
+  sliders and typing never lag, and writes it 0.3 s after the last change (and
+  straight away when you leave the editor or hide the page). Every saved
+  version carries `updatedAt` and the newest copy wins, so an edit made in
+  another tab still shows up. Changes made from outside the editor ("Add to
+  team", "Undo") go through `modifySavedTeam` in `src/state/teamEditor.ts`.
+- "Add to team" buttons (Pokédex cards, Pokémon pages) open one shared dialog:
+  `src/state/addToTeam.ts` and `AddToTeamDialog.tsx`.
 
 ## Key rules
 

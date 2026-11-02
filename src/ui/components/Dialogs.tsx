@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useId, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from './Button';
 import styles from './Dialogs.module.css';
@@ -8,20 +8,29 @@ interface BaseDialogProps {
   title: string;
   onClose: () => void;
   children: ReactNode;
+  /** `wide`: for pickers with a long list. */
+  size?: 'normal' | 'wide';
 }
 
 /** A native modal dialog: keyboard and screen-reader friendly, Esc closes it. */
-function Modal({ open, title, onClose, children }: BaseDialogProps) {
+export function Modal({ open, title, onClose, children, size = 'normal' }: BaseDialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
-  useEffect(() => {
+  // A layout effect, so the dialog is already open when the content's own
+  // effects run (for example to focus a search field).
+  useLayoutEffect(() => {
     const dialog = ref.current;
     if (!dialog) return;
     if (open && !dialog.open) dialog.showModal();
     if (!open && dialog.open) dialog.close();
   }, [open]);
   return (
-    <dialog ref={ref} aria-labelledby={titleId} onClose={onClose} className={styles.dialog}>
+    <dialog
+      ref={ref}
+      aria-labelledby={titleId}
+      onClose={onClose}
+      className={`${styles.dialog} ${size === 'wide' ? styles.wide : ''}`}
+    >
       <h2 id={titleId} className={styles.title}>
         {title}
       </h2>

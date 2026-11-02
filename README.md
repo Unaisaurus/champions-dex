@@ -4,10 +4,22 @@ A personal Pokédex and team builder for **Pokémon Champions**, in English,
 Spanish (Spain) and Basque. It runs in your browser, on your phone or your
 computer: no account, no server of your own, nothing to pay.
 
-> **Status: Stage 3 (Pokémon pages) done.** The full Champions roster, with
-> search, sorting, filters and complete Pokémon pages (Pokédex entries, type
-> matchups, evolutions, moves). The team builder comes next. See
-> [docs/ROADMAP.md](docs/ROADMAP.md).
+> **Status: Stage 4 (team builder) done.** The full Champions roster, with
+> search, sorting, filters and complete Pokémon pages, plus a team builder with
+> live stats, legal moves and warnings. Team analysis and import/export come
+> next. See [docs/ROADMAP.md](docs/ROADMAP.md).
+
+## Building teams
+
+Open **Teams → New team**, then **Add Pokémon**. Pick a slot to edit that
+Pokémon: its form, nickname, Ability, held item, Stat Alignment, Stat Points
+and moves. Only moves it can learn in Champions are offered, and anything a
+tournament wouldn't allow (two of the same item, a Mega Stone for another
+Pokémon…) is pointed out next to the field. Every change is saved as you go.
+
+Browsing the Pokédex, the **⊕** button on a card (or **Add to team** on a
+Pokémon's page) adds it to one of your teams. Adding a Mega Evolution adds the
+regular Pokémon already holding its Mega Stone.
 
 ## Using it on your phone (or any device)
 

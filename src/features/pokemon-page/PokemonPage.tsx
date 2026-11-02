@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import type { FamilyNode, Form, Id, Species } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { useGameText } from '@/i18n/useGameText';
+import { AddToTeamButton } from '@/ui/components/AddToTeamButton';
 import { ArtImage } from '@/ui/components/ArtImage';
 import { FavouriteButton } from '@/ui/components/FavouriteButton';
 import { Notice } from '@/ui/components/Notice';
@@ -146,6 +147,7 @@ export function PokemonPage() {
               </label>
             )}
             {inChampions && <FavouriteButton formId={entry.id} name={fullName} />}
+            <AddToTeamButton form={shown} name={fullName} labelled />
           </div>
         </div>
       </section>

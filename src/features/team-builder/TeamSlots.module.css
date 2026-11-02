@@ -25,3 +25,17 @@
   height: 40px;
   object-fit: contain;
 }
+
+.small {
+  gap: var(--space-1);
+}
+
+.small .slot {
+  width: 34px;
+  height: 34px;
+}
+
+.small .slot img {
+  width: 32px;
+  height: 32px;
+}

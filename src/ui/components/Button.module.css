@@ -35,9 +35,14 @@
   border-color: var(--ink-muted);
 }
 
+/* The fixed red keeps white text readable in dark mode too (--danger lightens there). */
 .danger {
-  background: var(--danger);
+  background: #c0352b;
   color: #ffffff;
+}
+
+.danger:not(:disabled):hover {
+  background: #a62c23;
 }
 
 .quiet {

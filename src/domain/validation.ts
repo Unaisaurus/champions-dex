@@ -11,6 +11,7 @@
  * into a translated sentence, plus `params` to fill in.
  */
 import type { Ability, Alignment, Form, Id, Item, LearnsetEntry, Move, Rules } from '@/data/contracts';
+import { learnsetFormId } from './learnsetView';
 import { checkStatPoints } from './stats';
 import type { Team, TeamMember } from './team';
 
@@ -51,9 +52,15 @@ export function gameplayFormOf(form: Form, forms: ReadonlyMap<Id, Form>): Form {
   return form;
 }
 
+/** The learnset that applies to a form: the same one the team builder offers moves from. */
 export function learnsetOf(form: Form, ctx: ValidationContext): readonly LearnsetEntry[] | undefined {
-  const gameplay = gameplayFormOf(form, ctx.forms);
-  return ctx.learnsets.get(gameplay.id);
+  const id = learnsetFormId(
+    form,
+    (candidate) => ctx.learnsets.has(candidate),
+    // Team members are never Megas (that's checked above), so no Mega lookup is needed.
+    () => undefined,
+  );
+  return id ? ctx.learnsets.get(id) : undefined;
 }
 
 export function validateMember(

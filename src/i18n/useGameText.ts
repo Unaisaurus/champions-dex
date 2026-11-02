@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import {
   DexEntriesFileSchema,
@@ -19,6 +19,7 @@ import {
   mergeTextFiles,
   type DexEntryView,
   type DomainFiles,
+  type TextFilesByLanguage,
   type TextResult,
 } from './gameText';
 import { FALLBACK_LANGUAGE, type LanguageCode } from './languages';
@@ -73,6 +74,67 @@ export interface GameText {
   dexEntries(key: string): DexEntryView[];
 }
 
+/**
+ * Merged text files and GameText objects are shared by every component (a
+ * Pokédex page has hundreds of cards), and only rebuilt when new text arrives
+ * or the language changes.
+ */
+const mergedCache = new WeakMap<object, TextFilesByLanguage>();
+const textCache = new WeakMap<TextFilesByLanguage, WeakMap<object, Map<LanguageCode, GameText>>>();
+
+function mergedFiles(generated: Partial<Record<LanguageCode, DomainFiles>>): TextFilesByLanguage {
+  let files = mergedCache.get(generated);
+  if (!files) {
+    files = mergeTextFiles(generated, HAND_MADE_TEXT);
+    mergedCache.set(generated, files);
+  }
+  return files;
+}
+
+function createGameText(
+  files: TextFilesByLanguage,
+  dexEntries: Partial<Record<LanguageCode, DexEntriesFile>>,
+  language: LanguageCode,
+): GameText {
+  const get = (domain: TextDomain, key: string) => lookupText(files, language, domain, key);
+  const name = (domain: TextDomain, key: string) => get(domain, key)?.text ?? key;
+  return {
+    language,
+    get,
+    name,
+    formTitle: (form: Form) => {
+      const title = name('pokemon-names', form.speciesId);
+      const label = get('form-names', form.id)?.text ?? null;
+      return { title, subtitle: label === title ? null : label };
+    },
+    dexEntries: (key: string) => dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES),
+  };
+}
+
+function sharedGameText(
+  generated: Partial<Record<LanguageCode, DomainFiles>>,
+  dexEntries: Partial<Record<LanguageCode, DexEntriesFile>>,
+  language: LanguageCode,
+): GameText {
+  const files = mergedFiles(generated);
+  let byEntries = textCache.get(files);
+  if (!byEntries) {
+    byEntries = new WeakMap();
+    textCache.set(files, byEntries);
+  }
+  let byLanguage = byEntries.get(dexEntries);
+  if (!byLanguage) {
+    byLanguage = new Map();
+    byEntries.set(dexEntries, byLanguage);
+  }
+  let text = byLanguage.get(language);
+  if (!text) {
+    text = createGameText(files, dexEntries, language);
+    byLanguage.set(language, text);
+  }
+  return text;
+}
+
 /** Game text in the current language, with English fallback. */
 export function useGameText(): GameText {
   const [language] = useLanguage();
@@ -86,23 +148,7 @@ export function useGameText(): GameText {
     void ensure(language, manifest);
   }, [ensure, language, manifest]);
 
-  const files = useMemo(() => mergeTextFiles(generated, HAND_MADE_TEXT), [generated]);
-
-  return useMemo(() => {
-    const get = (domain: TextDomain, key: string) => lookupText(files, language, domain, key);
-    const name = (domain: TextDomain, key: string) => get(domain, key)?.text ?? key;
-    return {
-      language,
-      get,
-      name,
-      formTitle: (form: Form) => {
-        const title = name('pokemon-names', form.speciesId);
-        const label = get('form-names', form.id)?.text ?? null;
-        return { title, subtitle: label === title ? null : label };
-      },
-      dexEntries: (key: string) => dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES),
-    };
-  }, [files, dexEntries, language]);
+  return sharedGameText(generated, dexEntries, language);
 }
 
 /** The generated text files as loaded so far (English is always requested). For progress tracking. */
