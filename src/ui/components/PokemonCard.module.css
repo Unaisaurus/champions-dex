@@ -1,5 +1,6 @@
 .card {
   position: relative;
+  height: 100%;
   display: grid;
   grid-template-rows: 1fr auto;
   border: 1px solid var(--line);
@@ -70,7 +71,23 @@
 }
 
 .footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-2);
   padding: 0 var(--space-3) var(--space-3);
+}
+
+.extra {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 650;
+  font-stretch: 75%;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  white-space: nowrap;
 }
 
 .favourite {

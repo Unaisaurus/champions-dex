@@ -4,10 +4,9 @@ A personal Pokédex and team builder for **Pokémon Champions**, in English,
 Spanish (Spain) and Basque. It runs in your browser, on your phone or your
 computer: no account, no server of your own, nothing to pay.
 
-> **Status: Stage 1 (data updater) done.** The full Champions roster is in,
-> generated from the game files: forms, Megas, evolution families, learnsets
-> and Pokédex entries. The Pokédex filters, full Pokémon pages and the team
-> builder come next. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> **Status: Stage 2 (Pokédex) done.** The full Champions roster, generated
+> from the game files, with search, sorting and filters. Full Pokémon pages
+> and the team builder come next. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Using it on your phone (or any device)
 

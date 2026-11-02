@@ -64,6 +64,14 @@ data version stays the same.
 Rules of thumb: `domain/` never imports React; pages use `domain/` and
 `data/`; nothing outside `storage/` talks to the database directly.
 
+**The Pokédex list** (`src/domain/pokedex.ts`) turns a query (search, sort,
+filters) into the cards to show. The query lives in the page address
+(`#/?types=fire&sort=spe…`), so the back button, reloading and shared links
+keep it. By default each Pokédex entry gets one card, showing whichever of its
+forms matched (filtering Dragon shows Charizard as Mega Charizard X); the
+"show forms separately" switch gives every form its own card. Generation and
+favourites always look at the Pokédex entry.
+
 ## Key rules
 
 **Stable IDs.** Everything is referenced by a lowercase ID such as `venusaur`,

@@ -90,7 +90,8 @@
     "paradox": "",
     "fossil": "",
     "baby": "",
-    "mega": ""
+    "mega": "",
+    "regional": ""
   },
   "pokedex": {
     "title": "",
@@ -101,7 +102,47 @@
     "noResults": "",
     "favouriteAdd": "",
     "favouriteRemove": "",
-    "openDetails": ""
+    "openDetails": "",
+    "filters": {
+      "title": "",
+      "activeCount_one": "",
+      "activeCount_other": "",
+      "activeLabel": "",
+      "generation": "",
+      "familyMode": "",
+      "familyModeHint": "",
+      "types": "",
+      "typesHint": "",
+      "colors": "",
+      "categories": "",
+      "favouritesOnly": "",
+      "battle": "",
+      "move": "",
+      "ability": "",
+      "any": "",
+      "noMatches": "",
+      "clearChoice": "",
+      "clearAll": "",
+      "showResults_one": "",
+      "showResults_other": "",
+      "remove": "",
+      "moveValue": "",
+      "abilityValue": ""
+    },
+    "sort": {
+      "label": "",
+      "dex": "",
+      "name": "",
+      "height": "",
+      "weight": "",
+      "total": "",
+      "lowestFirst": "",
+      "highestFirst": "",
+      "aToZ": "",
+      "zToA": ""
+    },
+    "showForms": "",
+    "noMatches": ""
   },
   "pokemon": {
     "notFound": "",

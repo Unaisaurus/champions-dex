@@ -11,8 +11,11 @@ and a visual review.
       the other sources, evolution families with reference forms, learn-method
       history, consistency checks, change report, `update-data.bat`, automatic
       weekly updates and publishing on GitHub.
-- [ ] **Stage 2: Pokédex.** Sorting, filters (generation with the evolution-line
-      toggle, type, colour, category, favourites, moves, Abilities, Megas).
+- [x] **Stage 2: Pokédex.** Sorting (Pokédex number, name, height, weight,
+      every base stat, total), filters (generation with the evolution-line
+      toggle, type, colour, category, favourites, moves, Abilities, Megas,
+      regional forms), Megas and other forms on their own cards, all kept in
+      the page address.
 - [ ] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
       Pokédex entries, type matchups, evolution tree with pre-evolutions,
       Champions learnset with historical learn methods.

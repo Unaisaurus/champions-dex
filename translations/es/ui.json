@@ -90,7 +90,8 @@
     "paradox": "Paradójico",
     "fossil": "Fósil",
     "baby": "Bebé",
-    "mega": "Puede megaevolucionar"
+    "mega": "Puede megaevolucionar",
+    "regional": "Forma regional"
   },
   "pokedex": {
     "title": "Pokédex",
@@ -101,7 +102,47 @@
     "noResults": "Ningún Pokémon coincide con «{{query}}». Prueba con otro nombre o con un número de la Pokédex.",
     "favouriteAdd": "Añadir {{name}} a favoritos",
     "favouriteRemove": "Quitar {{name}} de favoritos",
-    "openDetails": "Abrir {{name}}"
+    "openDetails": "Abrir {{name}}",
+    "filters": {
+      "title": "Filtros",
+      "activeCount_one": "{{count}} filtro activo",
+      "activeCount_other": "{{count}} filtros activos",
+      "activeLabel": "Filtros activos",
+      "generation": "Generación",
+      "familyMode": "Incluir líneas evolutivas",
+      "familyModeHint": "Muestra también cada Pokémon en la generación en la que empezó su línea evolutiva: Gallade aparece en la 3.ª generación y Raichu de Alola, en la 1.ª.",
+      "types": "Tipo",
+      "typesHint": "Elige hasta dos: el Pokémon debe tener ambos.",
+      "colors": "Color de la Pokédex",
+      "categories": "Categoría",
+      "favouritesOnly": "Solo favoritos",
+      "battle": "Movimientos y habilidades en Champions",
+      "move": "Aprende el movimiento",
+      "ability": "Tiene la habilidad",
+      "any": "Cualquiera",
+      "noMatches": "No hay coincidencias",
+      "clearChoice": "Borrar",
+      "clearAll": "Quitar filtros",
+      "showResults_one": "Ver {{count}} Pokémon",
+      "showResults_other": "Ver {{count}} Pokémon",
+      "remove": "Quitar filtro: {{name}}",
+      "moveValue": "Movimiento: {{name}}",
+      "abilityValue": "Habilidad: {{name}}"
+    },
+    "sort": {
+      "label": "Ordenar por",
+      "dex": "Número de la Pokédex",
+      "name": "Nombre",
+      "height": "Altura",
+      "weight": "Peso",
+      "total": "Total de características",
+      "lowestFirst": "De menor a mayor",
+      "highestFirst": "De mayor a menor",
+      "aToZ": "De la A a la Z",
+      "zToA": "De la Z a la A"
+    },
+    "showForms": "Mostrar las megaevoluciones y otras formas por separado",
+    "noMatches": "Ningún Pokémon coincide con estos filtros."
   },
   "pokemon": {
     "notFound": "No hay ningún Pokémon con el identificador «{{id}}» en los datos actuales.",

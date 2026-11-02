@@ -44,3 +44,21 @@ export function formLabels(forms: readonly Form[], data: GameData, text: GameTex
   }
   return result;
 }
+
+/**
+ * Labels for every form, worked out once per Pokédex entry group (the entry,
+ * its profiles and its appearances), so lists and pages agree.
+ */
+export function allFormLabels(data: GameData, text: GameText): Map<Id, string | null> {
+  const labels = new Map<Id, string | null>();
+  const entries = data.forms.filter((form) => form.display === 'entry');
+  for (const entry of entries) {
+    const group = [
+      entry,
+      ...(data.profilesByEntry.get(entry.id) ?? []),
+      ...(data.appearancesByEntry.get(entry.id) ?? []),
+    ];
+    for (const [id, label] of formLabels(group, data, text)) labels.set(id, label);
+  }
+  return labels;
+}

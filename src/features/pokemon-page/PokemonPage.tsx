@@ -12,7 +12,7 @@ import { Notice } from '@/ui/components/Notice';
 import { StatBars } from '@/ui/components/StatBars';
 import { TypeList } from '@/ui/components/TypeBadge';
 import { formatDexNumber } from '@/ui/images';
-import { formLabels } from './formLabels';
+import { useFormLabels } from '@/ui/useFormLabels';
 import styles from './PokemonPage.module.css';
 
 function useFormatters(language: string) {
@@ -33,6 +33,7 @@ export function PokemonPage() {
   const { t } = useTranslation();
   const data = useGameData();
   const text = useGameText();
+  const labels = useFormLabels();
   const [shiny, setShiny] = useState(false);
   const format = useFormatters(text.language);
 
@@ -54,7 +55,7 @@ export function PokemonPage() {
   const appearance = requested.display === 'appearance' ? requested : null;
   const shown = appearance ?? profile;
   const colour = profile.color ?? species.color;
-  const labels = formLabels([...profiles, ...appearances], data, text);
+
   const title = text.name('pokemon-names', species.id);
   const subtitle = labels.get(shown.id) ?? null;
   const fullName = subtitle ? `${title} (${subtitle})` : title;

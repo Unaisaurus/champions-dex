@@ -4,7 +4,9 @@
  * even from another tab.
  */
 import { useLiveQuery } from 'dexie-react-hooks';
+import { liveQuery } from 'dexie';
 import { useCallback, useEffect, useRef } from 'react';
+import { create } from 'zustand';
 import type { Id } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { createTeam, type Team } from '@/domain/team';
@@ -38,16 +40,30 @@ export function useSnapshot(): (reason: SnapshotReason) => Promise<void> {
 // Favourites
 // ---------------------------------------------------------------------------
 
-export function useFavourites(): { favourites: ReadonlySet<Id>; toggle(id: Id): void } {
-  const records = useLiveQuery(() => db.favourites.toArray(), [], []);
-  const favourites = new Set(records.map((record) => record.id));
-  const toggle = useCallback((id: Id) => {
-    void db.transaction('rw', db.favourites, async () => {
-      if (await db.favourites.get(id)) await db.favourites.delete(id);
-      else await db.favourites.put({ id, addedAt: new Date().toISOString() });
+/** Favourite IDs, read once from the database and shared by every heart button and list. */
+const useFavouriteIds = create<{ ids: ReadonlySet<Id> }>(() => ({ ids: new Set() }));
+
+/** Keeps the shared favourites in step with the database. Used once, at the top of the app. */
+export function useFavouritesSync(): void {
+  useEffect(() => {
+    const subscription = liveQuery(() => db.favourites.toArray()).subscribe({
+      next: (records) => useFavouriteIds.setState({ ids: new Set(records.map((record) => record.id)) }),
+      error: (error: unknown) => console.error('Could not read favourites', error),
     });
+    return () => subscription.unsubscribe();
   }, []);
-  return { favourites, toggle };
+}
+
+const toggleFavourite = (id: Id) => {
+  void db.transaction('rw', db.favourites, async () => {
+    if (await db.favourites.get(id)) await db.favourites.delete(id);
+    else await db.favourites.put({ id, addedAt: new Date().toISOString() });
+  });
+};
+
+export function useFavourites(): { favourites: ReadonlySet<Id>; toggle(id: Id): void } {
+  const favourites = useFavouriteIds((state) => state.ids);
+  return { favourites, toggle: toggleFavourite };
 }
 
 // ---------------------------------------------------------------------------

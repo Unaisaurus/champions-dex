@@ -90,7 +90,8 @@
     "paradox": "Paradox",
     "fossil": "Fossil",
     "baby": "Baby",
-    "mega": "Can Mega Evolve"
+    "mega": "Can Mega Evolve",
+    "regional": "Regional form"
   },
   "pokedex": {
     "title": "Pokédex",
@@ -101,7 +102,47 @@
     "noResults": "No Pokémon match “{{query}}”. Try another name or a Pokédex number.",
     "favouriteAdd": "Add {{name}} to favourites",
     "favouriteRemove": "Remove {{name}} from favourites",
-    "openDetails": "Open {{name}}"
+    "openDetails": "Open {{name}}",
+    "filters": {
+      "title": "Filters",
+      "activeCount_one": "{{count}} filter on",
+      "activeCount_other": "{{count}} filters on",
+      "activeLabel": "Filters on",
+      "generation": "Generation",
+      "familyMode": "Include evolution lines",
+      "familyModeHint": "Also lists each Pokémon under the generation its evolution line began in: Gallade appears in Gen 3, Alolan Raichu in Gen 1.",
+      "types": "Type",
+      "typesHint": "Pick up to two: Pokémon must have both.",
+      "colors": "Pokédex colour",
+      "categories": "Category",
+      "favouritesOnly": "Favourites only",
+      "battle": "Moves and Abilities in Champions",
+      "move": "Learns the move",
+      "ability": "Has the Ability",
+      "any": "Any",
+      "noMatches": "Nothing matches",
+      "clearChoice": "Clear",
+      "clearAll": "Clear filters",
+      "showResults_one": "Show {{count}} Pokémon",
+      "showResults_other": "Show {{count}} Pokémon",
+      "remove": "Remove filter: {{name}}",
+      "moveValue": "Move: {{name}}",
+      "abilityValue": "Ability: {{name}}"
+    },
+    "sort": {
+      "label": "Sort by",
+      "dex": "Pokédex number",
+      "name": "Name",
+      "height": "Height",
+      "weight": "Weight",
+      "total": "Base stat total",
+      "lowestFirst": "Lowest first",
+      "highestFirst": "Highest first",
+      "aToZ": "A to Z",
+      "zToA": "Z to A"
+    },
+    "showForms": "Show Megas and other forms separately",
+    "noMatches": "No Pokémon match these filters."
   },
   "pokemon": {
     "notFound": "There's no Pokémon with the ID “{{id}}” in the current data.",
