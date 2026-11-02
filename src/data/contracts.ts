@@ -87,6 +87,8 @@ export const ManifestSchema = z.object({
   generatedAt: z.string(),
   /** True for the small sample set used before the real data updater exists. */
   sample: z.boolean().default(false),
+  /** Fingerprint of the data files, so an update with identical results changes nothing. */
+  contentHash: z.string().optional(),
   game: z.object({
     version: z.string().nullable(),
     regulation: z.string().nullable(),
@@ -274,7 +276,17 @@ export const EvolutionConditionSchema = z.object({
   relativeStats: z.number().int().min(-1).max(1).optional(),
   needsRain: z.boolean().optional(),
   upsideDown: z.boolean().optional(),
-  /** Free-text key for methods without a structured description. */
+  /** Steps to walk with it (Pawmo in "Let's Go" mode). */
+  minSteps: z.number().int().optional(),
+  /** Damage taken without fainting (Galarian Yamask, Basculin). */
+  minDamageTaken: z.number().int().optional(),
+  /** Only with one of these Stat Alignments / natures (Toxtricity). */
+  natures: z.array(IdSchema).optional(),
+  /** Needs another player (Union Circle). */
+  multiplayer: z.boolean().optional(),
+  /** Chance of this result, in percent (Maushold: 1% Family of Three). */
+  chancePercent: z.number().optional(),
+  /** Key for methods without a structured description: `near-special-rock`, `special-location`. */
   note: z.string().optional(),
 });
 export type EvolutionCondition = z.infer<typeof EvolutionConditionSchema>;
@@ -320,6 +332,21 @@ export const MoveSchema = z.object({
   target: z.string(),
   makesContact: z.boolean(),
   availableInChampions: z.boolean(),
+  /**
+   * The main-series values (Scarlet/Violet) of anything Champions changed, so
+   * the app can point out differences. PP is listed when it isn't the usual
+   * Champions conversion of the main-series PP.
+   */
+  mainSeries: z
+    .object({
+      type: IdSchema.optional(),
+      category: MoveCategorySchema.optional(),
+      power: z.number().int().nullable().optional(),
+      accuracy: z.number().int().nullable().optional(),
+      pp: z.number().int().optional(),
+      priority: z.number().int().optional(),
+    })
+    .optional(),
   caveats: z.array(CaveatSchema).default([]),
 });
 export type Move = z.infer<typeof MoveSchema>;
@@ -416,6 +443,7 @@ export const TEXT_DOMAINS = [
   'type-names',
   'alignment-names',
   'game-names',
+  'region-names',
 ] as const;
 export type TextDomain = (typeof TEXT_DOMAINS)[number];
 
@@ -456,6 +484,27 @@ export const AliasesSchema = z.object({
   alignments: z.record(z.string(), IdSchema).default({}),
 });
 export type Aliases = z.infer<typeof AliasesSchema>;
+
+// ---------------------------------------------------------------------------
+// changelog.json — what each data update changed (newest first)
+// ---------------------------------------------------------------------------
+
+const ChangeGroupSchema = z.record(z.string(), z.array(z.string()));
+
+export const ChangelogEntrySchema = z.object({
+  dataVersion: z.string(),
+  generatedAt: z.string(),
+  game: z.object({ version: z.string().nullable(), regulation: z.string().nullable() }),
+  /** Per kind (`forms`, `moves`, `items`, `learnsets`): IDs added or removed, and short change notes. */
+  changes: z.object({
+    added: ChangeGroupSchema,
+    removed: ChangeGroupSchema,
+    changed: ChangeGroupSchema,
+  }),
+});
+export type ChangelogEntry = z.infer<typeof ChangelogEntrySchema>;
+export const ChangelogSchema = z.array(ChangelogEntrySchema);
+export const CHANGELOG_FILE = 'changelog.json';
 
 // ---------------------------------------------------------------------------
 // File list

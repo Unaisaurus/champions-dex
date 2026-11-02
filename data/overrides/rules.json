@@ -1,0 +1,26 @@
+{
+  "note": "Pokémon Champions battle rules. Change these when the game changes them; the app picks them up after the next data update.",
+  "level": 50,
+  "teamSize": 6,
+  "movesPerPokemon": 4,
+  "statPoints": {
+    "total": 66,
+    "perStat": 32
+  },
+  "alignment": {
+    "raisePercent": 110,
+    "lowerPercent": 90,
+    "affectsHp": false
+  },
+  "statFormula": "champions-v1",
+  "mechanics": {
+    "mega": true,
+    "tera": false,
+    "dynamax": false,
+    "z-moves": false
+  },
+  "formatRules": {
+    "speciesClause": true,
+    "itemClause": true
+  }
+}

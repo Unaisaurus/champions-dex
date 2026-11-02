@@ -211,7 +211,8 @@
       "item-descriptions": "Item descriptions",
       "type-names": "Type names",
       "alignment-names": "Stat Alignment names",
-      "game-names": "Game names"
+      "game-names": "Game names",
+      "region-names": "Region names"
     }
   },
   "validation": {

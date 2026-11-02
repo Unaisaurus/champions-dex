@@ -26,6 +26,28 @@ Three kinds of files never mix:
 3. **Your saved data** (browser storage): teams, favourites, snapshots. Game
    data updates can't change it; problems show as warnings instead.
 
+## The data updater
+
+`scripts/update-data/` turns the sources into `public/data/`:
+
+| Folder     | What it does                                                                                              |
+| ---------- | --------------------------------------------------------------------------------------------------------- |
+| `sources/` | One loader per source: downloads files at a pinned revision (cached in `data/sources/`) and reads them    |
+| `build/`   | One step per kind of data: matching forms, forms, families, moves/items, learnsets, text, species, report |
+| `lib/`     | Downloads, CSV reading, output writing, console messages                                                  |
+| `index.ts` | Runs the steps in order, checks the result, writes it                                                     |
+
+The steps, in order: resolve source revisions → load sources → match game forms
+to PokéAPI → build forms (entries, profiles, appearances, Mega Stones) →
+evolution families and reference forms → moves, Abilities, items → learnsets
+with history → species → text and Pokédex entries → apply
+`data/overrides/forms.json` → check everything → write `public/data/` (all at
+once, only if every check passed) → `data/update-report.md` → sync the
+translation files.
+
+If a run produces exactly the same data as before, nothing is written and the
+data version stays the same.
+
 ## Code layout
 
 | Folder           | Responsibility                                                                    |
@@ -84,5 +106,15 @@ a migration from the previous version, with a test.
 
 `npm run check` runs the type checker, linter and tests. Tests sit next to the
 code they test (`*.test.ts`). `src/data/loader.test.ts` loads the real files in
-`public/data/` and runs the cross-file checks, so broken data fails the tests.
-GitHub runs the same checks on every upload (`.github/workflows/ci.yml`).
+`public/data/` and runs the cross-file checks, and
+`scripts/update-data/generated-data.test.ts` checks known facts in them, so
+broken data fails the tests. GitHub runs the same checks on every upload
+(`.github/workflows/ci.yml`).
+
+## GitHub workflows
+
+| Workflow          | When                                            | What                                                          |
+| ----------------- | ----------------------------------------------- | ------------------------------------------------------------- |
+| `ci.yml`          | Every upload                                    | Type check, lint, tests, build                                |
+| `update-data.yml` | Mondays, or **Run workflow** on the Actions tab | Rebuilds the data; saves it if it changed and the checks pass |
+| `deploy.yml`      | Every upload to `main`, and after a data update | Builds the app and publishes it with GitHub Pages             |

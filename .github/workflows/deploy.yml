@@ -1,0 +1,61 @@
+name: Publish the app
+
+# Builds the app and publishes it with GitHub Pages, at
+#   https://<your-username>.github.io/<repository-name>/
+# so it works on your phone and computer without installing anything.
+#
+# One-time setup on GitHub: Settings → Pages → Source: "GitHub Actions".
+# GitHub's free plan only publishes public repositories; while the repository
+# is private this workflow simply does nothing.
+on:
+  push:
+    branches: [main]
+  # After a data update has saved new data (its own push doesn't start this workflow).
+  workflow_run:
+    workflows: [Update game data]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: >-
+      ${{ !github.event.repository.private &&
+          (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # After a data update, publish the newest version, including the data it saved.
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

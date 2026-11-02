@@ -1,0 +1,62 @@
+name: Update game data
+
+# Rebuilds the game data (public/data) from the latest sources and saves it to
+# the repository if anything changed. The app is then republished automatically.
+#
+# Runs by itself every Monday, and whenever you press "Run workflow" on the
+# Actions tab (useful right after a Pokémon Champions update).
+# If any check fails, nothing is saved and the app keeps its current data.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 5 * * 1'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+
+      # Downloads are kept between runs, so unchanged sources aren't fetched again.
+      - name: Reuse earlier downloads
+        uses: actions/cache@v4
+        with:
+          path: data/sources
+          key: data-sources-${{ github.run_id }}
+          restore-keys: data-sources-
+
+      - name: Update the data
+        run: npm run update-data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check the app still works with it
+        run: npm run check
+
+      - name: Save the new data
+        run: |
+          if git diff --quiet -- public/data translations data/update-report.md; then
+            echo "No changes: the data was already up to date." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          cat data/update-report.md >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data translations data/update-report.md
+          git commit -m "Update game data to $(node -p "require('./public/data/manifest.json').dataVersion")"
+          git push

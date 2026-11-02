@@ -7,8 +7,10 @@ and a visual review.
       (stats, type matchups, team checks, generation tags, search), browser
       storage with snapshots and backups, three languages with English
       fallback, translation progress, app shell, sample data.
-- [ ] **Stage 1: Data updater.** Full Champions data from the sources, images
-      copied locally, consistency checks, change report, `update-data.bat`.
+- [x] **Stage 1: Data updater.** Full Champions data from the game files and
+      the other sources, evolution families with reference forms, learn-method
+      history, consistency checks, change report, `update-data.bat`, automatic
+      weekly updates and publishing on GitHub.
 - [ ] **Stage 2: Pokédex.** Sorting, filters (generation with the evolution-line
       toggle, type, colour, category, favourites, moves, Abilities, Megas).
 - [ ] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
@@ -38,8 +40,16 @@ damage calculator.
 - **Mechanics:** Mega Evolution active; Terastallization, Dynamax and Z-Moves
   switched off in `rules.json` until Champions enables them.
 
+- **Phone and computer:** the app is published with GitHub Pages from the
+  public repository, so it works in any browser. (An installable, offline
+  version comes in Stage 6.)
+- **Data updates:** weekly and on demand, through GitHub Actions; the same
+  updater runs locally with `update-data.bat`. Nothing is replaced unless every
+  check passes.
+- **Images:** loaded from PokéAPI's sprite repository at a pinned revision
+  instead of being copied into the project (thousands of files); the browser
+  caches them.
+
 ## Open questions
 
-- **Android:** publish the built app at a web address (simplest; reachable by
-  anyone with the link) or build an installable Android app file (private).
-  To decide before Stage 6.
+- **Older Spanish Pokédex entries** (before X and Y): add them from WikiDex?

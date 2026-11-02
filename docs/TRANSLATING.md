@@ -20,6 +20,7 @@ Everything for Basque is in `translations/eu/`:
 | `type-names.json`                                 | Types                                                          |
 | `alignment-names.json`                            | Stat Alignments                                                |
 | `game-names.json`                                 | Game names, used to label Pokédex entries                      |
+| `region-names.json`                               | Region names, used in evolution methods ("in Alola")           |
 | `dex-entries.json`                                | Pokédex entries                                                |
 
 Each line is `"key": "text"`. Change only the text on the right:
@@ -60,9 +61,11 @@ Changes appear when you reload the page (with `start-app.bat` running).
 
 ## When the English texts change
 
-Double-click `sync-translations.bat` (or run `npm run translations:sync`). It
-adds new keys with empty texts and lists keys that are no longer used. It never
-deletes or changes your translations.
+Double-click `sync-translations.bat` (or run `npm run translations:sync`); the
+data updater also does this after every update. It adds new keys with empty
+texts and lists translated keys that are no longer used. It never deletes or
+changes your translations (keys that are no longer used and were still empty
+are simply removed).
 
 ## Correcting Spanish texts
 
@@ -70,4 +73,5 @@ Spanish game texts are generated, but you can override any of them: create the
 same file in `translations/es/` (for example `move-names.json`) containing only
 the entries to change. Hand-made files always win over generated ones. The same
 works for Pokédex entries Spanish data doesn't have yet:
-`translations/es/dex-entries.json` with `"species/game": "text"`.
+`translations/es/dex-entries.json` already lists them with empty texts
+(`"sinistcha/scarlet": ""`…); fill them in and they replace the English ones.

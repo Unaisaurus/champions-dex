@@ -211,7 +211,8 @@
       "item-descriptions": "Descripciones de objetos",
       "type-names": "Nombres de tipos",
       "alignment-names": "Nombres de variaciones de características",
-      "game-names": "Nombres de juegos"
+      "game-names": "Nombres de juegos",
+      "region-names": "Nombres de regiones"
     }
   },
   "validation": {

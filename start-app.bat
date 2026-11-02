@@ -7,7 +7,7 @@ rem  the app; close it to stop.
 rem ============================================================
 cd /d "%~dp0"
 
-where node >/dev/null 2>nul
+where node >nul 2>nul
 if errorlevel 1 (
   echo Node.js is not installed yet.
   echo Download the LTS version from https://nodejs.org , install it, then run this file again.
