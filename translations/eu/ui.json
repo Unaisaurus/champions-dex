@@ -197,7 +197,7 @@
       "type": "",
       "allTypes": "",
       "category": "",
-      "newOnly": "",
+      "newInChampions": "",
       "count_one": "",
       "count_other": "",
       "noMatches": "",
@@ -446,35 +446,43 @@
   "learnMethods": {
     "level-up": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "machine": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "tutor": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "egg": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "event": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "pre-evolution": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "form-change": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     },
     "other": {
       "short": "",
-      "long": ""
+      "long": "",
+      "filter": ""
     }
   },
   "moveTargets": {

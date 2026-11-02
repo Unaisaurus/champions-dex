@@ -2,7 +2,7 @@
  * The learnset table on a Pokémon's page: which learnset a form uses, and the
  * filtering and sorting of its rows.
  */
-import type { Form, Id, LearnsetEntry, Move, MoveCategory } from '@/data/contracts';
+import type { Form, Id, LearnMethod, LearnsetEntry, Move, MoveCategory } from '@/data/contracts';
 import { matchesSearch } from './search';
 
 /**
@@ -21,11 +21,28 @@ export function learnsetFormId(
 export const MOVE_SORT_KEYS = ['name', 'type', 'category', 'power', 'accuracy', 'pp'] as const;
 export type MoveSortKey = (typeof MOVE_SORT_KEYS)[number];
 
+/** A tag to filter the learnset by: how a move was learned before, or new in Champions. */
+export type LearnFilter = LearnMethod | 'new';
+
+/** Every tag, in the order they're shown. */
+export const LEARN_FILTERS: readonly LearnFilter[] = [
+  'level-up',
+  'machine',
+  'tutor',
+  'egg',
+  'event',
+  'pre-evolution',
+  'form-change',
+  'other',
+  'new',
+];
+
 export interface LearnsetQuery {
   search: string;
   type: Id | null;
   category: MoveCategory | null;
-  newOnly: boolean;
+  /** Moves with any of these tags (none chosen: every move). */
+  methods: LearnFilter[];
   sort: MoveSortKey;
   direction: 'asc' | 'desc';
 }
@@ -34,7 +51,7 @@ export const DEFAULT_LEARNSET_QUERY: LearnsetQuery = {
   search: '',
   type: null,
   category: null,
-  newOnly: false,
+  methods: [],
   sort: 'name',
   direction: 'asc',
 };
@@ -65,6 +82,24 @@ const CATEGORY_ORDER: Record<MoveCategory, number> = { physical: 0, special: 1, 
 /** A move that never misses is the most accurate of all. */
 const accuracyValue = (move: Move) => move.accuracy ?? 101;
 
+function hasTag(entry: LearnsetEntry, tag: LearnFilter): boolean {
+  return tag === 'new' ? entry.newInChampions : entry.methods.includes(tag);
+}
+
+function hasAnyTag(entry: LearnsetEntry, tags: readonly LearnFilter[]): boolean {
+  return tags.length === 0 || tags.some((tag) => hasTag(entry, tag));
+}
+
+/** How many moves of a learnset have each tag; tags no move has are left out. */
+export function learnFilterCounts(entries: readonly LearnsetEntry[]): Map<LearnFilter, number> {
+  const counts = new Map<LearnFilter, number>();
+  for (const tag of LEARN_FILTERS) {
+    const count = entries.filter((entry) => hasTag(entry, tag)).length;
+    if (count > 0) counts.set(tag, count);
+  }
+  return counts;
+}
+
 export function viewLearnset(
   entries: readonly LearnsetEntry[],
   source: LearnsetViewSource,
@@ -76,7 +111,7 @@ export function viewLearnset(
     if (!move) continue;
     if (query.type && move.type !== query.type) continue;
     if (query.category && move.category !== query.category) continue;
-    if (query.newOnly && !entry.newInChampions) continue;
+    if (!hasAnyTag(entry, query.methods)) continue;
     if (query.search.trim() && !matchesSearch(source.searchText(move.id), query.search)) continue;
     rows.push({ entry, move, name: source.name(move.id) });
   }

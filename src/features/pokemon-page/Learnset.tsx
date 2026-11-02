@@ -5,33 +5,26 @@ import type { Form, Id, LearnMethod, Move, MoveCategory } from '@/data/contracts
 import { useGameData } from '@/data/useGameData';
 import {
   DEFAULT_LEARNSET_QUERY,
+  LEARN_FILTERS,
   MOVE_SORT_KEYS,
   defaultMoveDirection,
+  learnFilterCounts,
   learnsetFormId,
   viewLearnset,
   type LearnsetQuery,
   type LearnsetViewSource,
   type MoveSortKey,
 } from '@/domain/learnsetView';
+import { toggleValue } from '@/domain/pokedex';
 import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
-import { Switch } from '@/ui/components/Switch';
 import { ToggleChip } from '@/ui/components/ToggleChip';
 import { TypeBadge } from '@/ui/components/TypeBadge';
 import { useTextSearchIndex } from '@/ui/useTextSearchIndex';
 import styles from './Learnset.module.css';
 
 const CATEGORIES: readonly MoveCategory[] = ['physical', 'special', 'status'];
-const METHOD_ORDER: readonly LearnMethod[] = [
-  'level-up',
-  'machine',
-  'tutor',
-  'egg',
-  'event',
-  'pre-evolution',
-  'form-change',
-  'other',
-];
+const METHOD_ORDER = LEARN_FILTERS.filter((tag): tag is LearnMethod => tag !== 'new');
 
 function MainSeriesChanges({ move }: { move: Move }) {
   const { t } = useTranslation();
@@ -84,6 +77,7 @@ export function Learnset({ form }: { form: Form }) {
     };
   }, [data, text, searchIndex]);
   const rows = useMemo(() => viewLearnset(entries, source, query), [entries, source, query]);
+  const tagCounts = useMemo(() => learnFilterCounts(entries), [entries]);
 
   if (!learnsetId) return null;
   const borrowedFrom = learnsetId !== form.id ? data.formsById.get(learnsetId) : undefined;
@@ -152,10 +146,26 @@ export function Learnset({ form }: { form: Form }) {
             </ToggleChip>
           ))}
         </div>
-        <Switch checked={query.newOnly} onChange={(newOnly) => update({ newOnly })}>
-          {t('pokemon.moves.newOnly')}
-        </Switch>
       </div>
+
+      {tagCounts.size > 1 && (
+        <div className={styles.tags} role="group" aria-labelledby="learnset-tags">
+          <span id="learnset-tags" className={styles.tagsLabel}>
+            {t('pokemon.moves.learnedBefore')}
+          </span>
+          {[...tagCounts].map(([tag, count]) => (
+            <ToggleChip
+              key={tag}
+              pressed={query.methods.includes(tag)}
+              onToggle={() => update({ methods: toggleValue(query.methods, tag) })}
+              title={tag === 'new' ? undefined : t(`learnMethods.${tag}.long`)}
+            >
+              {tag === 'new' ? t('pokemon.moves.newInChampions') : t(`learnMethods.${tag}.filter`)}
+              <span className={styles.tagCount}>{count}</span>
+            </ToggleChip>
+          ))}
+        </div>
+      )}
 
       <div className={styles.bar}>
         <p className={styles.count} aria-live="polite">

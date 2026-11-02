@@ -17,10 +17,12 @@ and a visual review.
       regional forms), one card per species, per Pokédex entry or per form,
       all kept in the page address.
 - [x] **Stage 3: Pokémon page.** Art toggles (shiny, female, cosmetic forms),
-      Pokédex entries, type matchups with Ability notes, evolution tree with
-      pre-evolutions and their methods (members outside Champions open a basic
-      page), Champions learnset with historical learn methods, "new in
-      Champions" and "changed in Champions" marks.
+      species facts in the Pokémon panel with Ability descriptions (hover or
+      tap), Pokédex entries, evolution tree with pre-evolutions and their
+      methods (members outside Champions open a basic page), base stats, type
+      matchups with Ability notes, Champions learnset with historical learn
+      methods (filterable: Level-up, TM, Move Tutor… or new in Champions) and
+      "changed in Champions" marks.
 - [x] **Stage 4: Team builder.** Team editor with six slots; per member the
       Pokémon or form, nickname, gender, shiny, Ability (with what it does),
       held item with icon and description (Mega Stones only for the Pokémon

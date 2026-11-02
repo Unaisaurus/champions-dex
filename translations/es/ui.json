@@ -197,7 +197,7 @@
       "type": "Tipo",
       "allTypes": "Todos los tipos",
       "category": "Categoría",
-      "newOnly": "Solo los nuevos en Champions",
+      "newInChampions": "Nuevo en Champions",
       "count_one": "{{count}} movimiento",
       "count_other": "{{count}} movimientos",
       "noMatches": "Ningún movimiento coincide.",
@@ -446,35 +446,43 @@
   "learnMethods": {
     "level-up": {
       "short": "Nivel",
-      "long": "Por nivel en algún juego anterior"
+      "long": "Por nivel en algún juego anterior",
+      "filter": "Por nivel"
     },
     "machine": {
       "short": "MT",
-      "long": "Con una MT en algún juego anterior"
+      "long": "Con una MT en algún juego anterior",
+      "filter": "MT"
     },
     "tutor": {
       "short": "Tutor",
-      "long": "Con un tutor de movimientos en algún juego anterior"
+      "long": "Con un tutor de movimientos en algún juego anterior",
+      "filter": "Tutor de movimientos"
     },
     "egg": {
       "short": "Huevo",
-      "long": "Como movimiento huevo en algún juego anterior"
+      "long": "Como movimiento huevo en algún juego anterior",
+      "filter": "Movimiento huevo"
     },
     "event": {
       "short": "Evento",
-      "long": "En un Pokémon de evento"
+      "long": "En un Pokémon de evento",
+      "filter": "Evento"
     },
     "pre-evolution": {
       "short": "Preevo.",
-      "long": "Solo podía aprenderlo una de sus preevoluciones"
+      "long": "Solo podía aprenderlo una de sus preevoluciones",
+      "filter": "Preevolución"
     },
     "form-change": {
       "short": "Forma",
-      "long": "Al cambiar de forma"
+      "long": "Al cambiar de forma",
+      "filter": "Cambio de forma"
     },
     "other": {
       "short": "Otro",
-      "long": "De otra manera"
+      "long": "De otra manera",
+      "filter": "Otro"
     }
   },
   "moveTargets": {

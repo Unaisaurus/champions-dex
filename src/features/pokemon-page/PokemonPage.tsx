@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import type { FamilyNode, Form, Id, Species } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { useGameText } from '@/i18n/useGameText';
+import { AbilityName } from '@/ui/components/AbilityName';
 import { AddToTeamButton } from '@/ui/components/AddToTeamButton';
 import { ArtImage } from '@/ui/components/ArtImage';
 import { FavouriteButton } from '@/ui/components/FavouriteButton';
@@ -31,7 +32,8 @@ function familyMembers(roots: readonly FamilyNode[] | undefined): Set<Id> {
   return members;
 }
 
-const SECTIONS = ['base-stats', 'matchups', 'evolutions', 'dex-entries', 'learnset'] as const;
+/** The sections below the Pokémon panel, in page order. */
+const SECTIONS = ['dex-entries', 'evolutions', 'base-stats', 'matchups', 'learnset'] as const;
 
 /** Jump links to the sections below (buttons: the address bar already holds the page route). */
 function SectionLinks({ available }: { available: ReadonlySet<string> }) {
@@ -49,6 +51,68 @@ function SectionLinks({ available }: { available: ReadonlySet<string> }) {
         </button>
       ))}
     </nav>
+  );
+}
+
+/** Generation, size, gender ratio, Abilities (with what they do) and Mega Stone, inside the Pokémon panel. */
+function SpeciesFacts({ species, profile }: { species: Species; profile: Form }) {
+  const { t } = useTranslation();
+  const data = useGameData();
+  const text = useGameText();
+  const femalePercent = species.gender.kind === 'ratio' ? species.gender.femaleEighths * 12.5 : null;
+  const megaStone = profile.megaStone ? data.itemsById.get(profile.megaStone) : undefined;
+  return (
+    <div className={styles.facts}>
+      <h2 className="visually-hidden">{t('pokemon.speciesInfo')}</h2>
+      <dl className={styles.factList}>
+        <div>
+          <dt>{t('terms.generation')}</dt>
+          <dd>{t('terms.generationShort', { n: profile.generation })}</dd>
+        </div>
+        {profile.heightDm !== null && (
+          <div>
+            <dt>{t('terms.height')}</dt>
+            <dd>{formatHeight(profile.heightDm, text.language)}</dd>
+          </div>
+        )}
+        {profile.weightHg !== null && (
+          <div>
+            <dt>{t('terms.weight')}</dt>
+            <dd>{formatWeight(profile.weightHg, text.language)}</dd>
+          </div>
+        )}
+        <div className={styles.factGender}>
+          <dt>{t('pokemon.genderLabel')}</dt>
+          <dd>
+            {femalePercent === null
+              ? t('terms.genderless')
+              : t('pokemon.genderRatio', {
+                  female: formatNumber(femalePercent, text.language),
+                  male: formatNumber(100 - femalePercent, text.language),
+                })}
+          </dd>
+        </div>
+        {megaStone && (
+          <div>
+            <dt>{t('pokemon.megaStone')}</dt>
+            <dd className={styles.item}>
+              <ArtImage keys={[megaStone.icon]} alt="" width={28} height={28} />
+              {text.name('item-names', megaStone.id)}
+            </dd>
+          </div>
+        )}
+        {profile.abilities.length > 0 && (
+          <div className={styles.factWide}>
+            <dt>{t('terms.abilities')}</dt>
+            <dd className={styles.abilities}>
+              {profile.abilities.map((id) => (
+                <AbilityName key={id} id={id} className={styles.ability} />
+              ))}
+            </dd>
+          </div>
+        )}
+      </dl>
+    </div>
   );
 }
 
@@ -92,8 +156,6 @@ export function PokemonPage() {
   const fullName = subtitle ? `${title} (${subtitle})` : title;
   const artKeys = shiny ? [shown.art.officialShiny, shown.art.official] : [shown.art.official];
   const genus = text.get('genus', species.id)?.text;
-  const femalePercent = species.gender.kind === 'ratio' ? species.gender.femaleEighths * 12.5 : null;
-  const megaStone = profile.megaStone ? data.itemsById.get(profile.megaStone) : undefined;
   const current = new Set([members.has(profile.id) ? profile.id : entry.id]);
   const goTo = (form: Form) => navigate(`/pokemon/${form.id}`, { replace: true });
 
@@ -150,6 +212,7 @@ export function PokemonPage() {
             <AddToTeamButton form={shown} name={fullName} labelled />
           </div>
         </div>
+        <SpeciesFacts species={species} profile={profile} />
       </section>
 
       {!inChampions && <Notice tone="warning">{t('pokemon.notInChampions')}</Notice>}
@@ -191,63 +254,15 @@ export function PokemonPage() {
 
       <SectionLinks available={available} />
 
+      <DexEntries speciesId={species.id} />
+      <EvolutionTree species={species} current={current} />
       <div className={styles.panels}>
         <section className={styles.panel} aria-labelledby="base-stats">
           <h2 id="base-stats">{t('terms.baseStats')}</h2>
           <StatBars stats={profile.baseStats} />
         </section>
-        <section className={styles.panel} aria-labelledby="species-info">
-          <h2 id="species-info">{t('pokemon.speciesInfo')}</h2>
-          <dl className={styles.facts}>
-            <div>
-              <dt>{t('terms.generation')}</dt>
-              <dd>{t('terms.generationShort', { n: profile.generation })}</dd>
-            </div>
-            {profile.heightDm !== null && (
-              <div>
-                <dt>{t('terms.height')}</dt>
-                <dd>{formatHeight(profile.heightDm, text.language)}</dd>
-              </div>
-            )}
-            {profile.weightHg !== null && (
-              <div>
-                <dt>{t('terms.weight')}</dt>
-                <dd>{formatWeight(profile.weightHg, text.language)}</dd>
-              </div>
-            )}
-            <div>
-              <dt>{t('pokemon.genderLabel')}</dt>
-              <dd>
-                {femalePercent === null
-                  ? t('terms.genderless')
-                  : t('pokemon.genderRatio', {
-                      female: formatNumber(femalePercent, text.language),
-                      male: formatNumber(100 - femalePercent, text.language),
-                    })}
-              </dd>
-            </div>
-            {profile.abilities.length > 0 && (
-              <div>
-                <dt>{t('terms.abilities')}</dt>
-                <dd>{profile.abilities.map((id) => text.name('ability-names', id)).join(', ')}</dd>
-              </div>
-            )}
-            {megaStone && (
-              <div>
-                <dt>{t('pokemon.megaStone')}</dt>
-                <dd className={styles.item}>
-                  <ArtImage keys={[megaStone.icon]} alt="" width={28} height={28} />
-                  {text.name('item-names', megaStone.id)}
-                </dd>
-              </div>
-            )}
-          </dl>
-        </section>
+        <TypeMatchups form={profile} />
       </div>
-
-      <TypeMatchups form={profile} />
-      <EvolutionTree species={species} current={current} />
-      <DexEntries speciesId={species.id} />
       {hasMoves && <Learnset form={shown} />}
     </article>
   );

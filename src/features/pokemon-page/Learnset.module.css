@@ -73,6 +73,27 @@
   gap: var(--space-2);
 }
 
+/* How moves were learned before: filters that combine with "or". */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tagsLabel {
+  margin-right: var(--space-1);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.tagCount {
+  font-size: 12px;
+  font-stretch: 75%;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+}
+
 .bar {
   display: flex;
   align-items: center;

@@ -3,7 +3,7 @@ import type { Form, Id } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { abilityMatchupNotes } from '@/domain/abilityMatchups';
 import { defensiveProfile } from '@/domain/typeEffectiveness';
-import { useGameText } from '@/i18n/useGameText';
+import { AbilityName } from '@/ui/components/AbilityName';
 import { TypeBadge } from '@/ui/components/TypeBadge';
 import { formatMultiplier } from '@/ui/format';
 import styles from './PokemonPage.module.css';
@@ -21,7 +21,6 @@ function TypeWithMultiplier({ type, multiplier }: { type: Id; multiplier: number
 export function TypeMatchups({ form }: { form: Form }) {
   const { t } = useTranslation();
   const data = useGameData();
-  const text = useGameText();
   const profile = defensiveProfile(form.types, data.types);
   const notes = abilityMatchupNotes(form.types, form.abilities, data.types);
   const multiplier = (type: Id) => profile.multipliers[type] ?? 1;
@@ -56,7 +55,9 @@ export function TypeMatchups({ form }: { form: Form }) {
         <ul className={styles.abilityNotes}>
           {notes.map((note) => (
             <li key={note.ability}>
-              <strong>{text.name('ability-names', note.ability)}</strong>
+              <strong>
+                <AbilityName id={note.ability} />
+              </strong>
               {note.changes.map((change) => (
                 <span key={change.type} className={styles.matchup}>
                   <TypeBadge type={change.type} size="sm" />

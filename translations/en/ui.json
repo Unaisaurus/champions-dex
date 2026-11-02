@@ -197,7 +197,7 @@
       "type": "Type",
       "allTypes": "All types",
       "category": "Category",
-      "newOnly": "Only moves new in Champions",
+      "newInChampions": "New in Champions",
       "count_one": "{{count}} move",
       "count_other": "{{count}} moves",
       "noMatches": "No moves match.",
@@ -446,35 +446,43 @@
   "learnMethods": {
     "level-up": {
       "short": "Level",
-      "long": "By level-up in an earlier game"
+      "long": "By level-up in an earlier game",
+      "filter": "Level-up"
     },
     "machine": {
       "short": "TM",
-      "long": "With a TM in an earlier game"
+      "long": "With a TM in an earlier game",
+      "filter": "TM"
     },
     "tutor": {
       "short": "Tutor",
-      "long": "From a move tutor in an earlier game"
+      "long": "From a move tutor in an earlier game",
+      "filter": "Move Tutor"
     },
     "egg": {
       "short": "Egg",
-      "long": "As an Egg Move in an earlier game"
+      "long": "As an Egg Move in an earlier game",
+      "filter": "Egg Move"
     },
     "event": {
       "short": "Event",
-      "long": "On an event Pokémon"
+      "long": "On an event Pokémon",
+      "filter": "Event"
     },
     "pre-evolution": {
       "short": "Pre-evo",
-      "long": "Only a pre-evolution could learn it"
+      "long": "Only a pre-evolution could learn it",
+      "filter": "Pre-evolution"
     },
     "form-change": {
       "short": "Form",
-      "long": "By changing form"
+      "long": "By changing form",
+      "filter": "Form change"
     },
     "other": {
       "short": "Other",
-      "long": "Another way"
+      "long": "Another way",
+      "filter": "Other"
     }
   },
   "moveTargets": {

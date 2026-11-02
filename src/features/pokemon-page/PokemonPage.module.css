@@ -206,25 +206,77 @@
   background: var(--surface);
 }
 
+/* Species facts: a frosted strip along the bottom of the Pokémon panel. */
 .facts {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border-radius: 18px;
+  background: color-mix(in oklab, var(--surface) 60%, transparent);
+}
+
+.factList {
   margin: 0;
   display: grid;
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(min(120px, 100%), 1fr));
+  /* "dense": a short fact fills the gap left before a wide one. */
+  grid-auto-flow: row dense;
+  gap: var(--space-3) var(--space-5);
 }
 
-.facts div {
-  display: grid;
-  grid-template-columns: minmax(96px, 9em) 1fr;
-  gap: var(--space-3);
-}
-
-.facts dt {
-  color: var(--ink-muted);
-}
-
-.facts dd {
-  margin: 0;
+.factList dt {
+  font-size: 13px;
   font-weight: 600;
+  opacity: 0.75;
+}
+
+.factList dd {
+  margin: 0;
+  font-weight: 650;
+}
+
+/* Abilities get a whole row: there can be three long names. */
+.factWide {
+  grid-column: 1 / -1;
+}
+
+/* The gender ratio reads best on one line (two columns, where there's room for two). */
+@media (min-width: 360px) {
+  .factGender {
+    grid-column: span 2;
+  }
+}
+
+.factList .abilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+}
+
+.ability {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid color-mix(in oklab, var(--ink) 22%, transparent);
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--surface) 75%, transparent);
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.ability:hover {
+  border-color: color-mix(in oklab, var(--ink) 45%, transparent);
+}
+
+.ability[aria-expanded='true'] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
 }
 
 .panel h2 {
@@ -374,6 +426,10 @@
     grid-template-columns: 1fr;
     padding: var(--space-5) var(--space-4) var(--space-4);
     min-height: 0;
+  }
+
+  .factList {
+    column-gap: var(--space-4);
   }
 
   .art {

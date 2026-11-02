@@ -4,6 +4,7 @@ import { abilityMatchupNotes } from './abilityMatchups';
 import { describeCondition } from './evolution';
 import {
   DEFAULT_LEARNSET_QUERY,
+  learnFilterCounts,
   learnsetFormId,
   viewLearnset,
   type LearnsetViewSource,
@@ -148,11 +149,27 @@ describe('learnset view', () => {
     ]);
   });
 
-  it('filters by search in any language, type, category and new moves', () => {
+  it('filters by search in any language, type and category', () => {
     expect(view({ search: 'rayo' })).toEqual(['thunderbolt']);
     expect(view({ type: 'ground' })).toEqual(['earthquake']);
     expect(view({ category: 'status' })).toEqual(['protect']);
-    expect(view({ newOnly: true })).toEqual(['earthquake']);
+  });
+
+  it('filters by how moves were learned before, or new in Champions', () => {
+    expect(view({ methods: ['new'] })).toEqual(['earthquake']);
+    expect(view({ methods: ['tutor'] })).toEqual(['aerial-ace']);
+    // Several tags: moves with any of them.
+    expect(view({ methods: ['tutor', 'new'] })).toEqual(['aerial-ace', 'earthquake']);
+    // Combined with the other filters.
+    expect(view({ methods: ['machine'], category: 'status' })).toEqual(['protect']);
+  });
+
+  it('counts the tags a learnset has', () => {
+    expect([...learnFilterCounts(entries)]).toEqual([
+      ['machine', 2],
+      ['tutor', 1],
+      ['new', 1],
+    ]);
   });
 
   it('finds which learnset a form uses', () => {

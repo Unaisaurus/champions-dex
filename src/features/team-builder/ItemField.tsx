@@ -1,4 +1,4 @@
-import { useId, useMemo } from 'react';
+import { Fragment, useId, useMemo } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { Form, Item } from '@/data/contracts';
@@ -9,6 +9,7 @@ import type { ValidationIssue } from '@/domain/validation';
 import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { megaFormWith } from '@/mechanics/mega';
+import { AbilityName } from '@/ui/components/AbilityName';
 import { ArtImage } from '@/ui/components/ArtImage';
 import { SearchSelect, type SearchSelectOption } from '@/ui/components/SearchSelect';
 import { TypeList } from '@/ui/components/TypeBadge';
@@ -134,7 +135,13 @@ function MegaPreview({ mega }: { mega: Form }) {
           <TypeList types={mega.types} size="sm" />
           {mega.abilities.length > 0 && (
             <span>
-              {t('terms.ability')}: {mega.abilities.map((id) => text.name('ability-names', id)).join(', ')}
+              {t('terms.ability')}:{' '}
+              {mega.abilities.map((id, index) => (
+                <Fragment key={id}>
+                  {index > 0 && ', '}
+                  <AbilityName id={id} />
+                </Fragment>
+              ))}
             </span>
           )}
         </div>
