@@ -55,6 +55,8 @@ export interface PersonalEntry {
   region: string;
   /** The game's variant code: `51`/`52` for Mega Evolutions (X/Y), others for other forms. */
   variant: string;
+  /** The form whose name (and Pokédex entry) this one uses: itself, or another (female Mega Meowstic). */
+  labelForm: number;
 }
 
 export interface MoveEntry {
@@ -165,6 +167,7 @@ export async function loadChampions(revision: string): Promise<ChampionsData> {
         formLabel: englishForms.get(p.ms_form_lbl ?? '') ?? '',
         region: p.rr || '00',
         variant: p.ff || '00',
+        labelForm: Number(/_(\d+)$/.exec(p.ms_form_lbl ?? '')?.[1] ?? p.fo),
       };
     });
 

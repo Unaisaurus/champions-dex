@@ -109,7 +109,7 @@ async function main() {
     loadChampions(revisions.champions),
     loadPokeApi(revisions.pokeapi),
     loadShowdown(revisions.showdown),
-    loadSvText(revisions.svText),
+    loadSvText(revisions.textDumps),
   ]);
   const dumps = await loadDexDumps(revisions, sv);
   const sprites = loadSpriteIndex(revisions.sprites);

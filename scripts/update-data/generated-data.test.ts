@@ -135,6 +135,14 @@ describe.runIf(real)('generated game data', () => {
     // PokéAPI files Hisuian Arcanine's Legends: Arceus entry under Arcanine; not here.
     expect(games('arcanine')).not.toContain('legends-arceus');
     expect(games('arcanine-hisui')).toContain('legends-arceus');
+    // DLC: the Mega Dimension Megas, Scarlet/Violet's DLC forms and Spanish entries.
+    expect(games('raichu-mega-x')).toContain('legends-za');
+    expect(games('sinistcha-masterpiece')).toEqual(expect.arrayContaining(['scarlet', 'violet']));
+    expect(read<DexEntriesFile>('text/es/dex-entries.json').sinistcha?.length).toBeGreaterThan(0);
+    // Sun/Moon and Let's Go have form entries too.
+    expect(games('raichu-alola')).toEqual(expect.arrayContaining(['sun', 'moon', 'lets-go-pikachu']));
+    // Hardly any form should be left without entries (a brand-new Mega might be, briefly).
+    expect(Object.values(en).filter((list) => list.length === 0).length).toBeLessThan(5);
     // Legends: Z-A entries, often a text from an earlier game.
     expect(games('venusaur')).toContain('legends-za');
     expect(en.venusaur?.find((e) => e.games.includes('legends-za'))?.games.length).toBeGreaterThan(1);

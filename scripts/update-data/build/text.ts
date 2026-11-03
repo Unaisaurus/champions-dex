@@ -36,7 +36,7 @@ export function svSpeciesLine(ctx: Context, no: number): number | undefined {
   if (no <= 905) return no;
   const name =
     ctx.champions.text('usa', 'monsname_syn').get(speciesLabel(no)) ?? ctx.apiNames.species('en', no);
-  const index = ctx.sv.file('eng', 'monsname.dat').indexOf(name);
+  const index = ctx.sv.file('eng', 'monsname').indexOf(name);
   return index >= 0 ? index : undefined;
 }
 
@@ -76,8 +76,7 @@ export function buildText(ctx: Context, input: TextInputs): TextFiles {
       );
       // PokéAPI lacks some Spanish categories (Paldea, Hisui); Scarlet/Violet's own text has them.
       const svLine = svSpeciesLine(ctx, no);
-      const svGenus =
-        svLine === undefined ? '' : (ctx.sv.file(SV_FILES[language], 'zkn_type.dat')[svLine] ?? '');
+      const svGenus = svLine === undefined ? '' : (ctx.sv.file(SV_FILES[language], 'zkn_type')[svLine] ?? '');
       put('genus', species.identifier, ctx.apiNames.genus(language, no) || svGenus);
     }
 

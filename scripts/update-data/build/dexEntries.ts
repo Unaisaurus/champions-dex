@@ -7,8 +7,9 @@
  * Where the text comes from:
  * - PokéAPI: English for every game; Spanish from X and Y to Sword and Shield.
  *   Species only, so it's used for the games below only when they lack a text.
- * - Game text dumps (see sources/dexDumps.ts): Ultra Sun/Ultra Moon, Sword/Shield,
- *   Legends: Arceus, Scarlet/Violet and Legends: Z-A, for species and forms.
+ * - Game text dumps (see sources/dexDumps.ts): Sun/Moon, Ultra Sun/Ultra Moon,
+ *   Let's Go, Sword/Shield, Legends: Arceus, Scarlet/Violet and Legends: Z-A
+ *   (with their DLC), for species and forms.
  *
  * Which entries a form shows:
  * - The species' main form (and any form numbered 0): the species' entries.
@@ -21,7 +22,7 @@ import type { DexEntriesFile, FormKind } from '../../../src/data/contracts';
 import { int } from '../lib/csv';
 import type { PersonalEntry } from '../sources/champions';
 import { formKey } from '../sources/champions';
-import type { DexDumps, DumpGame, DumpVersion } from '../sources/dexDumps';
+import { parseZaLabel, type DexDumps, type DumpGame, type DumpVersion } from '../sources/dexDumps';
 import { POKEAPI_LANGUAGE } from '../sources/pokeapi';
 import { cleanDumpText, isPlaceholder, japaneseKey } from '../sources/textDump';
 import type { Context } from './context';
@@ -82,14 +83,16 @@ export function towakeyId(
 }
 
 /**
- * Line of each form in an Ultra Sun/Ultra Moon Pokédex file: species at their
- * National Dex number, then every species' other forms in order (form 1, 2…).
- * Returns null if the file doesn't have the expected length.
+ * Line of each form in a Pokédex file laid out by position (Ultra Sun/Ultra
+ * Moon, Let's Go): species at their National Dex number, then every species'
+ * other forms in order (form 1, 2…). The form lines start one or two lines
+ * after the last species, depending on the game. Returns null if the file
+ * doesn't have a length that fits.
  */
-export function usumFormLines(
+export function formSlotLines(
   formCounts: readonly number[],
   fileLength: number,
-  speciesCount = 807,
+  speciesCount: number,
 ): ((no: number, fo: number) => number | undefined) | null {
   const firstSlot: number[] = [];
   let slots = 0;
@@ -97,9 +100,8 @@ export function usumFormLines(
     firstSlot[no] = slots;
     slots += Math.max(0, (formCounts[no] ?? 1) - 1);
   }
-  // The form lines start right after the species (plus one unused line).
   const start = fileLength - slots;
-  if (start !== speciesCount + 2) return null;
+  if (start !== speciesCount + 1 && start !== speciesCount + 2) return null;
   return (no, fo) => {
     if (no < 1 || no > speciesCount || fo < 0) return undefined;
     if (fo === 0) return no;
@@ -257,14 +259,30 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     for (const language of TEXT_LANGUAGES) put(key, version, language, dump.lines[language]?.[index]);
   };
 
-  // Legends: Z-A: labelled by species and form.
+  // Legends: Z-A: each line labelled with species and form. Species from
+  // Scarlet/Violet on are numbered as in the games' own list (Scarlet/Violet's
+  // name list), not by National Dex number.
   const za = versionId('legends-za');
   if (za !== undefined) {
-    for (const language of TEXT_LANGUAGES) {
-      for (const [key, text] of input.dumps.legendsZa[language]) {
-        if (wanted.has(Number(key.split('-')[0]))) put(key, za, language, text);
-      }
+    const nationalOf = new Map<number, number>();
+    for (const no of wanted) {
+      if (no <= 905) continue;
+      const line = svSpeciesLine(ctx, no);
+      if (line !== undefined) nationalOf.set(line, no);
     }
+    const { labels, lines } = input.dumps.legendsZa;
+    let found = 0;
+    labels.forEach((label, index) => {
+      const parsed = parseZaLabel(label);
+      if (!parsed) return;
+      const [number, fo] = parsed;
+      const no = number <= 905 ? number : nationalOf.get(number);
+      if (no === undefined || !wanted.has(no)) return;
+      const before = own.get(formKey(no, fo))?.has(za);
+      for (const language of TEXT_LANGUAGES) put(formKey(no, fo), za, language, lines[language]?.[index]);
+      if (!before && own.get(formKey(no, fo))?.has(za)) found += 1;
+    });
+    matching.push(`legends-za: ${found} entries placed by label`);
   } else problems.push('PokéAPI has no "legends-za" version: Legends: Z-A entries skipped');
 
   // Sword/Shield, Legends: Arceus, Scarlet/Violet: matched through towakey's Japanese text.
@@ -303,55 +321,68 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     }
   }
   // Species whose entry the matching missed: their line is their National Dex number.
-  const speciesLine = (gameId: DumpGame['id'], no: number): number | undefined => {
-    if (gameId === 'sv') return svSpeciesLine(ctx, no);
-    if (gameId === 'swsh' || gameId === 'la') return no <= 898 ? no : undefined;
-    return no <= 807 ? no : undefined;
+  const speciesLine = (game: DumpGame, no: number): number | undefined => {
+    if (game.id === 'sv') return svSpeciesLine(ctx, no);
+    return no <= game.speciesCount ? no : undefined;
   };
   for (const [version, { game, dump }] of coveredVersions) {
     for (const no of wanted) {
       const key = formKey(no, 0);
       if (own.get(key)?.has(version)) continue;
-      const index = speciesLine(game.id, no);
+      const index = speciesLine(game, no);
       if (index !== undefined) putLine(key, version, dump, index);
     }
   }
 
-  // Ultra Sun/Ultra Moon: form lines by position.
-  const usum = input.dumps.usum;
-  for (const dump of usum.versions) {
-    const version = versionId(dump.version);
-    if (version === undefined) continue;
-    coveredVersions.set(version, { game: usum, dump });
-    const lineOf = usumFormLines(usum.formCounts, dump.lines.en?.length ?? 0);
-    if (!lineOf) {
-      problems.push(
-        `${dump.version}: the Pokédex file doesn't have the expected layout; its form entries were skipped`,
-      );
-      continue;
-    }
-    let found = 0;
-    for (const form of gameForms) {
-      const index = lineOf(form.no, form.fo);
-      if (index === undefined) continue;
-      const before = own.get(form.key)?.has(version);
-      putLine(form.key, version, dump, index);
-      if (!before && own.get(form.key)?.has(version)) found += 1;
-      // Check the order against towakey: a form with its own text must not show the species' text.
-      const japanese = usum.towakey.get(form.towakey)?.get(dump.towakeyVersion);
-      const baseJapanese = usum.towakey.get(`${pad(form.no, 4)}_00000000_0_000_0`)?.get(dump.towakeyVersion);
-      if (form.fo > 0 && japanese && baseJapanese && japaneseKey(japanese) !== japaneseKey(baseJapanese)) {
-        const line = dump.lines.en?.[index];
-        const baseLine = dump.lines.en?.[form.no];
-        if (
-          isPlaceholder(line) ||
-          (baseLine && entryKey(cleanDumpText(line ?? '')) === entryKey(cleanDumpText(baseLine)))
-        ) {
-          problems.push(`${dump.version}: form ${form.key} should have its own entry, but its line doesn't`);
+  // Ultra Sun/Ultra Moon and Let's Go: form lines by position.
+  for (const game of input.dumps.slotted) {
+    for (const dump of game.versions) {
+      const version = versionId(dump.version);
+      if (version === undefined) continue;
+      coveredVersions.set(version, { game, dump });
+      const lineOf = formSlotLines(game.formCounts, dump.lines.en?.length ?? 0, game.speciesCount);
+      if (!lineOf) {
+        problems.push(
+          `${dump.version}: the Pokédex file doesn't have the expected layout; its form entries were skipped`,
+        );
+        continue;
+      }
+      let found = 0;
+      for (const form of gameForms) {
+        const index = lineOf(form.no, form.fo);
+        if (index === undefined) continue;
+        const before = own.get(form.key)?.has(version);
+        putLine(form.key, version, dump, index);
+        if (!before && own.get(form.key)?.has(version)) found += 1;
+        // Check the order against towakey: a form with its own text must not show the species' text.
+        const japanese = game.towakey.get(form.towakey)?.get(dump.towakeyVersion);
+        const baseJapanese = game.towakey
+          .get(`${pad(form.no, 4)}_00000000_0_000_0`)
+          ?.get(dump.towakeyVersion);
+        if (form.fo > 0 && japanese && baseJapanese && japaneseKey(japanese) !== japaneseKey(baseJapanese)) {
+          const line = dump.lines.en?.[index];
+          const baseLine = dump.lines.en?.[form.no];
+          if (
+            isPlaceholder(line) ||
+            (baseLine && entryKey(cleanDumpText(line ?? '')) === entryKey(cleanDumpText(baseLine)))
+          ) {
+            problems.push(
+              `${dump.version}: form ${form.key} should have its own entry, but its line doesn't`,
+            );
+          }
         }
       }
+      matching.push(`${dump.version}: ${found} entries placed by position`);
     }
-    matching.push(`${dump.version}: ${found} entries placed by position`);
+  }
+
+  // Forms the game names after another form share its entries (female Mega Meowstic).
+  for (const entries of personalBySpecies.values()) {
+    for (const entry of entries) {
+      const key = formKey(entry.no, entry.fo);
+      const shared = own.get(formKey(entry.no, entry.labelForm));
+      if (entry.labelForm !== entry.fo && shared && !own.has(key)) own.set(key, shared);
+    }
   }
 
   // PokéAPI's entries per species, language and version.
@@ -401,7 +432,12 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
         // In the games the dumps cover, PokéAPI files a regional form's entry
         // under the species when the game only has that form (Hisuian Arcanine).
         const covered = coveredVersions.get(version);
-        if (covered && !covered.game.towakey.get(baseTowakey)?.has(covered.dump.towakeyVersion)) continue;
+        if (
+          covered &&
+          covered.game.towakey.size > 0 &&
+          !covered.game.towakey.get(baseTowakey)?.has(covered.dump.towakeyVersion)
+        )
+          continue;
         const key = entryKey(fallback);
         const isRegional = (regionalKeys.get(no) ?? []).some((formKeyOfRegional) => {
           const regional = own.get(formKeyOfRegional)?.get(version);

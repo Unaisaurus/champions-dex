@@ -16,41 +16,21 @@ export const SOURCES = {
     repo: 'smogon/pokemon-showdown',
     branch: 'master',
   },
-  svText: {
-    id: 'pmsv',
-    name: 'Pokémon Scarlet/Violet text dump',
-    repo: 'giginet/PMSV',
+  // Game text: Scarlet/Violet's Spanish categories, and every Pokédex entry
+  // PokéAPI doesn't have (Legends: Z-A, DLC, single forms). See docs/DATA-SOURCES.md.
+  textDumps: {
+    id: 'pokemon-text-dumps',
+    name: 'Pokémon main series text dumps (tanripj)',
+    repo: 'tanripj/pokemon_text_dumps',
     branch: 'main',
+    pin: 'd67e1c3cbcf56571b84b1951a4d2dfc6619dc468',
   },
-  // Pokédex entries of single forms (Megas, regional forms, Rotom…) and of
-  // Legends: Z-A, from the games' own text. See docs/DATA-SOURCES.md.
   zaText: {
     id: 'plza-text',
-    name: 'Pokémon Legends: Z-A text dump',
+    name: 'Pokémon Legends: Z-A text dump with labels (CPokemon)',
     repo: 'CPokemon/plza-text',
     branch: 'main',
     pin: '3f149c41285b9fb290ab0b303d578545f569b663',
-  },
-  swshText: {
-    id: 'swsh-text',
-    name: 'Pokémon Sword/Shield text dump',
-    repo: 'CPokemon/swsh-text',
-    branch: 'master',
-    pin: '76c6e4d50003403991ee00b282f7b6e77bf84b11',
-  },
-  laText: {
-    id: 'pla-text',
-    name: 'Pokémon Legends: Arceus text dump',
-    repo: 'CPokemon/pla-text',
-    branch: 'master',
-    pin: '9b94ee8199b0d7f6bfb0d9c23a37a2a40937abbb',
-  },
-  usumText: {
-    id: 'usum-data',
-    name: 'Pokémon Ultra Sun/Ultra Moon text dump',
-    repo: 'CPokemon/usum-data',
-    branch: 'master',
-    pin: '85e44888e2a49fc61bb988bd196992dae0e07704',
   },
   pkhex: {
     id: 'pkhex',

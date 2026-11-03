@@ -55,12 +55,20 @@ export function cleanDumpText(line: string): string {
 
 /**
  * Japanese text reduced to what matters for comparing two copies of the same
- * entry: no furigana codes, no line breaks or spaces, half-width digits.
+ * entry: no furigana (in any of the dumps' notations), no line breaks or
+ * spaces, half-width digits.
  */
 export function japaneseKey(text: string): string {
-  return text
-    .replace(/\[VAR [^\]]*\]/g, '')
-    .replace(/\\n/g, '')
-    .normalize('NFKC')
-    .replace(/\s+/g, '');
+  return (
+    text
+      .replace(/\[VAR [^\]]*\]/g, '')
+      // {両頬|りょうほほ} → 両頬
+      .replace(/\{([^{}|]*)\|[^{}]*\}/g, '$1')
+      // <ruby>花<rp>(</rp><rt>はな</rt><rp>)</rp></ruby> → 花
+      .replace(/<(rt|rp)>[^<]*<\/\1>/g, '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\\n/g, '')
+      .normalize('NFKC')
+      .replace(/\s+/g, '')
+  );
 }

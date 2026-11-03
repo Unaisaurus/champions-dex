@@ -11,7 +11,7 @@ import {
   editDistance,
   entryKey,
   towakeyId,
-  usumFormLines,
+  formSlotLines,
 } from './build/dexEntries';
 import { mergeConditions } from './build/families';
 import { identifierTokens, isRegionalIdentifier, tokens } from './build/matching';
@@ -20,7 +20,7 @@ import { int, intOrNull, parseCsv } from './lib/csv';
 import { formatJson } from './lib/output';
 import { methodFromShowdownSource, toShowdownId, showdownCandidates } from './sources/showdown';
 import { cleanDumpText, isPlaceholder, parseDump } from './sources/svText';
-import { formCountsFromPersonal, parseLabelledEntries, parseTowakeyGame } from './sources/dexDumps';
+import { formCountsFromPersonal, parseTowakeyGame, parseZaLabel, readZaLabels } from './sources/dexDumps';
 import { japaneseKey, parseTextDump } from './sources/textDump';
 import { decodeText } from './lib/net';
 import { typeFromTextLabel } from './sources/champions';
@@ -180,17 +180,18 @@ describe('text', () => {
     expect(decodeText(Buffer.from('Pokédex', 'utf8'))).toBe('Pokédex');
   });
 
-  it('reads the labelled Legends: Z-A entries', () => {
-    const entries = parseLabelledEntries(
+  it('reads the Legends: Z-A labels, recovering the hashed ones', () => {
+    const labels = readZaLabels(
       [
-        '026\t7CCB\tZKN_COMMENT_A_026_000\tWhen its electricity builds…',
-        '1029\t7CCB\tZKN_COMMENT_A_026_001\tIt uses psychokinesis\\nto control electricity.',
-        '001\tD9A4\tmsg_fe809f41\t[~ 1]',
         '000\t20AD\tZKN_COMMENT_A_000_000\t',
-      ].join('\n'),
+        '001\t7CCB\tZKN_COMMENT_A_026_001\tIt uses psychokinesis…',
+        // MD5 of "ZKN_COMMENT_A_039_000": an entry still empty before the DLC.
+        '002\tC30D\tmsg_723bae366d2af607637f30676ee3ca3f\t[~ 2]',
+      ].join('\r\n'),
     );
-    expect([...entries.keys()]).toEqual(['26-0', '26-1']);
-    expect(cleanDumpText(entries.get('26-1') ?? '')).toBe('It uses psychokinesis to control electricity.');
+    expect(labels).toEqual(['ZKN_COMMENT_A_000_000', 'ZKN_COMMENT_A_026_001', 'ZKN_COMMENT_A_039_000']);
+    expect(parseZaLabel('ZKN_COMMENT_A_026_001')).toEqual([26, 1]);
+    expect(parseZaLabel('msg_123')).toBeNull();
   });
 
   it("reads towakey's Japanese text per form", () => {
@@ -204,6 +205,12 @@ describe('text', () => {
       },
     });
     expect(texts.get('0103_01000000_0_000_0')).toEqual(new Map([['scarlet', '長い首を ムチのように']]));
+  });
+
+  it('compares Japanese text without furigana in any notation', () => {
+    const plain = japaneseKey('両頬には 電気を');
+    expect(japaneseKey('{両頬|りょうほほ}には　{電気|でんき}を')).toBe(plain);
+    expect(japaneseKey('<ruby>両頬<rp>(</rp><rt>りょうほほ</rt><rp>)</rp></ruby>には 電気を')).toBe(plain);
   });
 
   it('compares Japanese text without furigana codes, spaces or wide digits', () => {
@@ -251,7 +258,7 @@ describe('text', () => {
     expect(towakeyId({ no: 666, fo: 6, region: '00', variant: '17' }, [])).toBe('0666_00000006_0_000_0');
   });
 
-  it('places Ultra Sun/Ultra Moon form entries after the species', () => {
+  it("places form entries after the species in Ultra Sun/Ultra Moon and Let's Go", () => {
     // Three species: #1 has 2 forms, #2 one, #3 three (counts from the form table).
     const counts = formCountsFromPersonal(
       Buffer.concat(
@@ -263,8 +270,8 @@ describe('text', () => {
       ),
     );
     expect(counts).toEqual([1, 2, 1, 3]);
-    // 3 species + 2 unused lines + 3 form lines = 8 lines.
-    const lineOf = usumFormLines(counts, 8, 3);
+    // 3 species + 2 lines before the forms + 3 form lines = 8 lines (Ultra Sun/Ultra Moon).
+    const lineOf = formSlotLines(counts, 8, 3);
     expect([lineOf?.(1, 0), lineOf?.(1, 1), lineOf?.(3, 1), lineOf?.(3, 2), lineOf?.(2, 1)]).toEqual([
       1,
       5,
@@ -272,7 +279,9 @@ describe('text', () => {
       7,
       undefined,
     ]);
-    expect(usumFormLines(counts, 9, 3)).toBeNull();
+    // Let's Go starts the forms right after the last species.
+    expect(formSlotLines(counts, 7, 3)?.(1, 1)).toBe(4);
+    expect(formSlotLines(counts, 9, 3)).toBeNull();
   });
 
   it('tidies PokéAPI entries and groups equal ones', () => {

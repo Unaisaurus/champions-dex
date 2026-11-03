@@ -75,5 +75,6 @@ Spanish game texts are generated, but you can override any of them: create the
 same file in `translations/es/` (for example `move-names.json`) containing only
 the entries to change. Hand-made files always win over generated ones. The same
 works for Pokédex entries Spanish data doesn't have yet:
-`translations/es/dex-entries.json` already lists them with empty texts
-(`"sinistcha/scarlet": ""`…); fill them in and they replace the English ones.
+`translations/es/dex-entries.json` lists them with empty texts (it's empty
+when every Pokémon has its Spanish entries); fill them in and they replace the
+English ones.
