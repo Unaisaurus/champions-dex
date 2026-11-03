@@ -43,11 +43,16 @@ and a visual review.
       app that works offline (the app, its data and the artwork you've seen;
       all artwork on request; a prompt when a new version is ready), and a data
       changelog page (Pokémon, moves, items, learnsets and texts per update).
-      Pokédex entries from every game since Sun/Moon, DLC included.
+      Pokédex entries from every game since Sun/Moon, DLC included, for every
+      form. Shiny artwork lined up with the regular art, credited fan art for
+      missing or odd artwork, and an artwork check page.
+
+Next: Spanish Pokédex entries for the games before X and Y (imported once
+from WikiDex), a "Report a problem" link, pages for moves, Abilities and items,
+Speed tiers and a damage calculator.
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
-Generation 10, a regulation filter, pages for reference-only Pokémon, maybe a
-damage calculator.
+Generation 10, a regulation filter, pages for reference-only Pokémon.
 
 ## Decisions
 
@@ -79,4 +84,5 @@ damage calculator.
 
 ## Open questions
 
-- **Older Spanish Pokédex entries** (before X and Y): add them from WikiDex?
+- **Older Spanish Pokédex entries** (before X and Y): planned as a one-time
+  import from WikiDex, run on GitHub, into `translations/es/dex-entries.json`.

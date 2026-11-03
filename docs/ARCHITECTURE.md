@@ -42,8 +42,10 @@ The steps, in order: resolve source revisions → load sources → match game fo
 to PokéAPI → build forms (entries, profiles, appearances, Mega Stones) →
 evolution families and reference forms → moves, Abilities, items → learnsets
 with history → species → text and Pokédex entries → apply
-`data/overrides/forms.json` → check everything → write `public/data/` (all at
-once, only if every check passed) → `data/update-report.md` → sync the
+`data/overrides/forms.json` → artwork (fan art from `data/overrides/art.json`,
+then each shiny lined up with its regular art) → check everything → write
+`public/data/` (all at once, only if every check passed) →
+`data/update-report.md` and `data/artwork-measurements.json` → sync the
 translation files.
 
 If a run produces exactly the same data as before, nothing is written and the
@@ -82,6 +84,16 @@ the form's list or its species'; `src/domain/dexEntries.ts` orders them
 (newest release first, paired games in their own order) and picks what shows
 before "Show all": the newest game's entries, or both of the newest pair's
 (`manifest.json` lists each game with the release it belongs to).
+
+**Artwork.** `ArtImage` (`src/ui/components/`) tries each image key in turn
+and ends with a placeholder. Given `fits` (from `artFits(form.art)` in
+`src/ui/images.ts`), it applies the stored scale and shift to the image that
+needs it, so a shiny drawn at another size sits exactly where the regular art
+does; fallbacks to the regular art are shown as they are. The measuring is in
+`scripts/update-data/build/artwork.ts`. Fan art keys look like
+`custom/<file>` and load from `public/images/custom/` (the manifest's `custom`
+image group). The artwork check page (`src/features/artwork/`, route
+`#/artwork`) lists every form's regular and shiny art.
 
 **Scrolling.** `ScrollRestoration` (in `AppShell`) opens new pages at the top
 and brings Back to where you were; the Pokédex list remembers its position per

@@ -210,6 +210,23 @@ export type FormDisplay = z.infer<typeof FormDisplaySchema>;
 export const AvailabilitySchema = z.enum(['champions', 'reference']);
 export type Availability = z.infer<typeof AvailabilitySchema>;
 
+/** The artwork a form can show: regular, shiny, female and female shiny. */
+export const ART_VARIANTS = ['official', 'officialShiny', 'officialFemale', 'officialFemaleShiny'] as const;
+export const ArtVariantSchema = z.enum(ART_VARIANTS);
+export type ArtVariant = z.infer<typeof ArtVariantSchema>;
+
+/**
+ * How to put a drawing exactly on top of the regular one when it's drawn
+ * bigger, smaller or off-centre in its frame: scale it, then shift it by
+ * `x`/`y` (fractions of the image's width and height), from its centre.
+ */
+export const ArtFitSchema = z.object({ scale: z.number().positive(), x: z.number(), y: z.number() });
+export type ArtFit = z.infer<typeof ArtFitSchema>;
+
+/** Who made a piece of fan art, with a link to them or the original. */
+export const ArtCreditSchema = z.object({ artist: z.string(), link: z.string().optional() });
+export type ArtCredit = z.infer<typeof ArtCreditSchema>;
+
 /** Image keys such as `official/3`; resolved to files with the manifest's `images` settings. */
 export const ArtSchema = z.object({
   official: z.string().nullable(),
@@ -218,6 +235,12 @@ export const ArtSchema = z.object({
   officialFemaleShiny: z.string().nullable().default(null),
   icon: z.string().nullable(),
   iconShiny: z.string().nullable(),
+  /** Shiny art drawn at another size or position than the regular art: how to line it up. */
+  fit: z.partialRecord(ArtVariantSchema, ArtFitSchema).optional(),
+  /** Variants that aren't the same drawing as the regular art (another pose, a 3D model). */
+  mismatched: z.array(ArtVariantSchema).optional(),
+  /** Fan art used in place of a missing or unsuitable image, and who made it. */
+  credits: z.partialRecord(ArtVariantSchema, ArtCreditSchema).optional(),
 });
 export type Art = z.infer<typeof ArtSchema>;
 

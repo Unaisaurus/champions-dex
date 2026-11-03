@@ -1,6 +1,6 @@
-# Data update 2026-11-03.2
+# Data update 2026-11-03.3
 
-Generated 2026-11-03T09:59:25Z.
+Generated 2026-11-03T11:37:04Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -16,10 +16,19 @@ Game: version 1.2.2, Regulation M-C.
 - Learnset entries: 16073
 - Learnset entries new in Champions: 110
 - Forms with Pokédex entries of their own: 169
+- Shiny artwork lined up with the regular art: 149
+- Fan art (data/overrides/art.json): 0
 
 ## Changes since the previous update
 
-No changes to Pokémon, moves, items or learnsets.
+### Changed: dex-entries (5)
+
+- aegislash-blade
+- gourgeist-super
+- ninetales-alola
+- slowbro-galar
+- slowking-galar
+
 
 ## Sources
 
@@ -72,12 +81,21 @@ No changes to Pokémon, moves, items or learnsets.
 - legends-za: 300 entries placed by label
 - sun: 84 entries placed
 - moon: 84 entries placed
-- sword: 182 entries placed, 1 not found in the dump (38-1)
-- shield: 179 entries placed, 4 not found in the dump (38-1, 681-0, 681-1, 711-3)
+- sword: 182 entries placed, 1 from data/overrides/dex-entries.json
+- shield: 179 entries placed, 3 from the same line in the other version, 1 from data/overrides/dex-entries.json
 - legends-arceus: 66 entries placed
-- scarlet: 233 entries placed, 3 not found in the dump (38-1, 80-2, 199-1)
-- violet: 233 entries placed, 3 not found in the dump (38-1, 80-2, 199-1)
+- scarlet: 233 entries placed, 3 from data/overrides/dex-entries.json
+- violet: 233 entries placed, 3 from data/overrides/dex-entries.json
 - ultra-sun: 150 entries placed by position
 - ultra-moon: 150 entries placed by position
 - lets-go-pikachu: 49 entries placed by position
 - lets-go-eevee: 49 entries placed by position
+
+## Forms whose regular and shiny art aren't the same drawing (better art welcome) (6)
+
+- castform-rainy
+- floette-eternal
+- sliggoo
+- squawkabilly-blue-plumage
+- squawkabilly-white-plumage
+- squawkabilly-yellow-plumage

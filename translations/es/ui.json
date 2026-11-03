@@ -164,6 +164,7 @@
     "appearances": "Aspecto",
     "showShiny": "Colores variocolor",
     "showFemale": "Hembra",
+    "fanArt": "Fan art de {{artist}}",
     "notInChampions": "No disponible en Pokémon Champions",
     "speciesInfo": "Especie",
     "genderLabel": "Sexo",
@@ -468,7 +469,8 @@
       "healthy": "Todos los archivos de datos han superado las comprobaciones de coherencia.",
       "problems_one": "Se ha encontrado {{count}} problema de coherencia en los archivos de datos:",
       "problems_other": "Se han encontrado {{count}} problemas de coherencia en los archivos de datos:",
-      "changelog": "Qué cambió en cada actualización"
+      "changelog": "Qué cambió en cada actualización",
+      "artwork": "Revisar las ilustraciones"
     }
   },
   "translations": {
@@ -563,6 +565,30 @@
     "texts_other": "{{count}} textos",
     "showList_one": "Ver {{count}}",
     "showList_other": "Ver los {{count}}"
+  },
+  "artwork": {
+    "title": "Revisión de ilustraciones",
+    "intro": "Las ilustraciones normal y variocolor de cada Pokémon, una al lado de la otra, para encontrar las que convendría sustituir por fan art (consulta data/overrides/README.md en el proyecto). Las variocolor dibujadas a otro tamaño que la normal se ajustan automáticamente.",
+    "show": "Mostrar",
+    "filters": {
+      "attention": "Para revisar",
+      "lined": "Ajustadas",
+      "fan": "Fan art",
+      "all": "Todas"
+    },
+    "lineUp": "Ajustar las variocolor",
+    "reference": "Incluir Pokémon que no están en Champions",
+    "count_one": "{{count}} Pokémon o forma",
+    "count_other": "{{count}} Pokémon y formas",
+    "nothing": "No hay nada que mostrar.",
+    "regular": "Normal",
+    "shiny": "Variocolor",
+    "noArt": "Sin ilustración",
+    "noShiny": "Sin ilustración variocolor",
+    "mismatched": "La normal y la variocolor no son el mismo dibujo",
+    "bigger": "Variocolor dibujada un {{percent}} más grande: ajustada",
+    "smaller": "Variocolor dibujada un {{percent}} más pequeña: ajustada",
+    "moved": "Variocolor descentrada: ajustada"
   },
   "pwa": {
     "updateReady": "Hay una nueva versión de Champions Dex.",

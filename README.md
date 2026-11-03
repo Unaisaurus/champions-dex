@@ -9,7 +9,9 @@ computer: no account, no server of your own, nothing to pay.
 > (each form with its own Pokédex entries), a team builder with live stats,
 > legal moves, warnings, a team overview and Showdown import/export, a Basque
 > editor inside the app, an installable app that works offline, and a page
-> listing what each data update changed. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> listing what each data update changed. Shiny artwork is lined up with the
+> regular art, and missing or odd artwork can be replaced with credited fan
+> art. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Building teams
 
@@ -106,6 +108,15 @@ app keeps its current data. What changed is written to
 **Settings → Game data → What changed in each update**. Your teams are never
 touched.
 
+## Artwork
+
+The artwork comes from PokéAPI. Shiny art that was drawn bigger or smaller
+than the regular art is lined up automatically, so switching to shiny only
+changes the colours. **Settings → Game data → Check the artwork** shows every
+Pokémon's regular and shiny art side by side, with the ones that need a look
+first (missing, or not the same drawing). To use fan art for those, see
+[data/overrides/README.md](data/overrides/README.md#adding-fan-art).
+
 ## Your saved data
 
 - Teams and favourites are stored in the browser on this device.
@@ -129,14 +140,16 @@ The same texts can also be edited directly in `translations/eu/`, as simple
 
 ## Where things live
 
-| Folder                  | What's in it                                         | Edit it?                         |
-| ----------------------- | ---------------------------------------------------- | -------------------------------- |
-| `translations/`         | Interface texts, and Basque game texts               | Yes: this is where you translate |
-| `data/overrides/`       | Hand-made corrections and lists (starters, fossils…) | Yes, carefully                   |
-| `public/data/`          | Game data made by the data updater                   | No: it's regenerated             |
-| `data/update-report.md` | What the last data update changed                    | No: it's regenerated             |
-| `src/`                  | The app's code                                       | Only if you're changing the app  |
-| `docs/`                 | How everything works                                 | —                                |
+| Folder                           | What's in it                                                    | Edit it?                         |
+| -------------------------------- | --------------------------------------------------------------- | -------------------------------- |
+| `translations/`                  | Interface texts, and Basque game texts                          | Yes: this is where you translate |
+| `data/overrides/`                | Hand-made corrections and lists (starters, fossils…)            | Yes, carefully                   |
+| `public/images/custom/`          | Fan art (listed in `data/overrides/art.json`)                   | Yes: add images here             |
+| `public/data/`                   | Game data made by the data updater                              | No: it's regenerated             |
+| `data/update-report.md`          | What the last data update changed                               | No: it's regenerated             |
+| `data/artwork-measurements.json` | Where each artwork's drawing sits (so images are measured once) | No: it's regenerated             |
+| `src/`                           | The app's code                                                  | Only if you're changing the app  |
+| `docs/`                          | How everything works                                            | —                                |
 
 ## For developers
 

@@ -55,12 +55,47 @@ export const FormsFileSchema = z.object({
     .default({}),
 });
 
+export const DexEntriesFileSchema = z.object({
+  note,
+  /**
+   * Pokédex entries the automatic matching can't place, by form ID and game
+   * (PokéAPI version, e.g. `sword`): how the entry starts in English in that
+   * game's text. The updater finds the one line that starts that way and takes
+   * every language from it. A `"note"` inside a form is allowed.
+   */
+  entries: z.record(IdSchema, z.record(z.string(), z.string().min(8))).default({}),
+});
+
+/** One piece of fan art: a PNG in public/images/custom/ and who made it. */
+const FanArtSchema = z.object({
+  note,
+  file: z
+    .string()
+    .regex(/^[a-z0-9][a-z0-9-]*\.png$/, 'a .png file name in lowercase letters, digits and hyphens'),
+  artist: z.string().min(1),
+  link: z.url({ protocol: /^https?$/ }).optional(),
+});
+
+export const ArtFileSchema = z.object({
+  note,
+  /**
+   * Form ID → the artwork to use instead of PokéAPI's: `regular` and/or
+   * `shiny`. Female differences are forms of their own (`pyroar-female`).
+   */
+  art: z
+    .record(IdSchema, z.object({ note, regular: FanArtSchema.optional(), shiny: FanArtSchema.optional() }))
+    .default({}),
+});
+export type FanArt = z.infer<typeof FanArtSchema>;
+
 export interface Overrides {
   categories: z.infer<typeof CategoriesFileSchema>['categories'];
   rules: z.infer<typeof RulesSchema>;
   game: z.infer<typeof GameFileSchema>;
   forms: z.infer<typeof FormsFileSchema>;
   aliases: z.infer<typeof AliasesSchema>;
+  dexEntries: z.infer<typeof DexEntriesFileSchema>['entries'];
+  art: z.infer<typeof ArtFileSchema>['art'];
 }
 
 function read<T>(file: string, schema: z.ZodType<T>, fallback?: T): T {
@@ -93,5 +128,7 @@ export function loadOverrides(): Overrides {
     game: read('game.json', GameFileSchema),
     forms: read('forms.json', FormsFileSchema, { matches: {}, patches: {} }),
     aliases: read('aliases.json', AliasesSchema),
+    dexEntries: read('dex-entries.json', DexEntriesFileSchema, { entries: {} }).entries,
+    art: read('art.json', ArtFileSchema, { art: {} }).art,
   };
 }

@@ -11,6 +11,7 @@ import { gameplayFormOf, type ValidationIssue } from '@/domain/validation';
 import { useGameText } from '@/i18n/useGameText';
 import { megaFormFor } from '@/mechanics/mega';
 import { ArtImage } from '@/ui/components/ArtImage';
+import { artFits } from '@/ui/images';
 import { Button } from '@/ui/components/Button';
 import { SegmentedControl } from '@/ui/components/SegmentedControl';
 import { Switch } from '@/ui/components/Switch';
@@ -115,6 +116,7 @@ function Identity({
       <div className={styles.portrait} style={{ '--hero-bg': `var(--dex-${colour})` } as CSSProperties}>
         <ArtImage
           keys={artKeys}
+          fits={artFits(look.art)}
           alt={label ? `${speciesName} (${label})` : speciesName}
           width={240}
           height={240}

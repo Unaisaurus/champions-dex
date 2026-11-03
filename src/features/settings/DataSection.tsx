@@ -41,6 +41,9 @@ export function DataSection() {
       <Link to="/changelog" className={styles.link}>
         {t('settings.data.changelog')}
       </Link>
+      <Link to="/artwork" className={styles.link}>
+        {t('settings.data.artwork')}
+      </Link>
       {problems.length === 0 ? (
         <p className={styles.muted}>{t('settings.data.healthy')}</p>
       ) : (

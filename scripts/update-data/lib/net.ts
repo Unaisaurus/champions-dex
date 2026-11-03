@@ -117,11 +117,16 @@ export async function mapLimit<T, R>(items: readonly T[], limit: number, task: (
  * Lists the files of a repository folder at a revision, using a light Git
  * checkout that downloads names only. Returns null when Git isn't available.
  */
+/**
+ * Every file in some folders of a repository at a revision, with its Git
+ * object ID (which changes whenever the file does). Only the file list is
+ * downloaded, not the files.
+ */
 export function listRepoFiles(
   source: GitSource,
   revision: string,
   folders: readonly string[],
-): Set<string> | null {
+): Map<string, string> | null {
   const dir = join(SOURCES_DIR, `${source.id}-tree`);
   const git = (args: string[]) =>
     execFileSync('git', args, {
@@ -148,8 +153,16 @@ export function listRepoFiles(
     } catch {
       git(['-C', dir, 'fetch', '--quiet', '--filter=blob:none', '--depth', '1', 'origin', revision]);
     }
-    const output = git(['-C', dir, 'ls-tree', '-r', '--name-only', revision, '--', ...folders]);
-    return new Set(output.split('\n').filter(Boolean));
+    // Lines look like "100644 blob <object id>\t<path>".
+    const output = git(['-C', dir, 'ls-tree', '-r', revision, '--', ...folders]);
+    const files = new Map<string, string>();
+    for (const line of output.split('\n')) {
+      const tab = line.indexOf('\t');
+      if (tab < 0) continue;
+      const object = line.slice(0, tab).split(' ')[2];
+      if (object) files.set(line.slice(tab + 1), object);
+    }
+    return files;
   } catch (error) {
     log.warn(
       `Couldn't list files of ${source.repo} with Git (${error instanceof Error ? error.message.split('\n')[0] : error}).`,

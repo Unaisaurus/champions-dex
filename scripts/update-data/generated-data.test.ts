@@ -43,6 +43,22 @@ describe.runIf(real)('generated game data', () => {
     expect(missing).toEqual([]);
   });
 
+  it('lines up shiny artwork drawn at another size', () => {
+    const form = (id: string) => core.forms.find((f) => f.id === id);
+    // Toxtricity's shiny is drawn about 38% bigger: shown at about 0.72 of its size.
+    const toxtricity = form('toxtricity')?.art.fit?.officialShiny;
+    expect(toxtricity?.scale).toBeGreaterThan(0.68);
+    expect(toxtricity?.scale).toBeLessThan(0.76);
+    // Small Gourgeist's is drawn smaller; Venusaur's already matches.
+    expect(form('gourgeist-small')?.art.fit?.officialShiny?.scale).toBeGreaterThan(1.3);
+    expect(form('venusaur')?.art.fit).toBeUndefined();
+    // Not the same drawing (another pose): flagged, not stretched.
+    expect(form('floette-eternal')?.art.mismatched).toContain('officialShiny');
+    expect(form('floette-eternal')?.art.fit).toBeUndefined();
+    const lined = core.forms.filter((f) => f.availability === 'champions' && f.art.fit?.officialShiny);
+    expect(lined.length).toBeGreaterThan(50);
+  });
+
   it('sorts forms into profiles and appearances', () => {
     expect(forms.get('rotom-heat')?.display).toBe('profile');
     expect(forms.get('vivillon-polar')).toMatchObject({ display: 'appearance', gameplayForm: 'vivillon' });
@@ -141,6 +157,17 @@ describe.runIf(real)('generated game data', () => {
     expect(read<DexEntriesFile>('text/es/dex-entries.json').sinistcha?.length).toBeGreaterThan(0);
     // Sun/Moon and Let's Go have form entries too.
     expect(games('raichu-alola')).toEqual(expect.arrayContaining(['sun', 'moon', 'lets-go-pikachu']));
+    // Hand-checked lines (data/overrides/dex-entries.json) and the other version's same line.
+    const swshSv = ['sword', 'shield', 'scarlet', 'violet'];
+    expect(games('ninetales-alola')).toEqual(expect.arrayContaining(swshSv));
+    expect(games('slowbro-galar')).toEqual(expect.arrayContaining(['scarlet', 'violet']));
+    expect(games('slowking-galar')).toEqual(expect.arrayContaining(['scarlet', 'violet']));
+    expect(games('aegislash-blade')).toContain('shield');
+    expect(games('gourgeist-super')).toContain('shield');
+    const es = read<DexEntriesFile>('text/es/dex-entries.json');
+    expect([...new Set((es['ninetales-alola'] ?? []).flatMap((e) => e.games))]).toEqual(
+      expect.arrayContaining(swshSv),
+    );
     // Hardly any form should be left without entries (a brand-new Mega might be, briefly).
     expect(Object.values(en).filter((list) => list.length === 0).length).toBeLessThan(5);
     // Legends: Z-A entries, often a text from an earlier game.

@@ -29,6 +29,13 @@ import {
 import { checkIntegrity } from '../../src/data/integrity';
 import { syncTranslations } from '../sync-translations';
 import { buildAbilities, buildAlignments, buildItems, buildMoves, buildTypes } from './build/catalog';
+import {
+  applyFanArt,
+  CUSTOM_GROUP,
+  lineUpArtwork,
+  MEASUREMENTS_NOTE,
+  readMeasurements,
+} from './build/artwork';
 import { buildContext } from './build/context';
 import { buildDexEntries, gamesUsed, TEXT_LANGUAGES } from './build/dexEntries';
 import { buildFamilies } from './build/families';
@@ -40,7 +47,7 @@ import { compareData, compareText, hasChanges, reportMarkdown, type TextSnapshot
 import { buildSpecies, setLineGenerations } from './build/species';
 import { buildSearchNames, buildText } from './build/text';
 import { log } from './lib/log';
-import { readJsonFile, OutputFolder } from './lib/output';
+import { formatJson, readJsonFile, OutputFolder } from './lib/output';
 import { resolveRevision } from './lib/net';
 import { OUTPUT_DIR, ROOT } from './lib/paths';
 import { GAME_LANGUAGES, loadChampions } from './sources/champions';
@@ -57,6 +64,10 @@ const CHECK_ONLY = args.has('--check');
 const OFFLINE = args.has('--offline') || process.env.OFFLINE === '1';
 const CHANGELOG_LENGTH = 30;
 const REPORT_FILE = join(ROOT, 'data', 'update-report.md');
+/** How each shiny artwork lines up with the regular one, kept between runs. */
+const MEASUREMENTS_FILE = join(ROOT, 'data', 'artwork-measurements.json');
+/** Fan art listed in data/overrides/art.json. */
+const CUSTOM_ART_DIR = join(ROOT, 'public', 'images', 'custom');
 
 async function resolveRevisions(previous: Manifest | null): Promise<Revisions> {
   const revisions = {} as Revisions;
@@ -224,6 +235,34 @@ async function main() {
     Object.assign(form, Object.fromEntries(Object.entries(fields).filter(([, v]) => v !== undefined)));
   }
 
+  log.step('Artwork');
+  const allForms = drafts.map((d) => d.form);
+  const fanArt = applyFanArt(allForms, overrides.art, CUSTOM_ART_DIR);
+  fanArt.problems.forEach((p) => log.warn(p));
+  if (fanArt.used) log.info(`Fan art from data/overrides/art.json: ${fanArt.used}`);
+  const imagesRemote: Record<string, { base: string; ext: string }> = {
+    ...Object.fromEntries(
+      Object.keys(IMAGE_GROUPS).map((group) => [group, sprites.remote[group] ?? { base: '', ext: 'png' }]),
+    ),
+    // Fan art is part of the app itself (relative to its address).
+    [CUSTOM_GROUP]: { base: 'images/custom/', ext: 'png' },
+  };
+  const artwork = await lineUpArtwork(allForms, {
+    remote: imagesRemote,
+    objectId: (key) => sprites.objectId(key),
+    spritesRevision: revisions.sprites,
+    customDir: CUSTOM_ART_DIR,
+    measured: readMeasurements(MEASUREMENTS_FILE),
+  });
+  log.info(
+    `Shiny artwork: ${artwork.lined} lined up with the regular art, ${artwork.same} already matching, ${artwork.different.length} not the same drawing`,
+  );
+  if (artwork.unmeasured) {
+    log.warn(
+      `${artwork.unmeasured} artwork pairs couldn't be measured (images not downloaded): shown as they are`,
+    );
+  }
+
   const core: CoreData = {
     rules: overrides.rules,
     species: speciesResult.species,
@@ -333,9 +372,7 @@ async function main() {
       localDir: 'images',
       localExt: 'webp',
       mirroredGroups: [],
-      remote: Object.fromEntries(
-        Object.keys(IMAGE_GROUPS).map((group) => [group, sprites.remote[group] ?? { base: '', ext: 'png' }]),
-      ),
+      remote: imagesRemote,
     },
   };
   output.add('manifest.json', manifest);
@@ -407,6 +444,8 @@ async function main() {
     'Learnset entries': learnsets.stats.entries,
     'Learnset entries new in Champions': learnsets.stats.newInChampions,
     'Forms with Pokédex entries of their own': dex.notes.formsWithEntries.length,
+    'Shiny artwork lined up with the regular art': artwork.lined,
+    'Fan art (data/overrides/art.json)': fanArt.used,
   };
   const report = reportMarkdown({
     manifest,
@@ -420,6 +459,7 @@ async function main() {
       'Items Showdown treats differently': items.notes,
       'Pokédex entries of single forms found in each game': dex.notes.matching,
       'Forms without Pokédex entries of their own yet': dex.notes.formsWithoutEntries,
+      "Forms whose regular and shiny art aren't the same drawing (better art welcome)": artwork.different,
     },
   });
 
@@ -428,6 +468,7 @@ async function main() {
     console.log(report);
     return;
   }
+  writeFileSync(MEASUREMENTS_FILE, formatJson({ note: MEASUREMENTS_NOTE, ...artwork.measured }), 'utf8');
   if (unchanged) {
     log.step('No changes: the data is already up to date.');
     return;

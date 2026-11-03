@@ -1,0 +1,125 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.intro {
+  margin: 0;
+  color: var(--ink-muted);
+  max-width: 72ch;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--space-3) var(--space-5);
+}
+
+.switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+
+.count,
+.muted {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-3);
+}
+
+.card {
+  height: 100%;
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.name {
+  font-weight: 650;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: var(--space-1);
+  text-align: center;
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+/* The image's frame, so you can see how the drawing sits in it. */
+.box {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  background: var(--surface-sunken);
+}
+
+.box img,
+.box > span {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.notes {
+  margin: 0;
+  padding-left: var(--space-4);
+  display: grid;
+  gap: 2px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.warn {
+  color: var(--warning);
+  font-weight: 600;
+}

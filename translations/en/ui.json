@@ -164,6 +164,7 @@
     "appearances": "Appearance",
     "showShiny": "Shiny colours",
     "showFemale": "Female",
+    "fanArt": "Fan art by {{artist}}",
     "notInChampions": "Not available in Pokémon Champions",
     "speciesInfo": "Species",
     "genderLabel": "Gender",
@@ -468,7 +469,8 @@
       "healthy": "All data files passed their consistency checks.",
       "problems_one": "{{count}} consistency problem found in the data files:",
       "problems_other": "{{count}} consistency problems found in the data files:",
-      "changelog": "What changed in each update"
+      "changelog": "What changed in each update",
+      "artwork": "Check the artwork"
     }
   },
   "translations": {
@@ -563,6 +565,30 @@
     "texts_other": "{{count}} texts",
     "showList_one": "Show {{count}}",
     "showList_other": "Show all {{count}}"
+  },
+  "artwork": {
+    "title": "Artwork check",
+    "intro": "Every Pokémon's regular and shiny artwork side by side, to find images worth replacing with fan art (see data/overrides/README.md in the project). Shiny art drawn at another size than the regular art is lined up automatically.",
+    "show": "Show",
+    "filters": {
+      "attention": "Needs a look",
+      "lined": "Lined up",
+      "fan": "Fan art",
+      "all": "All"
+    },
+    "lineUp": "Line up shiny art",
+    "reference": "Include Pokémon outside Champions",
+    "count_one": "{{count}} Pokémon or form",
+    "count_other": "{{count}} Pokémon and forms",
+    "nothing": "Nothing to show here.",
+    "regular": "Regular",
+    "shiny": "Shiny",
+    "noArt": "No artwork",
+    "noShiny": "No shiny artwork",
+    "mismatched": "Regular and shiny aren't the same drawing",
+    "bigger": "Shiny drawn {{percent}} bigger: lined up",
+    "smaller": "Shiny drawn {{percent}} smaller: lined up",
+    "moved": "Shiny drawn off-centre: lined up"
   },
   "pwa": {
     "updateReady": "A new version of Champions Dex is ready.",

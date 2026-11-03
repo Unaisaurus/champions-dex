@@ -60,6 +60,13 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
     the same line.
   - Ultra Sun/Ultra Moon and Let's Go: form entries follow the species in a
     fixed order, worked out from the game's form counts.
+  - The two versions of a game share one layout (line n is the same Pokémon
+    in Sword and in Shield), so an entry found in one version but not the
+    other is taken from the same line of the other (only lines whose text is
+    unique, and only if every entry found in both sits on the same line).
+  - The rest are hand-checked in `data/overrides/dex-entries.json`: for each
+    form and game, how the entry starts in English; the updater finds that
+    line and takes every language from it.
 
   A form then shows only the entries the games give it: Alolan Raichu shows
   Alolan Raichu's, Mega Venusaur its Legends: Z-A one, Heat Rotom its own from
@@ -69,6 +76,21 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
   Legends: Z-A entries repeat an earlier game's text: they're grouped with it,
   so the entry lists every game that uses it.
 
+- **Artwork.** PokéAPI's official artwork and its shiny set share one frame,
+  but the shiny drawing is sometimes bigger, smaller or off-centre (Toxtricity's
+  is 38% bigger, every Mega's about 10%). The updater measures where each
+  drawing sits and stores the scale and shift that put the shiny exactly on
+  top of the regular art (`art.fit` in `forms.json`); the app applies it.
+  Pairs whose outlines don't match aren't one drawing in two colours (another
+  pose, or a 3D model in place of a drawing): they're marked
+  `art.mismatched` and listed in the report and the app's artwork check, as
+  candidates for fan art. Measurements are kept in
+  `data/artwork-measurements.json` by the images' Git object IDs, so an image
+  is only downloaded again when it changes.
+- **Fan art** listed in `data/overrides/art.json` (PNG files in
+  `public/images/custom/`) replaces PokéAPI's image for a form's regular or
+  shiny art, is lined up the same way, and is credited to its artist on the
+  Pokémon page.
 - **Move changes.** Where Champions changed a move (power, accuracy, type, PP
   beyond the usual conversion), the main-series value is kept alongside
   (`mainSeries` in `moves.json`), so the app can point it out.
@@ -92,14 +114,17 @@ and other game text.
 - **Spanish Pokédex entries before X and Y** aren't in any automatic source, so
   Spanish shows the entries from X and Y onwards. WikiDex has the older ones if
   we want to add them by hand later.
-- **A few form entries can't be placed**: where towakey's Japanese text is
-  from another game (Alolan Ninetales in Sword/Shield and Scarlet/Violet,
-  Galarian Slowbro and Slowking in Scarlet/Violet), those entries are left
-  out. The report lists what couldn't be placed.
+- **Form entries the matching can't place** (towakey's Japanese text is from
+  another game) are found from the other version of the same game, or listed
+  by hand in `data/overrides/dex-entries.json` (Alolan Ninetales in
+  Sword/Shield and Scarlet/Violet, Galarian Slowbro and Slowking in
+  Scarlet/Violet). The report lists anything still unplaced.
 - **Minor gender differences** (Venusaur, Pikachu…) have no artwork in the
   official style, so only forms with real artwork get a female toggle.
 - **Images are loaded from the sprite repository**, pinned to the same
   revision, rather than copied into this project; the browser caches them, and
   the installed app keeps the ones you've seen for offline use.
 - Shiny artwork is a fan-made recolouring of the official art, bundled with
-  PokéAPI's sprites.
+  PokéAPI's sprites. A few images aren't in the official style (Squawkabilly's
+  White, Blue and Yellow Plumage art is a 3D model), and Mega Garchomp Z has no
+  shiny art yet: the artwork check lists them, and fan art can replace them.

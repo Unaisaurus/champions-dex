@@ -1,0 +1,19 @@
+{
+  "note": "Pokédex entries the automatic matching can't place: towakey's copy of these has another game's text, so the line can't be found by its Japanese. Each value is how the entry starts in English in that game; the updater finds the line and takes English and Spanish from it. Checked against the games' text on 2026-11-03.",
+  "entries": {
+    "ninetales-alola": {
+      "sword": "A deity resides in the snowy mountains",
+      "shield": "While it will guide travelers who get lost",
+      "scarlet": "Possessing a calm demeanor, this Pokémon was revered",
+      "violet": "It creates drops of ice in its coat"
+    },
+    "slowbro-galar": {
+      "scarlet": "Shellder seems blissful over the taste of Slowbro",
+      "violet": "Shellder bites down hard on Slowbro’s arm"
+    },
+    "slowking-galar": {
+      "scarlet": "It administers its potions to weakened Pokémon",
+      "violet": "It creates potions by mixing toxins"
+    }
+  }
+}

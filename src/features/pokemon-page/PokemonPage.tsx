@@ -13,7 +13,7 @@ import { Notice } from '@/ui/components/Notice';
 import { StatBars } from '@/ui/components/StatBars';
 import { TypeList } from '@/ui/components/TypeBadge';
 import { formatHeight, formatNumber, formatWeight } from '@/ui/format';
-import { formatDexNumber } from '@/ui/images';
+import { artFits, formatDexNumber } from '@/ui/images';
 import { useFormLabels } from '@/ui/useFormLabels';
 import { DexEntries } from './DexEntries';
 import { EvolutionTree } from './EvolutionTree';
@@ -155,6 +155,8 @@ export function PokemonPage() {
   const subtitle = labels.get(shown.id) ?? null;
   const fullName = subtitle ? `${title} (${subtitle})` : title;
   const artKeys = shiny ? [shown.art.officialShiny, shown.art.official] : [shown.art.official];
+  // Fan art is credited to its artist.
+  const credit = shown.art.credits?.[shiny && shown.art.officialShiny ? 'officialShiny' : 'official'];
   const genus = text.get('genus', species.id)?.text;
   const current = new Set([members.has(profile.id) ? profile.id : entry.id]);
   // Switching forms keeps the page where it is (see ScrollRestoration in AppShell).
@@ -178,7 +180,25 @@ export function PokemonPage() {
           {formatDexNumber(species.nationalDex)}
         </span>
         <div className={styles.art}>
-          <ArtImage keys={artKeys} alt={fullName} width={420} height={420} priority />
+          <ArtImage
+            keys={artKeys}
+            fits={artFits(shown.art)}
+            alt={fullName}
+            width={420}
+            height={420}
+            priority
+          />
+          {credit && (
+            <p className={styles.artCredit}>
+              {credit.link ? (
+                <a href={credit.link} target="_blank" rel="noreferrer">
+                  {t('pokemon.fanArt', { artist: credit.artist })}
+                </a>
+              ) : (
+                t('pokemon.fanArt', { artist: credit.artist })
+              )}
+            </p>
+          )}
         </div>
         <div className={styles.identity}>
           <p className={styles.number}>

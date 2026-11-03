@@ -1,4 +1,5 @@
 import { createHashRouter } from 'react-router';
+import { ArtworkPage } from '@/features/artwork/ArtworkPage';
 import { ChangelogPage } from '@/features/changelog/ChangelogPage';
 import { PokedexPage } from '@/features/pokedex/PokedexPage';
 import { PokemonPage } from '@/features/pokemon-page/PokemonPage';
@@ -24,6 +25,7 @@ export const router = createHashRouter([
       { path: 'teams/:teamId', element: <TeamEditorPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'changelog', element: <ChangelogPage /> },
+      { path: 'artwork', element: <ArtworkPage /> },
       { path: 'translations', element: <TranslationsPage /> },
       { path: 'translations/:language', element: <TranslationEditor /> },
       { path: '*', element: <NotFoundPage /> },

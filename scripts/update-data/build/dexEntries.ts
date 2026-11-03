@@ -255,8 +255,35 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     byVersion.set(version, texts);
     own.set(key, byVersion);
   };
-  const putLine = (key: string, version: number, dump: DumpVersion, index: number) => {
+  /** The line each form's text was found on: form key → version → line. */
+  const placedAt = new Map<string, Map<number, number>>();
+  /** Puts a line's texts in every language; true if the form had no text for that version yet. */
+  const putLine = (key: string, version: number, dump: DumpVersion, index: number): boolean => {
+    const before = own.get(key)?.has(version) ?? false;
     for (const language of TEXT_LANGUAGES) put(key, version, language, dump.lines[language]?.[index]);
+    const placed = !before && (own.get(key)?.has(version) ?? false);
+    if (placed) {
+      const lines = placedAt.get(key) ?? new Map<number, number>();
+      lines.set(version, index);
+      placedAt.set(key, lines);
+    }
+    return placed;
+  };
+  /** Per version, for the update report. */
+  interface Tally {
+    found: number;
+    checked: number;
+    paired: number;
+    unplaced: string[];
+  }
+  const tallies = new Map<number, Tally>();
+  const tally = (version: number): Tally => {
+    let entry = tallies.get(version);
+    if (!entry) {
+      entry = { found: 0, checked: 0, paired: 0, unplaced: [] };
+      tallies.set(version, entry);
+    }
+    return entry;
   };
 
   // Legends: Z-A: each line labelled with species and form. Species from
@@ -285,6 +312,48 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     matching.push(`legends-za: ${found} entries placed by label`);
   } else problems.push('PokéAPI has no "legends-za" version: Legends: Z-A entries skipped');
 
+  // Hand-checked entries (data/overrides/dex-entries.json), found by how their English starts.
+  const gameKeyOf = new Map<string, string>();
+  for (const draft of input.drafts) {
+    if (!wanted.has(draft.speciesNo)) continue;
+    if (draft.personal) gameKeyOf.set(draft.form.id, formKey(draft.speciesNo, draft.personal.fo));
+    else if (draft.form.kind === 'regional') gameKeyOf.set(draft.form.id, referenceKey(draft.form.id));
+  }
+  const dumpOf = new Map<string, DumpVersion>();
+  for (const game of [...input.dumps.matched, ...input.dumps.slotted]) {
+    for (const dump of game.versions) dumpOf.set(dump.version, dump);
+  }
+  const overridesFile = 'data/overrides/dex-entries.json';
+  for (const [formId, byGame] of Object.entries(ctx.overrides.dexEntries)) {
+    const key = gameKeyOf.get(formId);
+    if (!key) {
+      problems.push(`${overridesFile}: "${formId}" isn't a form of a Pokémon in Champions`);
+      continue;
+    }
+    for (const [game, start] of Object.entries(byGame)) {
+      if (game === 'note') continue;
+      const dump = dumpOf.get(game);
+      const version = versionId(game);
+      if (!dump || version === undefined) {
+        problems.push(`${overridesFile}: ${formId}: there's no Pokédex text for the game "${game}"`);
+        continue;
+      }
+      const wantedStart = entryKey(start);
+      const hits: number[] = [];
+      dump.lines.en?.forEach((line, index) => {
+        if (!isPlaceholder(line) && entryKey(cleanDumpText(line)).startsWith(wantedStart)) hits.push(index);
+      });
+      const [index] = hits;
+      if (hits.length !== 1 || index === undefined) {
+        problems.push(
+          `${overridesFile}: ${formId} in ${game}: ${hits.length ? `${hits.length} entries start` : 'no entry starts'} with "${start}"`,
+        );
+        continue;
+      }
+      if (putLine(key, version, dump, index)) tally(version).checked += 1;
+    }
+  }
+
   // Sword/Shield, Legends: Arceus, Scarlet/Violet: matched through towakey's Japanese text.
   const coveredVersions = new Map<number, { game: DumpGame; dump: DumpVersion }>();
   for (const game of input.dumps.matched) {
@@ -300,24 +369,68 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
           if (!lineByText.has(key)) lineByText.set(key, index);
         });
       }
-      let found = 0;
-      const unplaced: string[] = [];
       for (const form of gameForms) {
+        if (own.get(form.key)?.has(version)) continue;
         const japanese = game.towakey.get(form.towakey)?.get(dump.towakeyVersion);
         if (!japanese) continue;
         const key = japaneseKey(japanese);
         // towakey's copy has the odd typo: then the one line that's nearly the same.
         const index = lineByText.get(key) ?? closestLine(key, lineByText);
         if (index === undefined) {
-          unplaced.push(form.key);
+          tally(version).unplaced.push(form.key);
           continue;
         }
-        found += 1;
-        putLine(form.key, version, dump, index);
+        if (putLine(form.key, version, dump, index)) tally(version).found += 1;
       }
-      matching.push(
-        `${dump.version}: ${found} entries placed${unplaced.length ? `, ${unplaced.length} not found in the dump (${unplaced.slice(0, 12).join(', ')}${unplaced.length > 12 ? '…' : ''})` : ''}`,
+    }
+  }
+
+  // The two versions of a game share one layout (line n is the same Pokémon in
+  // Sword and in Shield), so an entry found in one version but not the other is
+  // on the same line there. Only lines whose text appears once in their file
+  // count: a repeated text may have been found on another Pokémon's line.
+  for (const game of input.dumps.matched) {
+    if (game.versions.length !== 2) continue;
+    const [first, second] = game.versions as [DumpVersion, DumpVersion];
+    const a = versionId(first.version);
+    const b = versionId(second.version);
+    if (a === undefined || b === undefined) continue;
+    const unique = (dump: DumpVersion) => {
+      const counts = new Map<string, number>();
+      for (const line of dump.lines.en ?? []) {
+        if (isPlaceholder(line)) continue;
+        const key = entryKey(cleanDumpText(line));
+        counts.set(key, (counts.get(key) ?? 0) + 1);
+      }
+      return (index: number) => {
+        const line = dump.lines.en?.[index];
+        return !isPlaceholder(line) && counts.get(entryKey(cleanDumpText(line ?? ''))) === 1;
+      };
+    };
+    const uniqueInFirst = unique(first);
+    const uniqueInSecond = unique(second);
+    let mismatched = 0;
+    for (const lines of placedAt.values()) {
+      const lineA = lines.get(a);
+      const lineB = lines.get(b);
+      if (lineA === undefined || lineB === undefined || lineA === lineB) continue;
+      if (uniqueInFirst(lineA) && uniqueInSecond(lineB)) mismatched += 1;
+    }
+    if (mismatched > 0) {
+      problems.push(
+        `${first.version}/${second.version}: ${mismatched} entries sit on different lines in the two versions, so entries missing from one weren't taken from the other`,
       );
+      continue;
+    }
+    for (const form of gameForms) {
+      const lines = placedAt.get(form.key);
+      const lineA = lines?.get(a);
+      const lineB = lines?.get(b);
+      if (lineA !== undefined && lineB === undefined && uniqueInFirst(lineA)) {
+        if (putLine(form.key, b, second, lineA)) tally(b).paired += 1;
+      } else if (lineB !== undefined && lineA === undefined && uniqueInSecond(lineB)) {
+        if (putLine(form.key, a, first, lineB)) tally(a).paired += 1;
+      }
     }
   }
   // Species whose entry the matching missed: their line is their National Dex number.
@@ -331,6 +444,23 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
       if (own.get(key)?.has(version)) continue;
       const index = speciesLine(game, no);
       if (index !== undefined) putLine(key, version, dump, index);
+    }
+  }
+  for (const game of input.dumps.matched) {
+    for (const dump of game.versions) {
+      const version = versionId(dump.version);
+      if (version === undefined) continue;
+      const { found, checked, paired, unplaced } = tally(version);
+      const missingNow = unplaced.filter((key) => !own.get(key)?.has(version));
+      const parts = [`${found} entries placed`];
+      if (paired) parts.push(`${paired} from the same line in the other version`);
+      if (checked) parts.push(`${checked} from ${overridesFile}`);
+      if (missingNow.length) {
+        parts.push(
+          `${missingNow.length} not found in the dump (${missingNow.slice(0, 12).join(', ')}${missingNow.length > 12 ? '…' : ''})`,
+        );
+      }
+      matching.push(`${dump.version}: ${parts.join(', ')}`);
     }
   }
 
@@ -351,9 +481,7 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
       for (const form of gameForms) {
         const index = lineOf(form.no, form.fo);
         if (index === undefined) continue;
-        const before = own.get(form.key)?.has(version);
-        putLine(form.key, version, dump, index);
-        if (!before && own.get(form.key)?.has(version)) found += 1;
+        if (putLine(form.key, version, dump, index)) found += 1;
         // Check the order against towakey: a form with its own text must not show the species' text.
         const japanese = game.towakey.get(form.towakey)?.get(dump.towakeyVersion);
         const baseJapanese = game.towakey

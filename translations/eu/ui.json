@@ -164,6 +164,7 @@
     "appearances": "",
     "showShiny": "",
     "showFemale": "",
+    "fanArt": "",
     "notInChampions": "",
     "speciesInfo": "",
     "genderLabel": "",
@@ -468,7 +469,8 @@
       "healthy": "",
       "problems_one": "",
       "problems_other": "",
-      "changelog": ""
+      "changelog": "",
+      "artwork": ""
     }
   },
   "translations": {
@@ -563,6 +565,30 @@
     "texts_other": "",
     "showList_one": "",
     "showList_other": ""
+  },
+  "artwork": {
+    "title": "",
+    "intro": "",
+    "show": "",
+    "filters": {
+      "attention": "",
+      "lined": "",
+      "fan": "",
+      "all": ""
+    },
+    "lineUp": "",
+    "reference": "",
+    "count_one": "",
+    "count_other": "",
+    "nothing": "",
+    "regular": "",
+    "shiny": "",
+    "noArt": "",
+    "noShiny": "",
+    "mismatched": "",
+    "bigger": "",
+    "smaller": "",
+    "moved": ""
   },
   "pwa": {
     "updateReady": "",
