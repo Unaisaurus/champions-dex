@@ -1,0 +1,19 @@
+{
+  "note": "Corrections to the Spanish Pokédex entries imported from WikiDex (npm run import-wikidex), for mistakes found when checking them against the English entries and the games' own text. \"drop\" leaves the entry out (WikiDex has no reliable text for it); \"use\" takes another game's Spanish entry, for a game whose English entry is the same.",
+  "corrections": {
+    "azumarill": {
+      "platinum": {
+        "drop": true,
+        "note": "WikiDex's text here is Pearl's (X reuses it in the game data, and X's English is Pearl's); Platinum's own entry isn't on WikiDex"
+      },
+      "black": {
+        "drop": true,
+        "note": "WikiDex gives Black Platinum's entry, which is really Pearl's (see Platinum)"
+      },
+      "white": {
+        "drop": true,
+        "note": "WikiDex gives White Platinum's entry, which is really Pearl's (see Platinum)"
+      }
+    }
+  }
+}

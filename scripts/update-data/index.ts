@@ -57,6 +57,7 @@ import { loadShowdown, showdownCandidates, toShowdownId } from './sources/showdo
 import { IMAGE_GROUPS, loadSpriteIndex } from './sources/sprites';
 import { loadSvText } from './sources/svText';
 import { loadDexDumps } from './sources/dexDumps';
+import { loadWikidexEntries } from './sources/wikidex';
 import { writeFileSync } from 'node:fs';
 
 const args = new Set(process.argv.slice(2));
@@ -179,10 +180,17 @@ async function main() {
 
   log.step('Text and Pokédex entries');
   const championsSpecies = [...new Set(championsForms.drafts.map((d) => d.speciesNo))];
-  const dex = buildDexEntries(ctx, { drafts, speciesNos: championsSpecies, dumps });
+  const wikidex = loadWikidexEntries();
+  const dex = buildDexEntries(ctx, { drafts, speciesNos: championsSpecies, dumps, wikidex });
   dex.problems.forEach((p) => log.warn(p));
   dex.notes.matching.forEach((line) => log.info(`Pokédex text, ${line}`));
   log.info(`${dex.notes.formsWithEntries.length} forms with Pokédex entries of their own`);
+  if (wikidex) log.info(`Spanish entries for older games from WikiDex: ${dex.notes.fromWikidex}`);
+  if (dex.notes.withoutWikidex.length) {
+    log.warn(
+      `No Spanish entries for the games before X and Y for: ${dex.notes.withoutWikidex.join(', ')}. Run "Import Spanish Pokédex entries" on GitHub (or npm run import-wikidex -- --download).`,
+    );
+  }
   for (const language of TEXT_LANGUAGES) {
     if (dex.missing[language].length) {
       log.warn(`No ${language} Pokédex entries yet for: ${dex.missing[language].join(', ')}`);
@@ -357,14 +365,26 @@ async function main() {
     sample: false,
     contentHash,
     game: { version: overrides.game.version, regulation: overrides.game.regulation },
-    sources: (Object.entries(SOURCES) as Array<[SourceKey, (typeof SOURCES)[SourceKey]]>).map(
-      ([key, source]) => ({
-        id: source.id,
-        name: source.name,
-        url: `https://github.com/${source.repo}`,
-        revision: revisions[key],
-      }),
-    ),
+    sources: [
+      ...(Object.entries(SOURCES) as Array<[SourceKey, (typeof SOURCES)[SourceKey]]>).map(
+        ([key, source]) => ({
+          id: source.id,
+          name: source.name,
+          url: `https://github.com/${source.repo}`,
+          revision: revisions[key],
+        }),
+      ),
+      ...(wikidex
+        ? [
+            {
+              id: 'wikidex',
+              name: 'WikiDex (Spanish Pokédex entries for the games before X and Y)',
+              url: wikidex.source,
+              revision: wikidex.retrieved.slice(0, 10),
+            },
+          ]
+        : []),
+    ],
     textLanguages: [...TEXT_LANGUAGES],
     games: gamesUsed(ctx, dex.versionsUsed),
     searchLanguages: [...new Set(Object.values(GAME_LANGUAGES))],
@@ -444,6 +464,7 @@ async function main() {
     'Learnset entries': learnsets.stats.entries,
     'Learnset entries new in Champions': learnsets.stats.newInChampions,
     'Forms with Pokédex entries of their own': dex.notes.formsWithEntries.length,
+    'Spanish Pokédex entries from WikiDex (games before X and Y)': dex.notes.fromWikidex,
     'Shiny artwork lined up with the regular art': artwork.lined,
     'Fan art (data/overrides/art.json)': fanArt.used,
   };

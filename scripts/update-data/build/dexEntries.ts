@@ -10,6 +10,8 @@
  * - Game text dumps (see sources/dexDumps.ts): Sun/Moon, Ultra Sun/Ultra Moon,
  *   Let's Go, Sword/Shield, Legends: Arceus, Scarlet/Violet and Legends: Z-A
  *   (with their DLC), for species and forms.
+ * - WikiDex (data/wikidex/dex-entries-es.json): Spanish for the games before X
+ *   and Y, which neither of the above has.
  *
  * Which entries a form shows:
  * - The species' main form (and any form numbered 0): the species' entries.
@@ -24,6 +26,7 @@ import type { PersonalEntry } from '../sources/champions';
 import { formKey } from '../sources/champions';
 import { parseZaLabel, type DexDumps, type DumpGame, type DumpVersion } from '../sources/dexDumps';
 import { POKEAPI_LANGUAGE } from '../sources/pokeapi';
+import type { WikidexEntries } from '../sources/wikidex';
 import { cleanDumpText, isPlaceholder, japaneseKey } from '../sources/textDump';
 import type { Context } from './context';
 import type { FormDraft } from './forms';
@@ -186,6 +189,10 @@ export interface DexEntriesResult {
     formsWithoutEntries: string[];
     /** How many per-form texts were found in each game file, and how many couldn't be placed. */
     matching: string[];
+    /** Spanish entries taken from WikiDex. */
+    fromWikidex: number;
+    /** Species with English entries for games before X and Y but no Spanish ones from WikiDex. */
+    withoutWikidex: string[];
   };
   problems: string[];
 }
@@ -196,10 +203,36 @@ export interface DexEntriesInput {
   /** Species to write entries for. */
   speciesNos: readonly number[];
   dumps: DexDumps;
+  /** Spanish entries for the games before X and Y (null: not imported yet). */
+  wikidex: WikidexEntries | null;
 }
 
 /** Key of a form outside Champions, which has no game form number here. */
 const referenceKey = (formId: string) => `reference:${formId}`;
+
+/** Games before X and Y: their Spanish entries come from WikiDex. */
+const OLDER_GAMES: ReadonlySet<string> = new Set([
+  'red',
+  'blue',
+  'yellow',
+  'gold',
+  'silver',
+  'crystal',
+  'ruby',
+  'sapphire',
+  'emerald',
+  'firered',
+  'leafgreen',
+  'diamond',
+  'pearl',
+  'platinum',
+  'heartgold',
+  'soulsilver',
+  'black',
+  'white',
+  'black-2',
+  'white-2',
+]);
 
 /** Forms that are their own Pokémon in the games: never shown with the species' entries. */
 const OWN_ONLY: ReadonlySet<FormKind> = new Set<FormKind>(['mega', 'regional']);
@@ -537,9 +570,12 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     }
   }
 
+  let fromWikidex = 0;
   /** The species' own entries (form 0), per version. */
   const speciesTexts = (no: number): VersionTexts => {
     const result: VersionTexts = new Map();
+    const identifier = ctx.species.get(no)?.identifier;
+    const wikidex = identifier ? input.wikidex?.entries[identifier] : undefined;
     const fromDumps = own.get(formKey(no, 0)) ?? new Map<number, Texts>();
     const versions = new Set<number>([
       ...fromDumps.keys(),
@@ -572,6 +608,12 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
           return Object.values(regional ?? {}).some((text) => text && entryKey(text) === key);
         });
         if (!isRegional) texts[language] = fallback;
+      }
+      // Spanish for the older games, where only the English is in the sources above.
+      const imported = wikidex?.[ctx.versionIdentifier.get(version) ?? ''];
+      if (!texts.es && texts.en && imported) {
+        texts.es = cleanEntryText(imported);
+        fromWikidex += 1;
       }
       if (texts.en || texts.es) result.set(version, texts);
     }
@@ -653,11 +695,21 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
     }
   }
 
+  // Spanish entries still missing for older games: new Pokémon since the last WikiDex import.
+  const withoutWikidex = Object.entries(files.en)
+    .filter(([key, list]) => {
+      const spanishGames = new Set((files.es[key] ?? []).flatMap((entry) => entry.games));
+      const leftOut = new Set(input.wikidex?.leftOut[key] ?? []);
+      return list.some((entry) =>
+        entry.games.some((game) => !spanishGames.has(game) && OLDER_GAMES.has(game) && !leftOut.has(game)),
+      );
+    })
+    .map(([key]) => key);
   return {
     files,
     versionsUsed,
     missing,
-    notes: { formsWithEntries, formsWithoutEntries, matching },
+    notes: { formsWithEntries, formsWithoutEntries, matching, fromWikidex, withoutWikidex },
     problems,
   };
 }

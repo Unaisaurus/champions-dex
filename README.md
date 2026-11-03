@@ -103,7 +103,11 @@ can be rebuilt from the latest sources. Two ways:
 - **On your computer:** double-click **`update-data.bat`**.
 
 Either way, every check must pass before anything is replaced; otherwise the
-app keeps its current data. What changed is written to
+app keeps its current data.
+
+When new Pokémon join Champions, also run **Actions → Import Spanish Pokédex
+entries (WikiDex)** once: it fetches their Spanish entries for the games before
+X and Y (the update report says when it's needed). What changed is written to
 [`data/update-report.md`](data/update-report.md), and shown in the app under
 **Settings → Game data → What changed in each update**. Your teams are never
 touched.
@@ -140,16 +144,17 @@ The same texts can also be edited directly in `translations/eu/`, as simple
 
 ## Where things live
 
-| Folder                           | What's in it                                                    | Edit it?                         |
-| -------------------------------- | --------------------------------------------------------------- | -------------------------------- |
-| `translations/`                  | Interface texts, and Basque game texts                          | Yes: this is where you translate |
-| `data/overrides/`                | Hand-made corrections and lists (starters, fossils…)            | Yes, carefully                   |
-| `public/images/custom/`          | Fan art (listed in `data/overrides/art.json`)                   | Yes: add images here             |
-| `public/data/`                   | Game data made by the data updater                              | No: it's regenerated             |
-| `data/update-report.md`          | What the last data update changed                               | No: it's regenerated             |
-| `data/artwork-measurements.json` | Where each artwork's drawing sits (so images are measured once) | No: it's regenerated             |
-| `src/`                           | The app's code                                                  | Only if you're changing the app  |
-| `docs/`                          | How everything works                                            | —                                |
+| Folder                           | What's in it                                                       | Edit it?                         |
+| -------------------------------- | ------------------------------------------------------------------ | -------------------------------- |
+| `translations/`                  | Interface texts, and Basque game texts                             | Yes: this is where you translate |
+| `data/overrides/`                | Hand-made corrections and lists (starters, fossils…)               | Yes, carefully                   |
+| `public/images/custom/`          | Fan art (listed in `data/overrides/art.json`)                      | Yes: add images here             |
+| `public/data/`                   | Game data made by the data updater                                 | No: it's regenerated             |
+| `data/update-report.md`          | What the last data update changed                                  | No: it's regenerated             |
+| `data/artwork-measurements.json` | Where each artwork's drawing sits (so images are measured once)    | No: it's regenerated             |
+| `data/wikidex/`                  | Spanish Pokédex entries for the older games, imported from WikiDex | No: run the import again         |
+| `src/`                           | The app's code                                                     | Only if you're changing the app  |
+| `docs/`                          | How everything works                                               | —                                |
 
 ## For developers
 

@@ -44,12 +44,12 @@ and a visual review.
       all artwork on request; a prompt when a new version is ready), and a data
       changelog page (Pokémon, moves, items, learnsets and texts per update).
       Pokédex entries from every game since Sun/Moon, DLC included, for every
-      form. Shiny artwork lined up with the regular art, credited fan art for
+      form, and Spanish entries for the games before X and Y (from WikiDex).
+      Shiny artwork lined up with the regular art, credited fan art for
       missing or odd artwork, and an artwork check page.
 
-Next: Spanish Pokédex entries for the games before X and Y (imported once
-from WikiDex), a "Report a problem" link, pages for moves, Abilities and items,
-Speed tiers and a damage calculator.
+Next: a "Report a problem" link, pages for moves, Abilities and items, Speed
+tiers and a damage calculator.
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
 Generation 10, a regulation filter, pages for reference-only Pokémon.
@@ -82,7 +82,7 @@ Generation 10, a regulation filter, pages for reference-only Pokémon.
   instead of being copied into the project (thousands of files); the browser
   caches them.
 
-## Open questions
-
-- **Older Spanish Pokédex entries** (before X and Y): planned as a one-time
-  import from WikiDex, run on GitHub, into `translations/es/dex-entries.json`.
+- **Older Spanish Pokédex entries** (before X and Y): imported from WikiDex
+  into `data/wikidex/`, as a source the updater reads (not into the hand-made
+  translation files), so each game's Spanish text is grouped with the others
+  like any other source.

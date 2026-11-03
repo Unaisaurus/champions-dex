@@ -210,8 +210,9 @@ broken data fails the tests. GitHub runs the same checks on every upload
 
 ## GitHub workflows
 
-| Workflow          | When                                            | What                                                          |
-| ----------------- | ----------------------------------------------- | ------------------------------------------------------------- |
-| `ci.yml`          | Every upload                                    | Type check, lint, tests, build                                |
-| `update-data.yml` | Mondays, or **Run workflow** on the Actions tab | Rebuilds the data; saves it if it changed and the checks pass |
-| `deploy.yml`      | Every upload to `main`, and after a data update | Builds the app and publishes it with GitHub Pages             |
+| Workflow             | When                                            | What                                                                                       |
+| -------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `ci.yml`             | Every upload                                    | Type check, lint, tests, build                                                             |
+| `update-data.yml`    | Mondays, or **Run workflow** on the Actions tab | Rebuilds the data; saves it if it changed and the checks pass                              |
+| `import-wikidex.yml` | **Run workflow** on the Actions tab             | Imports the Spanish Pokédex entries before X and Y from WikiDex, then runs the data update |
+| `deploy.yml`         | Every upload to `main`, and after a data update | Builds the app and publishes it with GitHub Pages                                          |

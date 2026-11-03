@@ -14,6 +14,7 @@ your changes are safe. After changing one, run the data updater
 | `aliases.json`     | Renamed IDs (old → new), so saved teams follow the change                                                                                                            |
 | `dex-entries.json` | Pokédex entries the automatic matching can't place: per form and game, how the entry starts in English (the updater finds the line and takes every language from it) |
 | `art.json`         | Fan art used instead of missing or unsuitable artwork, with its artist (see below)                                                                                   |
+| `wikidex.json`     | Corrections to the Spanish Pokédex entries imported from WikiDex: leave an entry out, or take another game's                                                         |
 
 Every correction should say why, in a `"note"`, so it can be removed once the
 sources fix it. For example, in `forms.json`:

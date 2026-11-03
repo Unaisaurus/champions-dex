@@ -13,6 +13,7 @@ public sources:
 | [Pokémon main series text dumps](https://github.com/tanripj/pokemon_text_dumps) (tanripj)  | The games' own text, DLC included: Pokédex entries in both languages that PokéAPI doesn't have (Sun/Moon to Legends: Z-A and its Mega Dimension, the entries of single forms such as Megas, regional forms, Rotom's appliances or Vivillon's patterns), and Spanish categories               |
 | [Legends: Z-A text dump](https://github.com/CPokemon/plza-text) (CPokemon)                 | The label of each Legends: Z-A entry (which species and form it belongs to)                                                                                                                                                                                                                  |
 | [Pokémon JSON API](https://github.com/towakey/pokedex) by towakey                          | Japanese Pokédex text per form, to tell which unlabelled line of a dump belongs to which form                                                                                                                                                                                                |
+| [WikiDex](https://www.wikidex.net)                                                         | Spanish Pokédex entries for the games before X and Y (Red and Blue to Black 2 and White 2), which no game text dump has; imported into `data/wikidex/` and checked against the English entries                                                                                               |
 | [PKHeX](https://github.com/kwsch/PKHeX)                                                    | Ultra Sun/Ultra Moon's and Let's Go's form tables (how many forms each species has), which fix where each form's entry sits                                                                                                                                                                  |
 
 Every run pins each source to an exact revision, recorded in
@@ -76,6 +77,21 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
   Legends: Z-A entries repeat an earlier game's text: they're grouped with it,
   so the entry lists every game that uses it.
 
+- **Spanish entries before X and Y.** No game text dump covers those games
+  in Spanish, so they come from WikiDex, imported by `npm run import-wikidex`
+  (the **Import Spanish Pokédex entries** workflow on GitHub, since WikiDex
+  isn't reachable from everywhere) into `data/wikidex/dex-entries-es.json`.
+  The updater uses them only where the games' own text has no Spanish.
+  Checks made by the import (results in `data/wikidex/import-report.md`):
+  - WikiDex against the games' own Spanish text for X and Y onwards: about
+    96% match; the differences are mostly X, Y, Omega Ruby and Alpha Sapphire
+    entries where WikiDex gives an older game's text that those games
+    reworded.
+  - WikiDex often writes "Pearl's entry is Diamond's". Where the English
+    entries of the two games differ, that shortcut is wrong: the entry is
+    taken from a game whose English entry is the same (from WikiDex, or from
+    the games' own text), or left out.
+  - Corrections found by hand are in `data/overrides/wikidex.json`.
 - **Artwork.** PokéAPI's official artwork and its shiny set share one frame,
   but the shiny drawing is sometimes bigger, smaller or off-centre (Toxtricity's
   is 38% bigger, every Mega's about 10%). The updater measures where each
@@ -111,9 +127,13 @@ and other game text.
 
 ## Known gaps (handled, not hidden)
 
-- **Spanish Pokédex entries before X and Y** aren't in any automatic source, so
-  Spanish shows the entries from X and Y onwards. WikiDex has the older ones if
-  we want to add them by hand later.
+- **Spanish Pokédex entries before X and Y** come from WikiDex (see above).
+  Five are left out because WikiDex's text for them is another game's:
+  Sceptile in FireRed and LeafGreen, and Azumarill in Platinum, Black and
+  White. When new Pokémon join Champions, the update report says the import
+  needs running again.
+- **Brilliant Diamond and Shining Pearl** have no Pokédex entries in either
+  language: PokéAPI doesn't have them and no text dump covers those games.
 - **Form entries the matching can't place** (towakey's Japanese text is from
   another game) are found from the other version of the same game, or listed
   by hand in `data/overrides/dex-entries.json` (Alolan Ninetales in

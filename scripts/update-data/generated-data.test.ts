@@ -120,6 +120,21 @@ describe.runIf(real)('generated game data', () => {
     expect(Object.keys(es).filter((key) => en[key] === undefined)).toEqual([]);
     // Forms have their list in every language, so a form never falls back on its species.
     expect(Object.keys(en).filter((key) => !speciesIds.has(key) && es[key] === undefined)).toEqual([]);
+    // Spanish for the games before X and Y, from WikiDex.
+    const spanishGames = (key: string) => new Set((es[key] ?? []).flatMap((e) => e.games));
+    expect([...spanishGames('ninetales')]).toEqual(
+      expect.arrayContaining(['red', 'blue', 'yellow', 'gold', 'emerald', 'diamond', 'black-2']),
+    );
+    expect(es.ninetales?.find((e) => e.games.includes('red'))?.text).toMatch(/^Muy inteligente y vengativo/);
+    // Every older English entry has a Spanish one, apart from the few left out on purpose
+    // (WikiDex's text for them is another game's).
+    const older = ['red', 'yellow', 'gold', 'ruby', 'firered', 'diamond', 'heartgold', 'black', 'black-2'];
+    const missing = Object.entries(en).flatMap(([key, list]) =>
+      list.flatMap((e) =>
+        e.games.filter((g) => older.includes(g) && !spanishGames(key).has(g)).map((g) => `${key}/${g}`),
+      ),
+    );
+    expect(missing.sort()).toEqual(['azumarill/black', 'sceptile/firered']);
   });
 
   it('gives forms their own Pokédex entries', () => {

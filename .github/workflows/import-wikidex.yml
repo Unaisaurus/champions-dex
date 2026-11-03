@@ -1,0 +1,48 @@
+name: Import Spanish Pokédex entries (WikiDex)
+
+# Downloads the WikiDex page of every Pokémon in Champions and imports the
+# Spanish Pokédex entries of the games before X and Y into data/wikidex/,
+# checked against the English entries (see scripts/wikidex/import.ts).
+#
+# Run it by hand ("Run workflow" on the Actions tab) when new Pokémon join
+# Champions: the data update report says when it's needed. Afterwards it starts
+# "Update game data", which puts the entries in the app.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+
+      - name: Import the entries
+        run: npm run import-wikidex -- --download
+
+      - name: Save them and update the data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cat data/wikidex/import-report.md >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/wikidex
+          git commit -m "Import Spanish Pokédex entries from WikiDex" || exit 0
+          git push
+          gh workflow run update-data.yml
