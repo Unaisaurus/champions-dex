@@ -23,8 +23,9 @@ Three kinds of files never mix:
 1. **Game data** (`public/data/`): generated, replaceable at any time.
 2. **Your files** (`translations/`, `data/overrides/`): written by hand. The
    updater reads them but never writes them.
-3. **Your saved data** (browser storage): teams, favourites, snapshots. Game
-   data updates can't change it; problems show as warnings instead.
+3. **Your saved data** (browser storage): teams, favourites, snapshots,
+   translation drafts. Game data updates can't change it; problems show as
+   warnings instead.
 
 ## The data updater
 
@@ -50,16 +51,17 @@ data version stays the same.
 
 ## Code layout
 
-| Folder           | Responsibility                                                                    |
-| ---------------- | --------------------------------------------------------------------------------- |
-| `src/data/`      | Data contracts (`contracts.ts`), loading, cross-file checks, indexes              |
-| `src/domain/`    | Pure game logic with tests: stats, type matchups, validation, search, generations |
-| `src/mechanics/` | Battle mechanics as modules (Mega now; Tera, Dynamax… later)                      |
-| `src/storage/`   | Browser database, backups, snapshots, renamed-ID handling                         |
-| `src/i18n/`      | Languages, interface text, game text with English fallback, progress              |
-| `src/state/`     | Settings and live access to your saved data                                       |
-| `src/features/`  | One folder per page: Pokédex, Pokémon page, teams, settings, translations         |
-| `src/ui/`        | Shared components and design tokens                                               |
+| Folder           | Responsibility                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------ |
+| `src/app/`       | App shell, routes, startup tasks, the installable app (`pwa.ts`)                     |
+| `src/data/`      | Data contracts (`contracts.ts`), loading, cross-file checks, indexes                 |
+| `src/domain/`    | Pure game logic with tests: stats, type matchups, validation, search, generations    |
+| `src/mechanics/` | Battle mechanics as modules (Mega now; Tera, Dynamax… later)                         |
+| `src/storage/`   | Browser database, backups, snapshots, renamed-ID handling                            |
+| `src/i18n/`      | Languages, interface text, game text with English fallback, progress                 |
+| `src/state/`     | Settings and live access to your saved data                                          |
+| `src/features/`  | One folder per page: Pokédex, Pokémon page, teams, settings, translations, changelog |
+| `src/ui/`        | Shared components and design tokens                                                  |
 
 Rules of thumb: `domain/` never imports React; pages use `domain/` and
 `data/`; only `storage/` and `state/` talk to the database.
@@ -113,6 +115,39 @@ so a data update can't silently change a team.
   writes and reads team files. Imported teams get new IDs and renamed game IDs
   are updated, as when restoring a backup.
 
+**Translating in the app** (`src/features/translations/`, route
+`#/translations/eu`). Texts typed in the editor are drafts, kept in the
+browser database (`translationDrafts`, included in backups) and keyed
+`language:file:entry`.
+
+- `src/i18n/drafts.ts`: saving drafts (a text equal to the file's isn't kept),
+  and the drafts store. Drafts apply straight away: interface drafts are added
+  to i18next, game text and Pokédex entry drafts are merged over the
+  translation files in `useGameText`. Drafts the files already contain (after
+  publishing) are deleted on the next start.
+- `translationFiles.ts`: the editor's list of entries for each file (with
+  context: which Pokémon, which game) and the files it downloads. Downloaded
+  files keep English's order and the same formatting as
+  `npm run translations:sync`, so copying them into `translations/eu/` changes
+  only the translated lines.
+- Which languages can be edited: `EDITABLE_LANGUAGES` in
+  `src/i18n/languages.ts`.
+
+**The installable app.** `vite-plugin-pwa` (set up in `vite.config.ts`) builds
+a service worker that keeps the app and `public/data/` on the device, so
+everything but artwork works offline after the first visit. Artwork is kept as
+it's seen (the `artwork` cache; images load with `crossOrigin` so it can
+store them), or all at once with "Save all artwork" in Settings.
+`src/app/pwa.ts` registers the service worker (production builds only, never
+with `npm run dev`), keeps the install prompt and runs the artwork download;
+`UpdatePrompt.tsx` offers the reload when a new version has been published.
+
+**The data changelog** (`src/features/changelog/`, route `#/changelog`) shows
+`public/data/changelog.json`. The updater writes one entry per data version:
+`compareData` lists Pokémon, moves, items and learnsets that changed, and
+`compareText` (in `build/report.ts`) adds Pokédex entries and text files.
+`src/domain/changelog.ts` turns those lines back into lists for the page.
+
 ## Key rules
 
 **Stable IDs.** Everything is referenced by a lowercase ID such as `venusaur`,
@@ -144,7 +179,8 @@ run `npm run translations:sync` so the Basque file gets the empty key.
 **A new battle mechanic**: see `src/mechanics/README.md`.
 
 **A new language**: add it to `src/i18n/languages.ts`, create
-`translations/<code>/ui.json` and run `npm run translations:sync`.
+`translations/<code>/ui.json` and run `npm run translations:sync`. To
+translate it in the app too, add it to `EDITABLE_LANGUAGES`.
 
 **Changing what's saved in the browser**: never edit an existing
 `this.version(n)` in `src/storage/db.ts`; add a new version. If the backup

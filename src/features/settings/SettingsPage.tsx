@@ -5,6 +5,7 @@ import { useLanguage } from '@/i18n/useLanguage';
 import { useSettings, type ThemePreference } from '@/state/settings';
 import { BackupSection } from './BackupSection';
 import { DataSection } from './DataSection';
+import { OfflineSection } from './OfflineSection';
 import { SnapshotsSection } from './SnapshotsSection';
 import { StorageSection } from './StorageSection';
 import styles from './SettingsPage.module.css';
@@ -54,6 +55,7 @@ export function SettingsPage() {
         </div>
       </section>
 
+      <OfflineSection />
       <BackupSection />
       <SnapshotsSection />
       <StorageSection />

@@ -51,6 +51,8 @@ export function ArtImage({ keys, alt, className, width, height, priority = false
       height={height}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
+      // Fetched with CORS, so the installed app can keep a full copy for offline use.
+      crossOrigin="anonymous"
       onError={() => setFailed((previous) => new Set(previous).add(source))}
     />
   );

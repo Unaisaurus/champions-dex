@@ -4,9 +4,35 @@ English is the reference language. Spanish (Spain) game texts come straight
 from the game; Basque is translated by hand. Anything not translated yet is
 shown in English, so you can translate little by little.
 
+## Translating in the app
+
+The easiest way: **Settings → Translations → Translate**.
+
+- Pick which texts to work on (**Texts**: the interface, Pokémon names, move
+  descriptions, Pokédex entries…). The percentage is how much is done.
+- **Show: To translate** lists what's still in English; **All** shows
+  everything, to correct a translation; **Changed here** shows what you've
+  written in the app that isn't in the files yet. **Search** looks in the
+  English, the Spanish and your translation.
+- Each text shows the English (and the Spanish, as a second reference) and
+  what it belongs to (the move a description is for, the Pokémon and games of
+  a Pokédex entry). **Same as English** copies the English text in, for names
+  that stay the same.
+- What you write is saved on this device as you type (and goes into your
+  backups), and the app uses it straight away: switch the app to Euskara to
+  see it in place.
+
+**Publishing it** (so it's on every device, for everyone): press **Download
+translation files**. You get a ZIP with an `eu` folder; copy its files into
+`translations/eu/` in the project, replacing the old ones, and publish the
+change (in GitHub Desktop: commit and push; or upload the files on the GitHub
+website, in `translations/eu`). Once the published app has them, the drafts on
+your device are no longer needed and are cleared by themselves.
+
 ## The files
 
-Everything for Basque is in `translations/eu/`:
+You can also edit the files directly. Everything for Basque is in
+`translations/eu/`:
 
 | File                                              | Contains                                                       |
 | ------------------------------------------------- | -------------------------------------------------------------- |
@@ -56,8 +82,9 @@ file already contains).
 
 ## Seeing your progress
 
-In the app: **Settings → Translations**. Each file shows how much is done, and
-the missing interface texts are listed next to their English version.
+In the app: **Settings → Translations**. Each file shows how much is done
+(counting what you've written in the app's editor), and the missing interface
+texts are listed next to their English version.
 
 Changes appear when you reload the page (with `start-app.bat` running).
 

@@ -91,6 +91,40 @@ export function compareData(before: CoreData | null, after: CoreData): Changes {
   return changes;
 }
 
+/** The game text of one data set: language → file (`pokemon-names`, `dex-entries`…) → its content. */
+export type TextSnapshot = Record<string, Record<string, Record<string, unknown>>>;
+
+/**
+ * What changed in the game text: the Pokémon and forms whose Pokédex entries
+ * changed (`dex-entries`), and how many texts each other file changed
+ * (`text`: `genus:5`). Both languages count.
+ */
+export function compareText(before: TextSnapshot | null, after: TextSnapshot): Changes['changed'] {
+  const changed: Changes['changed'] = {};
+  if (!before) return changed;
+  const byFile = new Map<string, Set<string>>();
+  for (const [language, files] of Object.entries(after)) {
+    for (const [file, entries] of Object.entries(files)) {
+      const old = before[language]?.[file] ?? {};
+      const keys = new Set([...Object.keys(old), ...Object.keys(entries)]);
+      for (const key of keys) {
+        if (same(old[key], entries[key])) continue;
+        const set = byFile.get(file) ?? new Set<string>();
+        set.add(key);
+        byFile.set(file, set);
+      }
+    }
+  }
+  const dex = byFile.get('dex-entries');
+  if (dex?.size) changed['dex-entries'] = [...dex].sort();
+  const text = [...byFile]
+    .filter(([file, keys]) => file !== 'dex-entries' && keys.size > 0)
+    .map(([file, keys]) => `${file}:${keys.size}`)
+    .sort();
+  if (text.length) changed.text = text;
+  return changed;
+}
+
 export function hasChanges(changes: Changes): boolean {
   return [changes.added, changes.removed, changes.changed].some((group) => Object.keys(group).length > 0);
 }
@@ -126,7 +160,7 @@ export function reportMarkdown(input: ReportInput): string {
   lines.push('', '## Changes since the previous update', '');
   if (input.firstUpdate)
     lines.push('First update from the real game data (the earlier files were a small sample).');
-  else if (!hasChanges(changes)) lines.push('No changes to Pokémon, moves, items or learnsets.');
+  else if (!hasChanges(changes)) lines.push('No changes to Pokémon, moves, items, learnsets or text.');
   for (const [title, group] of [
     ['Added', changes.added],
     ['Removed', changes.removed],

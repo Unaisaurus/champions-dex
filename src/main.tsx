@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@/app/App';
+import { setupPwa } from '@/app/pwa';
 import { setupI18n } from '@/i18n/setup';
 import '@/ui/styles/global.css';
 
@@ -13,4 +14,5 @@ void setupI18n().then(() => {
       <App />
     </StrictMode>,
   );
+  void setupPwa();
 });

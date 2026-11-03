@@ -43,6 +43,8 @@ export async function setupI18n(language: LanguageCode = detectInitialLanguage()
     returnEmptyString: false,
     returnNull: false,
     interpolation: { escapeValue: false },
+    // Re-render when translation drafts are added (see drafts.ts).
+    react: { bindI18nStore: 'added' },
   });
   if (typeof document !== 'undefined') setDocumentLanguage(language);
   return i18next;

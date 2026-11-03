@@ -1,11 +1,12 @@
+import { Languages } from 'lucide-react';
 import { useMemo } from 'react';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { TEXT_DOMAINS } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
-import { HAND_MADE_DEX_ENTRIES, HAND_MADE_TEXT } from '@/i18n/gameText';
-import { FALLBACK_LANGUAGE, LANGUAGES, type LanguageCode } from '@/i18n/languages';
-import { uiResources } from '@/i18n/setup';
-import { coverage, flattenStrings, percent, type Coverage } from '@/i18n/translationStatus';
+import { uiFlat, useDraftsStore } from '@/i18n/drafts';
+import { EDITABLE_LANGUAGES, FALLBACK_LANGUAGE, LANGUAGES, type LanguageCode } from '@/i18n/languages';
+import { coverage, percent, type Coverage } from '@/i18n/translationStatus';
 import { useGeneratedText } from '@/i18n/useGameText';
 import styles from './TranslationsPage.module.css';
 
@@ -40,7 +41,11 @@ export function TranslationsPage() {
   const { t } = useTranslation();
   const { manifest } = useGameData();
   const { generated, dexEntries } = useGeneratedText();
-  const englishUi = useMemo(() => flattenStrings(uiResources[FALLBACK_LANGUAGE]), []);
+  // Progress counts what's in the translation files and what you've written in the editor.
+  const drafts = useDraftsStore((state) => state.drafts);
+  const handMadeText = useDraftsStore((state) => state.handMadeText);
+  const handMadeDex = useDraftsStore((state) => state.handMadeDexEntries);
+  const englishUi = useMemo(() => uiFlat(FALLBACK_LANGUAGE), []);
   const otherLanguages = LANGUAGES.filter((language) => language.code !== FALLBACK_LANGUAGE);
 
   const gameTextCoverage = (code: LanguageCode) => {
@@ -48,13 +53,13 @@ export function TranslationsPage() {
     if (!english || manifest.textLanguages.includes(code)) return null;
     const rows = TEXT_DOMAINS.map((domain) => ({
       domain,
-      value: coverage(english[domain] ?? {}, HAND_MADE_TEXT[code]?.[domain]),
+      value: coverage(english[domain] ?? {}, handMadeText[code]?.[domain]),
     }));
     const groups = Object.entries(dexEntries[FALLBACK_LANGUAGE] ?? {}).flatMap(([species, entries]) =>
       entries.map((entry) => ({ species, games: entry.games })),
     );
     const translated = groups.filter(({ species, games }) =>
-      games.some((game) => HAND_MADE_DEX_ENTRIES[code]?.[`${species}/${game}`]),
+      games.some((game) => handMadeDex[code]?.[`${species}/${game}`]),
     ).length;
     return { rows, dex: { total: groups.length, translated, missing: [] } satisfies Coverage };
   };
@@ -67,13 +72,22 @@ export function TranslationsPage() {
       </header>
 
       {otherLanguages.map((language) => {
-        const ui = coverage(englishUi, flattenStrings(uiResources[language.code]));
+        const ui = coverage(englishUi, { ...uiFlat(language.code), ...drafts[language.code]?.ui });
         const game = gameTextCoverage(language.code);
+        const editable = EDITABLE_LANGUAGES.includes(language.code);
         return (
           <section key={language.code} className={styles.language} aria-labelledby={`lang-${language.code}`}>
-            <h2 id={`lang-${language.code}`} lang={language.locale}>
-              {language.name}
-            </h2>
+            <div className={styles.languageHeader}>
+              <h2 id={`lang-${language.code}`} lang={language.locale}>
+                {language.name}
+              </h2>
+              {editable && (
+                <Link to={`/translations/${language.code}`} className={styles.translate}>
+                  <Languages size={18} aria-hidden="true" />
+                  {t('translations.translate')}
+                </Link>
+              )}
+            </div>
             <Progress label={t('translations.interface')} value={ui} />
             {game && (
               <div className={styles.domains}>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useDataProblems, useGameData } from '@/data/useGameData';
 import styles from './SettingsPage.module.css';
@@ -37,6 +38,9 @@ export function DataSection() {
           </dd>
         </div>
       </dl>
+      <Link to="/changelog" className={styles.link}>
+        {t('settings.data.changelog')}
+      </Link>
       {problems.length === 0 ? (
         <p className={styles.muted}>{t('settings.data.healthy')}</p>
       ) : (

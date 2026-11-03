@@ -13,6 +13,9 @@ export type LanguageCode = (typeof LANGUAGES)[number]['code'];
 /** Shown whenever a text hasn't been translated yet. */
 export const FALLBACK_LANGUAGE: LanguageCode = 'en';
 
+/** Languages whose texts are all written by hand, and so can be edited in the app. */
+export const EDITABLE_LANGUAGES: readonly LanguageCode[] = ['eu'];
+
 export const LANGUAGE_STORAGE_KEY = 'champions-dex.language';
 
 export function isLanguageCode(value: unknown): value is LanguageCode {

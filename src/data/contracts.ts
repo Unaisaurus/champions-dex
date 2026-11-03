@@ -508,6 +508,11 @@ export const ChangelogEntrySchema = z.object({
   dataVersion: z.string(),
   generatedAt: z.string(),
   game: z.object({ version: z.string().nullable(), regulation: z.string().nullable() }),
+  /**
+   * False when there was nothing to compare with: the first update, or
+   * previous data in a format the updater can no longer read.
+   */
+  compared: z.boolean().optional(),
   /** Per kind (`forms`, `moves`, `items`, `learnsets`): IDs added or removed, and short change notes. */
   changes: z.object({
     added: ChangeGroupSchema,

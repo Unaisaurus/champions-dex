@@ -11,9 +11,8 @@ import {
 } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { DATA_BASE_URL } from '@/data/loader';
+import { useDraftsStore } from './drafts';
 import {
-  HAND_MADE_DEX_ENTRIES,
-  HAND_MADE_TEXT,
   dexEntriesFor,
   dexEntryKey,
   lookupText,
@@ -85,14 +84,24 @@ export interface GameText {
  * Pokédex page has hundreds of cards), and only rebuilt when new text arrives
  * or the language changes.
  */
-const mergedCache = new WeakMap<object, TextFilesByLanguage>();
+const mergedCache = new WeakMap<object, WeakMap<object, TextFilesByLanguage>>();
 const textCache = new WeakMap<TextFilesByLanguage, WeakMap<object, Map<LanguageCode, GameText>>>();
 
-function mergedFiles(generated: Partial<Record<LanguageCode, DomainFiles>>): TextFilesByLanguage {
-  let files = mergedCache.get(generated);
+type HandMadeDex = Partial<Record<LanguageCode, Record<string, string>>>;
+
+function mergedFiles(
+  generated: Partial<Record<LanguageCode, DomainFiles>>,
+  handMade: TextFilesByLanguage,
+): TextFilesByLanguage {
+  let byHandMade = mergedCache.get(generated);
+  if (!byHandMade) {
+    byHandMade = new WeakMap();
+    mergedCache.set(generated, byHandMade);
+  }
+  let files = byHandMade.get(handMade);
   if (!files) {
-    files = mergeTextFiles(generated, HAND_MADE_TEXT);
-    mergedCache.set(generated, files);
+    files = mergeTextFiles(generated, handMade);
+    byHandMade.set(handMade, files);
   }
   return files;
 }
@@ -100,6 +109,7 @@ function mergedFiles(generated: Partial<Record<LanguageCode, DomainFiles>>): Tex
 function createGameText(
   files: TextFilesByLanguage,
   dexEntries: Partial<Record<LanguageCode, DexEntriesFile>>,
+  handMadeDex: HandMadeDex,
   language: LanguageCode,
 ): GameText {
   const get = (domain: TextDomain, key: string) => lookupText(files, language, domain, key);
@@ -113,33 +123,52 @@ function createGameText(
       const label = get('form-names', form.id)?.text ?? null;
       return { title, subtitle: label === title ? null : label };
     },
-    dexEntries: (key: string) => dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES),
+    dexEntries: (key: string) => dexEntriesFor(key, language, dexEntries, handMadeDex),
     formDexEntries: (form) => {
       const key = dexEntryKey(form, dexEntries);
-      return key === null ? null : dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES);
+      return key === null ? null : dexEntriesFor(key, language, dexEntries, handMadeDex);
     },
   };
+}
+
+const dexCache = new WeakMap<object, WeakMap<object, { generated: object; handMade: HandMadeDex }>>();
+
+/** One object per (generated entries, hand-made entries) pair, to key the cache below. */
+function dexKey(generated: Partial<Record<LanguageCode, DexEntriesFile>>, handMade: HandMadeDex) {
+  let byHandMade = dexCache.get(generated);
+  if (!byHandMade) {
+    byHandMade = new WeakMap();
+    dexCache.set(generated, byHandMade);
+  }
+  let key = byHandMade.get(handMade);
+  if (!key) {
+    key = { generated, handMade };
+    byHandMade.set(handMade, key);
+  }
+  return key;
 }
 
 function sharedGameText(
   generated: Partial<Record<LanguageCode, DomainFiles>>,
   dexEntries: Partial<Record<LanguageCode, DexEntriesFile>>,
+  handMade: { text: TextFilesByLanguage; dex: HandMadeDex },
   language: LanguageCode,
 ): GameText {
-  const files = mergedFiles(generated);
+  const files = mergedFiles(generated, handMade.text);
   let byEntries = textCache.get(files);
   if (!byEntries) {
     byEntries = new WeakMap();
     textCache.set(files, byEntries);
   }
-  let byLanguage = byEntries.get(dexEntries);
+  const entriesKey = dexKey(dexEntries, handMade.dex);
+  let byLanguage = byEntries.get(entriesKey);
   if (!byLanguage) {
     byLanguage = new Map();
-    byEntries.set(dexEntries, byLanguage);
+    byEntries.set(entriesKey, byLanguage);
   }
   let text = byLanguage.get(language);
   if (!text) {
-    text = createGameText(files, dexEntries, language);
+    text = createGameText(files, dexEntries, handMade.dex, language);
     byLanguage.set(language, text);
   }
   return text;
@@ -153,16 +182,22 @@ export function useGameText(): GameText {
   const dexEntries = useTextStore((state) => state.dexEntries);
   const ensure = useTextStore((state) => state.ensure);
 
+  const handMadeText = useDraftsStore((state) => state.handMadeText);
+  const handMadeDex = useDraftsStore((state) => state.handMadeDexEntries);
+
   useEffect(() => {
     void ensure(FALLBACK_LANGUAGE, manifest);
     void ensure(language, manifest);
   }, [ensure, language, manifest]);
 
-  return sharedGameText(generated, dexEntries, language);
+  return sharedGameText(generated, dexEntries, { text: handMadeText, dex: handMadeDex }, language);
 }
 
-/** The generated text files as loaded so far (English is always requested). For progress tracking. */
-export function useGeneratedText(): {
+/**
+ * The generated text files as loaded so far (English is always requested, and
+ * `also` if given). For progress tracking and the translation editor.
+ */
+export function useGeneratedText(also?: LanguageCode): {
   generated: Partial<Record<LanguageCode, DomainFiles>>;
   dexEntries: Partial<Record<LanguageCode, DexEntriesFile>>;
 } {
@@ -172,7 +207,8 @@ export function useGeneratedText(): {
   const ensure = useTextStore((state) => state.ensure);
   useEffect(() => {
     void ensure(FALLBACK_LANGUAGE, manifest);
-  }, [ensure, manifest]);
+    if (also) void ensure(also, manifest);
+  }, [ensure, manifest, also]);
   return { generated, dexEntries };
 }
 

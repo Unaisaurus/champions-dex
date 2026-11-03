@@ -1,6 +1,10 @@
 /** Saves text as a file in the browser's downloads (works on phones too). */
 export function downloadText(fileName: string, text: string, type = 'text/plain'): void {
-  const blob = new Blob([text], { type: `${type};charset=utf-8` });
+  downloadBlob(fileName, new Blob([text], { type: `${type};charset=utf-8` }));
+}
+
+/** Saves any file content (a ZIP, say) in the browser's downloads. */
+export function downloadBlob(fileName: string, blob: Blob): void {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;

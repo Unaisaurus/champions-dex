@@ -432,6 +432,24 @@
       "restore": "Restaurar esta copia",
       "restoreConfirm": "¿Sustituir tus equipos y favoritos actuales por esta copia?"
     },
+    "offline": {
+      "title": "Aplicación y uso sin conexión",
+      "ready": "La aplicación y sus datos están guardados en este dispositivo, así que funciona sin conexión.",
+      "preparing": "Preparando la aplicación para funcionar sin conexión…",
+      "unsupported": "Este navegador no puede guardar la aplicación para usarla sin conexión.",
+      "installed": "Instalada como aplicación en este dispositivo.",
+      "install": "Instalar la aplicación",
+      "howToInstall": "Para instalarla, elige «Instalar aplicación» o «Añadir a pantalla de inicio» en el menú del navegador (en un iPhone: Compartir → Añadir a pantalla de inicio).",
+      "artwork": "Las ilustraciones que ya has visto se guardan para usarlas sin conexión. Para tenerlas todas ({{images}} imágenes, unos {{size}}), guárdalas ahora:",
+      "includeShiny": "Incluir las ilustraciones variocolor",
+      "saveArtwork": "Guardar todas las ilustraciones",
+      "saving": "Guardando ilustraciones… {{done}} de {{total}}",
+      "stop": "Detener",
+      "saved_one": "{{count}} imagen guardada para usarla sin conexión.",
+      "saved_other": "Las {{count}} imágenes están guardadas para usarlas sin conexión.",
+      "savedSome": "{{count}} imágenes guardadas; {{failed}} no se han podido descargar (inténtalo más tarde).",
+      "stopped": "Detenido tras {{done}} de {{total}} imágenes."
+    },
     "storage": {
       "title": "Almacenamiento",
       "persisted": "El navegador se ha comprometido a conservar tus datos aunque falte espacio.",
@@ -449,12 +467,13 @@
       "sources": "Fuentes",
       "healthy": "Todos los archivos de datos han superado las comprobaciones de coherencia.",
       "problems_one": "Se ha encontrado {{count}} problema de coherencia en los archivos de datos:",
-      "problems_other": "Se han encontrado {{count}} problemas de coherencia en los archivos de datos:"
+      "problems_other": "Se han encontrado {{count}} problemas de coherencia en los archivos de datos:",
+      "changelog": "Qué cambió en cada actualización"
     }
   },
   "translations": {
     "title": "Traducciones",
-    "intro": "Progreso de cada idioma. Los textos sin traducir se muestran en inglés. Los textos en euskera están en la carpeta translations/eu; consulta docs/TRANSLATING.md.",
+    "intro": "Progreso de cada idioma. Los textos sin traducir se muestran en inglés. Pulsa Traducir para traducir al euskera aquí mismo, o edita los archivos de translations/eu (consulta docs/TRANSLATING.md).",
     "interface": "Interfaz",
     "percent": "{{percent}} % traducido",
     "count": "{{translated}} de {{total}}",
@@ -476,7 +495,79 @@
       "alignment-names": "Nombres de variaciones de características",
       "game-names": "Nombres de juegos",
       "region-names": "Nombres de regiones"
-    }
+    },
+    "translate": "Traducir"
+  },
+  "editor": {
+    "notEditable": "Este idioma no se puede editar aquí.",
+    "back": "Traducciones",
+    "title": "Traducción: {{language}}",
+    "intro": "Todos los textos en inglés de la aplicación, con un campo para su traducción. Lo que escribes se guarda en este dispositivo al momento y aparece enseguida en la aplicación.",
+    "download": "Descargar archivos de traducción",
+    "discard": "Descartar cambios",
+    "discardConfirm_one": "¿Descartar {{count}} traducción que aún no está en los archivos de traducción? No se puede deshacer.",
+    "discardConfirm_other": "¿Descartar {{count}} traducciones que aún no están en los archivos de traducción? No se puede deshacer.",
+    "unpublished_one": "{{count}} cambio que aún no está en los archivos de traducción",
+    "unpublished_other": "{{count}} cambios que aún no están en los archivos de traducción",
+    "allPublished": "Todo está en los archivos de traducción.",
+    "howToTitle": "Cómo publicar la traducción",
+    "howToPublish": "Para publicar la traducción en todos los dispositivos: descarga los archivos, descomprímelos, copia los de la carpeta {{language}} en translations/{{language}} del proyecto (sustituyendo los antiguos) y publica el cambio. Mientras tanto, solo está en este dispositivo y en tus copias de seguridad.",
+    "file": "Textos",
+    "fileOption": "{{name}} ({{percent}} %)",
+    "search": "Buscar",
+    "searchPlaceholder": "En inglés, en español o en tu traducción",
+    "show": "Mostrar",
+    "filters": {
+      "todo": "Por traducir",
+      "all": "Todos",
+      "changed": "Cambiados aquí"
+    },
+    "count_one": "{{count}} texto",
+    "count_other": "{{count}} textos",
+    "nothingLeft": "No queda nada por traducir aquí. ¡Bien hecho!",
+    "noMatch": "Ningún texto coincide.",
+    "pages": "Páginas",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page": "Página {{page}} de {{pages}}",
+    "placeholder": "Tu traducción",
+    "keepPlaceholders": "Mantén {{placeholders}} en el texto: la aplicación lo rellena.",
+    "useEnglish": "Igual que en inglés",
+    "undo": "Deshacer cambios",
+    "clear": "Borrar"
+  },
+  "changelog": {
+    "title": "Actualizaciones de datos",
+    "intro": "Los datos del juego se reconstruyen a partir de sus fuentes cada semana y tras las actualizaciones de Champions. Esto es lo que cambió en cada actualización.",
+    "current": "Ahora: datos {{version}} · Champions {{game}} · Reglamento {{regulation}}",
+    "meta": "Datos {{version}} · Champions {{game}} · Reglamento {{regulation}}",
+    "gameUpdate": "Actualización del juego",
+    "unavailable": "No se ha podido cargar la lista de actualizaciones.",
+    "empty": "Aún no hay actualizaciones.",
+    "nothing": "Sin cambios en Pokémon, movimientos, objetos, movimientos aprendibles ni textos; solo en datos internos de la app.",
+    "notCompared": "Sin comparar con los datos anteriores (es la primera actualización o cambió el formato de los datos).",
+    "formsAdded": "Pokémon y formas nuevos",
+    "formsRemoved": "Pokémon y formas retirados",
+    "formsChanged": "Pokémon cambiados",
+    "movesAdded": "Movimientos nuevos",
+    "movesRemoved": "Movimientos retirados",
+    "movesChanged": "Movimientos cambiados",
+    "itemsAdded": "Objetos nuevos",
+    "itemsRemoved": "Objetos retirados",
+    "learnsets": "Movimientos que aprenden",
+    "learns": "aprende {{moves}}",
+    "noLongerLearns": "ya no aprende {{moves}}",
+    "dexEntries": "Entradas de la Pokédex",
+    "text": "Otros textos",
+    "texts_one": "{{count}} texto",
+    "texts_other": "{{count}} textos",
+    "showList_one": "Ver {{count}}",
+    "showList_other": "Ver los {{count}}"
+  },
+  "pwa": {
+    "updateReady": "Hay una nueva versión de Champions Dex.",
+    "reload": "Recargar",
+    "offlineReady": "Champions Dex ya funciona sin conexión."
   },
   "validation": {
     "member": {

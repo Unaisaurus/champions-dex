@@ -37,8 +37,13 @@ and a visual review.
       Speed order, optionally as Mega Evolutions), Pokémon Showdown text
       export and import (Champions sets, or main-series EVs converted), team
       files and backups as JSON.
-- [ ] **Stage 6: Translation tools and polish.** In-app Basque editor, install as
-      an app (works offline), data changelog page.
+- [x] **Stage 6: Translation tools and polish.** In-app Basque editor (every
+      interface text, game text and Pokédex entry, saved on the device and
+      shown straight away, downloaded as the translation files), install as an
+      app that works offline (the app, its data and the artwork you've seen;
+      all artwork on request; a prompt when a new version is ready), and a data
+      changelog page (Pokémon, moves, items, learnsets and texts per update).
+      Pokédex entries from every game since Sun/Moon, DLC included.
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
 Generation 10, a regulation filter, pages for reference-only Pokémon, maybe a
@@ -63,8 +68,8 @@ damage calculator.
   switched off in `rules.json` until Champions enables them.
 
 - **Phone and computer:** the app is published with GitHub Pages from the
-  public repository, so it works in any browser. (An installable, offline
-  version comes in Stage 6.)
+  public repository, so it works in any browser, and can be installed as an app
+  that works offline.
 - **Data updates:** weekly and on demand, through GitHub Actions; the same
   updater runs locally with `update-data.bat`. Nothing is replaced unless every
   check passes.

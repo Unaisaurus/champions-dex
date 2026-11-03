@@ -1,15 +1,17 @@
 import { X } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { dismissToast, useToasts } from '@/ui/toasts';
 import styles from './Toasts.module.css';
 
-/** The messages from showToast(), announced politely to screen readers. */
-export function Toasts() {
+/** The messages from showToast(), announced politely to screen readers (plus any `children`, shown first). */
+export function Toasts({ children }: { children?: ReactNode }) {
   const { t } = useTranslation();
   const toasts = useToasts((state) => state.toasts);
   return (
     <div className={styles.region} role="status" aria-live="polite">
+      {children}
       {toasts.map((toast) => (
         <div key={toast.id} className={styles.toast}>
           <p className={styles.message}>{toast.message}</p>

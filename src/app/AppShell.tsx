@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AddToTeamDialog } from '@/features/team-builder/AddToTeamDialog';
 import { LanguageSwitcher } from '@/ui/components/LanguageSwitcher';
 import { Toasts } from '@/ui/components/Toasts';
+import { UpdatePrompt } from './UpdatePrompt';
 import styles from './AppShell.module.css';
 
 const NAV_ITEMS = [
@@ -58,7 +59,9 @@ export function AppShell() {
         {navLinks(styles.tabLink ?? '')}
       </nav>
       <AddToTeamDialog />
-      <Toasts />
+      <Toasts>
+        <UpdatePrompt />
+      </Toasts>
       <ScrollRestoration getKey={scrollKey} />
     </div>
   );

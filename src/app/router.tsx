@@ -1,9 +1,11 @@
 import { createHashRouter } from 'react-router';
+import { ChangelogPage } from '@/features/changelog/ChangelogPage';
 import { PokedexPage } from '@/features/pokedex/PokedexPage';
 import { PokemonPage } from '@/features/pokemon-page/PokemonPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { TeamEditorPage } from '@/features/team-builder/TeamEditorPage';
 import { TeamsPage } from '@/features/team-builder/TeamsPage';
+import { TranslationEditor } from '@/features/translations/TranslationEditor';
 import { TranslationsPage } from '@/features/translations/TranslationsPage';
 import { AppShell } from './AppShell';
 import { NotFoundPage } from './NotFoundPage';
@@ -21,7 +23,9 @@ export const router = createHashRouter([
       { path: 'teams', element: <TeamsPage /> },
       { path: 'teams/:teamId', element: <TeamEditorPage /> },
       { path: 'settings', element: <SettingsPage /> },
+      { path: 'changelog', element: <ChangelogPage /> },
       { path: 'translations', element: <TranslationsPage /> },
+      { path: 'translations/:language', element: <TranslationEditor /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

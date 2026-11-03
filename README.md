@@ -4,11 +4,12 @@ A personal Pokédex and team builder for **Pokémon Champions**, in English,
 Spanish (Spain) and Basque. It runs in your browser, on your phone or your
 computer: no account, no server of your own, nothing to pay.
 
-> **Status: Stage 5 (analysis and sharing) done.** The full Champions roster,
-> with search, sorting, filters and complete Pokémon pages, plus a team builder
-> with live stats, legal moves, warnings, a team overview with weaknesses and
-> coverage, and Showdown import/export. The Basque editor and offline app come
-> next. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> **Status: Stage 6 done: every planned stage is finished.** The full
+> Champions roster, with search, sorting, filters and complete Pokémon pages
+> (each form with its own Pokédex entries), a team builder with live stats,
+> legal moves, warnings, a team overview and Showdown import/export, a Basque
+> editor inside the app, an installable app that works offline, and a page
+> listing what each data update changed. See [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Building teams
 
@@ -38,8 +39,14 @@ its moves hit hard, and who moves first.
 ## Using it on your phone (or any device)
 
 The app is published at **https://unaisaurus.github.io/champions-dex/** every
-time something new is uploaded. Open that address in your phone's browser; you
-can add it to your home screen from the browser menu.
+time something new is uploaded. Open that address in your phone's browser.
+
+**Install it as an app:** **Settings → App and offline use → Install the app**
+(or **Install app** / **Add to Home screen** in the browser menu; on an
+iPhone: Share → Add to Home Screen). Once opened, the app and its data are
+saved on the device, so it works without a connection; artwork you've seen is
+kept too, and **Save all artwork** in the same place saves the rest. When a new
+version is published, the app says so and updates when you tap **Reload**.
 
 One-time setup on GitHub (already done if the address works):
 **Settings → Pages → Source: GitHub Actions**. The repository must be public:
@@ -95,7 +102,9 @@ can be rebuilt from the latest sources. Two ways:
 
 Either way, every check must pass before anything is replaced; otherwise the
 app keeps its current data. What changed is written to
-[`data/update-report.md`](data/update-report.md). Your teams are never touched.
+[`data/update-report.md`](data/update-report.md), and shown in the app under
+**Settings → Game data → What changed in each update**. Your teams are never
+touched.
 
 ## Your saved data
 
@@ -107,10 +116,16 @@ app keeps its current data. What changed is written to
 
 ## Translating into Basque
 
-All Basque texts are in the `translations/eu/` folder, as simple
+In the app: **Settings → Translations → Translate**. Every English text is
+listed (interface, Pokémon and move names, descriptions, Pokédex entries…)
+with a field for the Basque one. What you write is saved on that device and
+shows in the app straight away. To publish it for every device, **Download
+translation files** and put them in the `translations/eu/` folder (replacing
+the old ones), then publish the change.
+
+The same texts can also be edited directly in `translations/eu/`, as simple
 `"key": "text"` files. Anything left empty shows in English. Full guide:
-[docs/TRANSLATING.md](docs/TRANSLATING.md). Progress is shown in the app under
-**Settings → Translations**.
+[docs/TRANSLATING.md](docs/TRANSLATING.md).
 
 ## Where things live
 

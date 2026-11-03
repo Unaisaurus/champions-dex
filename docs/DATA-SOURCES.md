@@ -83,7 +83,9 @@ Stones, Gallade's generation…). If anything fails, the old data stays.
 
 The report in `data/update-report.md` lists what changed since the previous
 update, and spots where sources disagree. `public/data/changelog.json` keeps
-the last 30 updates for the app.
+the last 30 updates for the app's changelog page (Settings → Game data → "What
+changed in each update"): Pokémon, moves, items, learnsets, Pokédex entries
+and other game text.
 
 ## Known gaps (handled, not hidden)
 

@@ -432,6 +432,24 @@
       "restore": "",
       "restoreConfirm": ""
     },
+    "offline": {
+      "title": "",
+      "ready": "",
+      "preparing": "",
+      "unsupported": "",
+      "installed": "",
+      "install": "",
+      "howToInstall": "",
+      "artwork": "",
+      "includeShiny": "",
+      "saveArtwork": "",
+      "saving": "",
+      "stop": "",
+      "saved_one": "",
+      "saved_other": "",
+      "savedSome": "",
+      "stopped": ""
+    },
     "storage": {
       "title": "",
       "persisted": "",
@@ -449,7 +467,8 @@
       "sources": "",
       "healthy": "",
       "problems_one": "",
-      "problems_other": ""
+      "problems_other": "",
+      "changelog": ""
     }
   },
   "translations": {
@@ -476,7 +495,79 @@
       "alignment-names": "",
       "game-names": "",
       "region-names": ""
-    }
+    },
+    "translate": ""
+  },
+  "editor": {
+    "notEditable": "",
+    "back": "",
+    "title": "",
+    "intro": "",
+    "download": "",
+    "discard": "",
+    "discardConfirm_one": "",
+    "discardConfirm_other": "",
+    "unpublished_one": "",
+    "unpublished_other": "",
+    "allPublished": "",
+    "howToTitle": "",
+    "howToPublish": "",
+    "file": "",
+    "fileOption": "",
+    "search": "",
+    "searchPlaceholder": "",
+    "show": "",
+    "filters": {
+      "todo": "",
+      "all": "",
+      "changed": ""
+    },
+    "count_one": "",
+    "count_other": "",
+    "nothingLeft": "",
+    "noMatch": "",
+    "pages": "",
+    "previous": "",
+    "next": "",
+    "page": "",
+    "placeholder": "",
+    "keepPlaceholders": "",
+    "useEnglish": "",
+    "undo": "",
+    "clear": ""
+  },
+  "changelog": {
+    "title": "",
+    "intro": "",
+    "current": "",
+    "meta": "",
+    "gameUpdate": "",
+    "unavailable": "",
+    "empty": "",
+    "nothing": "",
+    "notCompared": "",
+    "formsAdded": "",
+    "formsRemoved": "",
+    "formsChanged": "",
+    "movesAdded": "",
+    "movesRemoved": "",
+    "movesChanged": "",
+    "itemsAdded": "",
+    "itemsRemoved": "",
+    "learnsets": "",
+    "learns": "",
+    "noLongerLearns": "",
+    "dexEntries": "",
+    "text": "",
+    "texts_one": "",
+    "texts_other": "",
+    "showList_one": "",
+    "showList_other": ""
+  },
+  "pwa": {
+    "updateReady": "",
+    "reload": "",
+    "offlineReady": ""
   },
   "validation": {
     "member": {

@@ -1,0 +1,143 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 860px;
+}
+
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.back:hover {
+  color: var(--ink);
+}
+
+.header {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.intro,
+.current {
+  margin: 0;
+  color: var(--ink-muted);
+  max-width: 72ch;
+}
+
+.current {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.muted {
+  margin: 0;
+  color: var(--ink-muted);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.cardHeader {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+
+.badge {
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.changes {
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.change {
+  display: grid;
+  grid-template-columns: minmax(140px, 200px) minmax(0, 1fr);
+  gap: var(--space-1) var(--space-4);
+}
+
+.change dt {
+  font-weight: 650;
+}
+
+.change dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.inline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+
+.lines {
+  margin: 0;
+  padding-left: var(--space-4);
+  display: grid;
+  gap: var(--space-1);
+}
+
+.folded summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.folded[open] summary {
+  margin-bottom: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: var(--space-4);
+  }
+
+  .change {
+    grid-template-columns: 1fr;
+  }
+}

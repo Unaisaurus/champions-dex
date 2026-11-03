@@ -432,6 +432,24 @@
       "restore": "Restore this copy",
       "restoreConfirm": "Replace your current teams and favourites with this copy?"
     },
+    "offline": {
+      "title": "App and offline use",
+      "ready": "The app and its data are saved on this device, so it works without a connection.",
+      "preparing": "Getting the app ready to work offline…",
+      "unsupported": "This browser can't keep the app for offline use.",
+      "installed": "Installed as an app on this device.",
+      "install": "Install the app",
+      "howToInstall": "To install it, choose “Install app” or “Add to Home screen” in your browser's menu (on an iPhone: Share → Add to Home Screen).",
+      "artwork": "Artwork you've seen is kept for offline use. To have all of it offline ({{images}} images, about {{size}}), save it now:",
+      "includeShiny": "Include shiny artwork",
+      "saveArtwork": "Save all artwork",
+      "saving": "Saving artwork… {{done}} of {{total}}",
+      "stop": "Stop",
+      "saved_one": "{{count}} image saved for offline use.",
+      "saved_other": "All {{count}} images saved for offline use.",
+      "savedSome": "{{count}} images saved; {{failed}} couldn't be downloaded (try again later).",
+      "stopped": "Stopped after {{done}} of {{total}} images."
+    },
     "storage": {
       "title": "Storage",
       "persisted": "The browser has agreed to keep your data, even when space runs low.",
@@ -449,12 +467,13 @@
       "sources": "Sources",
       "healthy": "All data files passed their consistency checks.",
       "problems_one": "{{count}} consistency problem found in the data files:",
-      "problems_other": "{{count}} consistency problems found in the data files:"
+      "problems_other": "{{count}} consistency problems found in the data files:",
+      "changelog": "What changed in each update"
     }
   },
   "translations": {
     "title": "Translations",
-    "intro": "Progress of each language. Untranslated texts fall back to English. Basque texts live in the translations/eu folder; see docs/TRANSLATING.md.",
+    "intro": "How far each language has got. Texts that aren't translated yet show in English. Press Translate to translate into Basque right here, or edit the files in translations/eu (see docs/TRANSLATING.md).",
     "interface": "Interface",
     "percent": "{{percent}}% translated",
     "count": "{{translated}} of {{total}}",
@@ -476,7 +495,79 @@
       "alignment-names": "Stat Alignment names",
       "game-names": "Game names",
       "region-names": "Region names"
-    }
+    },
+    "translate": "Translate"
+  },
+  "editor": {
+    "notEditable": "This language can't be edited here.",
+    "back": "Translations",
+    "title": "Translating into {{language}}",
+    "intro": "Every English text in the app, with a field for its translation. What you write is saved on this device as you type, and shows in the app straight away.",
+    "download": "Download translation files",
+    "discard": "Discard changes",
+    "discardConfirm_one": "Discard {{count}} translation that isn't in the translation files yet? This can't be undone.",
+    "discardConfirm_other": "Discard {{count}} translations that aren't in the translation files yet? This can't be undone.",
+    "unpublished_one": "{{count}} change not in the translation files yet",
+    "unpublished_other": "{{count}} changes not in the translation files yet",
+    "allPublished": "Everything is in the translation files.",
+    "howToTitle": "How to publish your translation",
+    "howToPublish": "To publish your translation on every device: download the files, unzip them, copy the files from the {{language}} folder into translations/{{language}} in the project (replacing the old ones) and publish the change. Until then it's only on this device, and in your backups.",
+    "file": "Texts",
+    "fileOption": "{{name}} ({{percent}}%)",
+    "search": "Search",
+    "searchPlaceholder": "In English, Spanish or your translation",
+    "show": "Show",
+    "filters": {
+      "todo": "To translate",
+      "all": "All",
+      "changed": "Changed here"
+    },
+    "count_one": "{{count}} text",
+    "count_other": "{{count}} texts",
+    "nothingLeft": "Nothing left to translate here. Well done!",
+    "noMatch": "No texts match.",
+    "pages": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{page}} of {{pages}}",
+    "placeholder": "Your translation",
+    "keepPlaceholders": "Keep {{placeholders}} in the text: the app fills it in.",
+    "useEnglish": "Same as English",
+    "undo": "Undo changes",
+    "clear": "Clear"
+  },
+  "changelog": {
+    "title": "Data updates",
+    "intro": "The game data is rebuilt from its sources every week and after Champions updates. This is what each update changed.",
+    "current": "Now: data {{version}} · Champions {{game}} · Regulation {{regulation}}",
+    "meta": "Data {{version}} · Champions {{game}} · Regulation {{regulation}}",
+    "gameUpdate": "Game update",
+    "unavailable": "The list of updates couldn't be loaded.",
+    "empty": "No updates yet.",
+    "nothing": "Nothing changed in Pokémon, moves, items, learnsets or text; only data the app uses behind the scenes.",
+    "notCompared": "Not compared with the data before it (the first update, or the data's format changed).",
+    "formsAdded": "New Pokémon and forms",
+    "formsRemoved": "Pokémon and forms removed",
+    "formsChanged": "Pokémon changed",
+    "movesAdded": "New moves",
+    "movesRemoved": "Moves removed",
+    "movesChanged": "Moves changed",
+    "itemsAdded": "New items",
+    "itemsRemoved": "Items removed",
+    "learnsets": "Learnsets",
+    "learns": "learns {{moves}}",
+    "noLongerLearns": "no longer learns {{moves}}",
+    "dexEntries": "Pokédex entries",
+    "text": "Other texts",
+    "texts_one": "{{count}} text",
+    "texts_other": "{{count}} texts",
+    "showList_one": "Show {{count}}",
+    "showList_other": "Show all {{count}}"
+  },
+  "pwa": {
+    "updateReady": "A new version of Champions Dex is ready.",
+    "reload": "Reload",
+    "offlineReady": "Champions Dex now works offline."
   },
   "validation": {
     "member": {

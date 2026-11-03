@@ -36,7 +36,7 @@ import { buildChampionsForms, readMegaStones } from './build/forms';
 import { buildLearnsets } from './build/learnsets';
 import { matchForms } from './build/matching';
 import { loadOverrides } from './build/overrides';
-import { compareData, hasChanges, reportMarkdown } from './build/report';
+import { compareData, compareText, hasChanges, reportMarkdown, type TextSnapshot } from './build/report';
 import { buildSpecies, setLineGenerations } from './build/species';
 import { buildSearchNames, buildText } from './build/text';
 import { log } from './lib/log';
@@ -353,6 +353,30 @@ async function main() {
     if (complete) previousCore = loaded as CoreData;
   }
   const changes = compareData(previousCore, core);
+  // The game text too (names, descriptions, Pokédex entries), so text-only updates show up.
+  const textNow: TextSnapshot = Object.fromEntries(
+    TEXT_LANGUAGES.map((language) => [
+      language,
+      { ...text[language], 'dex-entries': dex.files[language] } as Record<string, Record<string, unknown>>,
+    ]),
+  );
+  const textBefore: TextSnapshot | null = previousCore
+    ? Object.fromEntries(
+        TEXT_LANGUAGES.map((language) => [
+          language,
+          Object.fromEntries(
+            Object.keys(textNow[language] ?? {}).map((file) => [
+              file,
+              (readJsonFile(join(OUTPUT_DIR, 'text', language, `${file}.json`)) ?? {}) as Record<
+                string,
+                unknown
+              >,
+            ]),
+          ),
+        ]),
+      )
+    : null;
+  Object.assign(changes.changed, compareText(textBefore, textNow));
   const previousLog = ChangelogSchema.safeParse(readJsonFile(join(OUTPUT_DIR, CHANGELOG_FILE)));
   const changelog: ChangelogEntry[] = previousLog.success ? previousLog.data : [];
   if (!unchanged) {
@@ -360,6 +384,7 @@ async function main() {
       dataVersion: manifest.dataVersion,
       generatedAt: manifest.generatedAt,
       game: manifest.game,
+      ...(previousCore ? {} : { compared: false }),
       changes,
     });
   }
