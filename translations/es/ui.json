@@ -195,7 +195,8 @@
       "inEnglish": "En inglés",
       "showAll_one": "Ver las {{count}} entradas",
       "showAll_other": "Ver las {{count}} entradas",
-      "showFewer": "Ver menos"
+      "showFewer": "Ver menos",
+      "none": "Esta forma aún no tiene entradas en la Pokédex."
     },
     "moves": {
       "title": "Movimientos en Champions",

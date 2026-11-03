@@ -5,7 +5,14 @@
  */
 import { describe, expect, it } from 'vitest';
 import { usualChampionsPp } from './build/catalog';
-import { cleanEntryText, entryKey } from './build/dexEntries';
+import {
+  cleanEntryText,
+  closestLine,
+  editDistance,
+  entryKey,
+  towakeyId,
+  usumFormLines,
+} from './build/dexEntries';
 import { mergeConditions } from './build/families';
 import { identifierTokens, isRegionalIdentifier, tokens } from './build/matching';
 import { flatten } from './build/text';
@@ -13,6 +20,9 @@ import { int, intOrNull, parseCsv } from './lib/csv';
 import { formatJson } from './lib/output';
 import { methodFromShowdownSource, toShowdownId, showdownCandidates } from './sources/showdown';
 import { cleanDumpText, isPlaceholder, parseDump } from './sources/svText';
+import { formCountsFromPersonal, parseLabelledEntries, parseTowakeyGame } from './sources/dexDumps';
+import { japaneseKey, parseTextDump } from './sources/textDump';
+import { decodeText } from './lib/net';
 import { typeFromTextLabel } from './sources/champions';
 
 describe('CSV reader', () => {
@@ -138,6 +148,131 @@ describe('text', () => {
     const entries = files.get('zukan_comment_A.dat') ?? [];
     expect(isPlaceholder(entries[1])).toBe(true);
     expect(cleanDumpText(entries[2] ?? '')).toBe('It rigs foes with pollen-packed flower bombs.');
+  });
+
+  it('reads other dumps: only the wanted files, without the final line break', () => {
+    const dump = [
+      'header',
+      '~~~~~~~~~~~~~~~',
+      'Text File : zukan_comment_A',
+      '~~~~~~~~~~~~~~~',
+      'None',
+      'This form of Rotom enjoys coming up with water- based pranks.',
+      '~~~~~~~~~~~~~~~',
+      'Text File : other',
+      '~~~~~~~~~~~~~~~',
+      'x',
+      '',
+    ].join('\r\n');
+    const files = parseTextDump(dump, new Set(['zukan_comment_A']));
+    expect([...files.keys()]).toEqual(['zukan_comment_A']);
+    const lines = files.get('zukan_comment_A') ?? [];
+    expect(lines).toHaveLength(2);
+    expect(isPlaceholder(lines[0])).toBe(true);
+    expect(cleanDumpText(lines[1] ?? '')).toBe(
+      'This form of Rotom enjoys coming up with water-based pranks.',
+    );
+  });
+
+  it('reads UTF-16 files', () => {
+    const bytes = Buffer.concat([Buffer.from([0xff, 0xfe]), Buffer.from('Pokédex', 'utf16le')]);
+    expect(decodeText(bytes)).toBe('Pokédex');
+    expect(decodeText(Buffer.from('Pokédex', 'utf8'))).toBe('Pokédex');
+  });
+
+  it('reads the labelled Legends: Z-A entries', () => {
+    const entries = parseLabelledEntries(
+      [
+        '026\t7CCB\tZKN_COMMENT_A_026_000\tWhen its electricity builds…',
+        '1029\t7CCB\tZKN_COMMENT_A_026_001\tIt uses psychokinesis\\nto control electricity.',
+        '001\tD9A4\tmsg_fe809f41\t[~ 1]',
+        '000\t20AD\tZKN_COMMENT_A_000_000\t',
+      ].join('\n'),
+    );
+    expect([...entries.keys()]).toEqual(['26-0', '26-1']);
+    expect(cleanDumpText(entries.get('26-1') ?? '')).toBe('It uses psychokinesis to control electricity.');
+  });
+
+  it("reads towakey's Japanese text per form", () => {
+    const texts = parseTowakeyGame({
+      pokedex: {
+        dex: {
+          '0004': {
+            '0103_01000000_0_000_0': { description: { scarlet: '長い首を ムチのように', violet: '' } },
+          },
+        },
+      },
+    });
+    expect(texts.get('0103_01000000_0_000_0')).toEqual(new Map([['scarlet', '長い首を ムチのように']]));
+  });
+
+  it('compares Japanese text without furigana codes, spaces or wide digits', () => {
+    expect(japaneseKey('[VAR FF01(0002,0005,4E21,982C)]両頬には　電気を\\n２本')).toBe(
+      japaneseKey('両頬には 電気を 2本'),
+    );
+  });
+
+  it('finds the line of a slightly different copy, if only one is that close', () => {
+    const lines = new Map([
+      [japaneseKey('だいじなしょるいをふきとばす。かぜにまかせたわるさをたのしむロトムのすがた。'), 7],
+      [japaneseKey('まったくべつのぶんしょうがここにはいっている。'), 8],
+    ]);
+    expect(
+      closestLine(
+        japaneseKey('だいじなしょるいをふきとばすかぜにまかせたわるさをたのしむロトムのすがた。'),
+        lines,
+      ),
+    ).toBe(7);
+    expect(closestLine(japaneseKey('ぜんぜんにていないぶんしょう。'), lines)).toBeUndefined();
+    expect(editDistance('abcd', 'abed', 1)).toBe(1);
+    expect(editDistance('abcd', 'wxyz', 2)).toBe(Infinity);
+  });
+
+  it("works out towakey's ID of each game form", () => {
+    const tauros = [
+      { fo: 0, region: '00' },
+      { fo: 1, region: '51' },
+      { fo: 2, region: '51' },
+      { fo: 3, region: '51' },
+    ];
+    expect(towakeyId({ no: 128, fo: 3, region: '51', variant: '13' }, tauros)).toBe('0128_04000002_0_000_0');
+    expect(towakeyId({ no: 26, fo: 1, region: '11', variant: '00' }, [{ fo: 0, region: '00' }])).toBe(
+      '0026_01000000_0_000_0',
+    );
+    expect(towakeyId({ no: 6, fo: 2, region: '00', variant: '52' }, [])).toBe('0006_00000101_0_000_0');
+    // Basculegion is Hisuian through and through: its female form is just form 1.
+    const basculegion = [
+      { fo: 0, region: '41' },
+      { fo: 1, region: '41' },
+    ];
+    expect(towakeyId({ no: 902, fo: 1, region: '41', variant: '12' }, basculegion)).toBe(
+      '0902_00000001_0_000_0',
+    );
+    expect(towakeyId({ no: 666, fo: 6, region: '00', variant: '17' }, [])).toBe('0666_00000006_0_000_0');
+  });
+
+  it('places Ultra Sun/Ultra Moon form entries after the species', () => {
+    // Three species: #1 has 2 forms, #2 one, #3 three (counts from the form table).
+    const counts = formCountsFromPersonal(
+      Buffer.concat(
+        [1, 2, 1, 3].map((count) => {
+          const record = Buffer.alloc(0x54);
+          record[0x20] = count;
+          return record;
+        }),
+      ),
+    );
+    expect(counts).toEqual([1, 2, 1, 3]);
+    // 3 species + 2 unused lines + 3 form lines = 8 lines.
+    const lineOf = usumFormLines(counts, 8, 3);
+    expect([lineOf?.(1, 0), lineOf?.(1, 1), lineOf?.(3, 1), lineOf?.(3, 2), lineOf?.(2, 1)]).toEqual([
+      1,
+      5,
+      6,
+      7,
+      undefined,
+    ]);
+    expect(usumFormLines(counts, 9, 3)).toBeNull();
   });
 
   it('tidies PokéAPI entries and groups equal ones', () => {

@@ -1,6 +1,6 @@
-# Data update 2026-11-02.3
+# Data update 2026-11-03
 
-Generated 2026-11-02T22:36:10Z.
+Generated 2026-11-03T00:00:27Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -15,6 +15,7 @@ Game: version 1.2.2, Regulation M-C.
 - Items in Champions: 166
 - Learnset entries: 16073
 - Learnset entries new in Champions: 110
+- Forms with Pokédex entries of their own: 150
 
 ## Changes since the previous update
 
@@ -27,6 +28,12 @@ No changes to Pokémon, moves, items or learnsets.
 - [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1dd55c0436d2`
 - [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `035c1a1f3c2e`
 - [Pokémon Scarlet/Violet text dump](https://github.com/giginet/PMSV) at `bd901b379066`
+- [Pokémon Legends: Z-A text dump](https://github.com/CPokemon/plza-text) at `3f149c41285b`
+- [Pokémon Sword/Shield text dump](https://github.com/CPokemon/swsh-text) at `76c6e4d50003`
+- [Pokémon Legends: Arceus text dump](https://github.com/CPokemon/pla-text) at `9b94ee8199b0`
+- [Pokémon Ultra Sun/Ultra Moon text dump](https://github.com/CPokemon/usum-data) at `85e44888e2a4`
+- [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `0660d1e1f492`
+- [Pokémon JSON API by towakey (Japanese Pokédex text per form)](https://github.com/towakey/pokedex) at `142c54d3f6a8`
 
 ## Things to check (1)
 
@@ -68,3 +75,35 @@ Nothing here stops the app from working; these are spots where the sources disag
 - houndstone (+1/−0)
 - kingambit (+1/−0)
 - archaludon (+1/−2)
+
+## Pokédex entries of single forms found in each game (7)
+
+- sword: 182 entries placed, 1 not found in the dump (38-1)
+- shield: 179 entries placed, 4 not found in the dump (38-1, 681-0, 681-1, 711-3)
+- legends-arceus: 66 entries placed
+- scarlet: 158 entries placed, 78 not found in the dump (3-0, 6-0, 9-0, 24-0, 36-0, 38-0, 38-1, 45-0, 71-0, 80-2, 143-0, 154-0…)
+- violet: 158 entries placed, 78 not found in the dump (3-0, 6-0, 9-0, 24-0, 36-0, 38-0, 38-1, 45-0, 71-0, 80-2, 143-0, 154-0…)
+- ultra-sun: 150 entries placed by position
+- ultra-moon: 150 entries placed by position
+
+## Forms without Pokédex entries of their own yet (19)
+
+- raichu-mega-x
+- raichu-mega-y
+- sceptile-mega
+- blaziken-mega
+- swampert-mega
+- chimecho-mega
+- absol-mega-z
+- staraptor-mega
+- garchomp-mega-z
+- lucario-mega-z
+- golurk-mega
+- meowstic-male-mega
+- meowstic-female-mega
+- crabominable-mega
+- golisopod-mega
+- scovillain-mega
+- glimmora-mega
+- baxcalibur-mega
+- sinistcha-masterpiece

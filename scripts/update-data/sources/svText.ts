@@ -1,55 +1,47 @@
 /**
  * Text dump of Pokémon Scarlet/Violet (base game), used for the Spain-Spanish
- * and English Pokédex entries that PokéAPI doesn't have.
+ * and English Pokédex entries that PokéAPI doesn't have, and (in Japanese) to
+ * tell which entry belongs to which form.
  * https://github.com/giginet/PMSV
  */
 import { sourceFile } from '../lib/net';
 import { SOURCES } from './config';
+import { parseTextDump } from './textDump';
+
+export { cleanDumpText, isPlaceholder } from './textDump';
+
+export type SvLanguage = 'eng' | 'esp' | 'jpn' | 'jpn_kanji';
 
 export interface SvText {
   /** Lines of a text file, e.g. `zukan_comment_A.dat` (Scarlet entries); line n = text number n. */
-  file(language: 'eng' | 'esp', name: string): string[];
+  file(language: SvLanguage, name: string): string[];
 }
+
+/** The Pokédex entry files: Scarlet (A) and Violet (B). */
+export const SV_DEX_FILES = ['zukan_comment_A.dat', 'zukan_comment_B.dat'] as const;
 
 /** Splits the dump into its text files. */
 export function parseDump(text: string): Map<string, string[]> {
-  const files = new Map<string, string[]>();
-  const parts = text.split(/~{5,}\r?\nText File : /);
-  for (const part of parts) {
-    const newline = part.indexOf('\n');
-    if (newline < 0) continue;
-    const name = part.slice(0, newline).trim();
-    if (!name.endsWith('.dat')) continue;
-    const body = part.slice(newline + 1).replace(/^~+\r?\n/, '');
-    // Line n is text number n (line 0 is often empty: the Egg has no Pokédex entry).
-    files.set(name, body.split(/\r?\n/));
-  }
-  return files;
-}
-
-/** Placeholder lines look like "[~ 12]". */
-export function isPlaceholder(line: string | undefined): boolean {
-  return !line || /^\[~ \d+\]$/.test(line.trim());
-}
-
-export function cleanDumpText(line: string): string {
-  return (
-    line
-      // "pollen-\npacked" → "pollen-packed"
-      .replace(/-\\n/g, '-')
-      .replace(/\\n/g, ' ')
-      .replace(/\[VAR [^\]]*\]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-  );
+  return parseTextDump(text);
 }
 
 export async function loadSvText(revision: string): Promise<SvText> {
-  const [english, spanish] = await Promise.all([
-    sourceFile(SOURCES.svText, revision, 'common/common_eng.txt').then(parseDump),
-    sourceFile(SOURCES.svText, revision, 'common/common_esp.txt').then(parseDump),
+  const dexOnly = new Set<string>(SV_DEX_FILES);
+  const read = (language: SvLanguage, wanted?: ReadonlySet<string>) =>
+    sourceFile(SOURCES.svText, revision, `common/common_${language}.txt`).then((text) =>
+      parseTextDump(text, wanted),
+    );
+  const [english, spanish, japanese, kanji] = await Promise.all([
+    read('eng'),
+    read('esp'),
+    read('jpn', dexOnly),
+    read('jpn_kanji', dexOnly),
   ]);
-  return {
-    file: (language, name) => (language === 'eng' ? english : spanish).get(name) ?? [],
+  const files: Record<SvLanguage, Map<string, string[]>> = {
+    eng: english,
+    esp: spanish,
+    jpn: japanese,
+    jpn_kanji: kanji,
   };
+  return { file: (language, name) => files[language].get(name) ?? [] };
 }

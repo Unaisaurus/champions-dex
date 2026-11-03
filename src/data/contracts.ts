@@ -104,6 +104,11 @@ export const ManifestSchema = z.object({
   ),
   /** Languages with generated game text (Basque comes from your own files instead). */
   textLanguages: z.array(z.string()),
+  /**
+   * The games the Pokédex entries come from, oldest first, each with the
+   * release it belongs to (`scarlet` and `violet` share `scarlet-violet`).
+   */
+  games: z.array(z.object({ id: IdSchema, group: IdSchema })).default([]),
   /** Languages whose names are included in the search index. */
   searchLanguages: z.array(z.string()).default([]),
   images: z.object({
@@ -457,9 +462,11 @@ export type TextFile = z.infer<typeof TextFileSchema>;
 
 /**
  * Pokédex entries, per language, already de-duplicated: games that share the
- * exact same text are grouped. Keyed by species ID (or form ID for regional
- * forms with their own entries). Entries are ordered by the newest game each
- * text appears in, oldest first.
+ * exact same text are grouped. Keyed by species ID (the entries of the
+ * species' main form), plus a form ID for each form whose entries differ
+ * (Alolan Raichu, Mega Venusaur, Heat Rotom…). An empty list means the form has
+ * no entries of its own yet: it must not borrow its species' entries. Entries
+ * are ordered by the newest game each text appears in, oldest first.
  */
 export const DexEntriesFileSchema = z.record(
   z.string(),

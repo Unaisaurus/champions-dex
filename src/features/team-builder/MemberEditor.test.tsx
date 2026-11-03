@@ -20,6 +20,7 @@ const manifest: Manifest = {
   sources: [],
   // No generated text: names show as IDs, which keeps the test independent of the data.
   textLanguages: [],
+  games: [],
   searchLanguages: [],
   images: { localDir: 'img', localExt: 'webp', mirroredGroups: [], remote: {} },
 };

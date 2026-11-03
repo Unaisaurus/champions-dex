@@ -51,6 +51,10 @@ export interface PersonalEntry {
   abilityNumbers: number[];
   weightHg: number;
   formLabel: string;
+  /** The game's region code: `00` none, `11` Alola, `31` Galar, `41` Hisui, `51` Paldea. */
+  region: string;
+  /** The game's variant code: `51`/`52` for Mega Evolutions (X/Y), others for other forms. */
+  variant: string;
 }
 
 export interface MoveEntry {
@@ -159,6 +163,8 @@ export async function loadChampions(revision: string): Promise<ChampionsData> {
         abilityNumbers: [p.toku0, p.toku1, p.toku2].map(Number),
         weightHg: Number(p.weight),
         formLabel: englishForms.get(p.ms_form_lbl ?? '') ?? '',
+        region: p.rr || '00',
+        variant: p.ff || '00',
       };
     });
 

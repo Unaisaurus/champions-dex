@@ -30,7 +30,7 @@ import { checkIntegrity } from '../../src/data/integrity';
 import { syncTranslations } from '../sync-translations';
 import { buildAbilities, buildAlignments, buildItems, buildMoves, buildTypes } from './build/catalog';
 import { buildContext } from './build/context';
-import { buildDexEntries, TEXT_LANGUAGES } from './build/dexEntries';
+import { buildDexEntries, gamesUsed, TEXT_LANGUAGES } from './build/dexEntries';
 import { buildFamilies } from './build/families';
 import { buildChampionsForms, readMegaStones } from './build/forms';
 import { buildLearnsets } from './build/learnsets';
@@ -49,6 +49,7 @@ import { loadPokeApi } from './sources/pokeapi';
 import { loadShowdown, showdownCandidates, toShowdownId } from './sources/showdown';
 import { IMAGE_GROUPS, loadSpriteIndex } from './sources/sprites';
 import { loadSvText } from './sources/svText';
+import { loadDexDumps } from './sources/dexDumps';
 import { writeFileSync } from 'node:fs';
 
 const args = new Set(process.argv.slice(2));
@@ -60,7 +61,8 @@ const REPORT_FILE = join(ROOT, 'data', 'update-report.md');
 async function resolveRevisions(previous: Manifest | null): Promise<Revisions> {
   const revisions = {} as Revisions;
   for (const [key, source] of Object.entries(SOURCES) as Array<[SourceKey, (typeof SOURCES)[SourceKey]]>) {
-    const pinned = previous?.sources.find((s) => s.id === source.id)?.revision ?? null;
+    const fallbackPin: string | undefined = 'pin' in source ? source.pin : undefined;
+    const pinned = previous?.sources.find((s) => s.id === source.id)?.revision ?? fallbackPin ?? null;
     if (OFFLINE) {
       if (!pinned) throw new Error(`--offline: no previous revision of ${source.name} to reuse`);
       revisions[key] = pinned;
@@ -109,6 +111,7 @@ async function main() {
     loadShowdown(revisions.showdown),
     loadSvText(revisions.svText),
   ]);
+  const dumps = await loadDexDumps(revisions, sv);
   const sprites = loadSpriteIndex(revisions.sprites);
   const overrides = loadOverrides();
   const ctx = buildContext({ champions, pokeapi, showdown, sv, sprites }, overrides);
@@ -165,7 +168,10 @@ async function main() {
 
   log.step('Text and Pokédex entries');
   const championsSpecies = [...new Set(championsForms.drafts.map((d) => d.speciesNo))];
-  const dex = buildDexEntries(ctx, championsSpecies);
+  const dex = buildDexEntries(ctx, { drafts, speciesNos: championsSpecies, dumps });
+  dex.problems.forEach((p) => log.warn(p));
+  dex.notes.matching.forEach((line) => log.info(`Pokédex text, ${line}`));
+  log.info(`${dex.notes.formsWithEntries.length} forms with Pokédex entries of their own`);
   for (const language of TEXT_LANGUAGES) {
     if (dex.missing[language].length) {
       log.warn(`No ${language} Pokédex entries yet for: ${dex.missing[language].join(', ')}`);
@@ -321,6 +327,7 @@ async function main() {
       }),
     ),
     textLanguages: [...TEXT_LANGUAGES],
+    games: gamesUsed(ctx, dex.versionsUsed),
     searchLanguages: [...new Set(Object.values(GAME_LANGUAGES))],
     images: {
       localDir: 'images',
@@ -374,6 +381,7 @@ async function main() {
     'Items in Champions': core.items.filter((i) => i.availableInChampions).length,
     'Learnset entries': learnsets.stats.entries,
     'Learnset entries new in Champions': learnsets.stats.newInChampions,
+    'Forms with Pokédex entries of their own': dex.notes.formsWithEntries.length,
   };
   const report = reportMarkdown({
     manifest,
@@ -385,6 +393,8 @@ async function main() {
       "Learnsets that differ from PokéAPI's copy of the Champions learnsets":
         learnsets.stats.pokeapiDifferences,
       'Items Showdown treats differently': items.notes,
+      'Pokédex entries of single forms found in each game': dex.notes.matching,
+      'Forms without Pokédex entries of their own yet': dex.notes.formsWithoutEntries,
     },
   });
 

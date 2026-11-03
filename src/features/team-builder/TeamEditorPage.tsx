@@ -91,7 +91,7 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
   const select = (memberId: string | null) => {
     chooseMember(memberId);
     chooseView('edit');
-    setParams(memberId ? { member: memberId } : {}, { replace: true });
+    setParams(memberId ? { member: memberId } : {}, { replace: true, preventScrollReset: true });
   };
   const setView = (next: View) => {
     chooseView(next);
@@ -102,7 +102,7 @@ function Editor({ team, editor }: { team: Team; editor: TeamEditor }) {
         else updated.delete('view');
         return updated;
       },
-      { replace: true },
+      { replace: true, preventScrollReset: true },
     );
   };
 

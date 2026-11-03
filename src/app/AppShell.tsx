@@ -1,5 +1,5 @@
 import { LayoutGrid, Settings, Users } from 'lucide-react';
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, ScrollRestoration, type Location } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { AddToTeamDialog } from '@/features/team-builder/AddToTeamDialog';
 import { LanguageSwitcher } from '@/ui/components/LanguageSwitcher';
@@ -11,6 +11,15 @@ const NAV_ITEMS = [
   { to: '/teams', labelKey: 'nav.teams', Icon: Users, end: false },
   { to: '/settings', labelKey: 'nav.settings', Icon: Settings, end: false },
 ] as const;
+
+/**
+ * Where each page's scroll position is remembered: the Pokédex list by its
+ * address (so coming back to the same list lands where you left it), every
+ * other page by its place in the history (new pages open at the top; Back
+ * returns to where you were).
+ */
+const scrollKey = (location: Location) =>
+  location.pathname === '/' ? `${location.pathname}${location.search}` : location.key;
 
 /** Header, navigation (top bar on wide screens, tab bar on phones) and the page area. */
 export function AppShell() {
@@ -50,6 +59,7 @@ export function AppShell() {
       </nav>
       <AddToTeamDialog />
       <Toasts />
+      <ScrollRestoration getKey={scrollKey} />
     </div>
   );
 }

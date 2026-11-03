@@ -157,9 +157,10 @@ export function PokemonPage() {
   const artKeys = shiny ? [shown.art.officialShiny, shown.art.official] : [shown.art.official];
   const genus = text.get('genus', species.id)?.text;
   const current = new Set([members.has(profile.id) ? profile.id : entry.id]);
-  const goTo = (form: Form) => navigate(`/pokemon/${form.id}`, { replace: true });
+  // Switching forms keeps the page where it is (see ScrollRestoration in AppShell).
+  const goTo = (form: Form) => navigate(`/pokemon/${form.id}`, { replace: true, preventScrollReset: true });
 
-  const hasEntries = text.dexEntries(species.id).length > 0;
+  const hasEntries = (text.formDexEntries(shown)?.length ?? 0) > 0;
   const hasMoves = inChampions;
   const available = new Set<string>(['base-stats', 'matchups', 'evolutions']);
   if (hasEntries) available.add('dex-entries');
@@ -225,6 +226,7 @@ export function PokemonPage() {
               key={form.id}
               to={`/pokemon/${form.id}`}
               replace
+              preventScrollReset
               className={styles.chip}
               aria-current={form.id === profile.id ? 'page' : undefined}
             >
@@ -242,6 +244,7 @@ export function PokemonPage() {
               key={form.id}
               to={`/pokemon/${form.id}`}
               replace
+              preventScrollReset
               className={styles.chip}
               aria-current={form.id === (appearance ?? entry).id ? 'page' : undefined}
             >
@@ -254,7 +257,7 @@ export function PokemonPage() {
 
       <SectionLinks available={available} />
 
-      <DexEntries speciesId={species.id} />
+      <DexEntries key={shown.id} form={shown} />
       <EvolutionTree species={species} current={current} />
       <div className={styles.panels}>
         <section className={styles.panel} aria-labelledby="base-stats">

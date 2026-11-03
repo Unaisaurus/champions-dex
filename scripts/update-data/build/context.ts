@@ -81,6 +81,10 @@ export interface Context extends Sources {
   versionIdByIdentifier: Map<string, number>;
   versionGroupOfVersion: Map<number, number>;
   generationOfVersionGroup: Map<number, number>;
+  /** Version group ID → its identifier (`scarlet-violet`). */
+  versionGroupIdentifier: Map<number, string>;
+  /** Version group ID → its place in release order. */
+  versionGroupOrder: Map<number, number>;
   /** Natures in game order (Stat Alignments), with their raised/lowered stats. */
   natures: Array<{
     identifier: string;
@@ -268,6 +272,8 @@ export function buildContext(sources: Sources, overrides: Overrides): Context {
     versionIdByIdentifier: new Map([...versionIdentifier].map(([id, identifier]) => [identifier, id])),
     versionGroupOfVersion: new Map(api.versions.map((row) => [int(row.id), int(row.version_group_id)])),
     generationOfVersionGroup,
+    versionGroupIdentifier: identifiers(api.version_groups),
+    versionGroupOrder: new Map(api.version_groups.map((row) => [int(row.id), int(row.order)])),
     natures,
     apiNames: {
       species: speciesNames,

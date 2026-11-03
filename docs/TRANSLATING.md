@@ -48,9 +48,11 @@ An empty text (`""`) means "not translated yet": English is shown instead.
 
 ## Pokédex entries
 
-Keys are `species/game`, e.g. `"venusaur/red"`. Games that share exactly the
-same English text are grouped, and one translation covers the whole group:
-use the first game listed (the key the file already contains).
+Keys are `species/game`, e.g. `"venusaur/red"`, or `form/game` for a form
+with entries of its own (`"raichu-alola/ultra-sun"`, `"rotom-heat/sword"`).
+Games that share exactly the same English text are grouped, and one
+translation covers the whole group: use the first game listed (the key the
+file already contains).
 
 ## Seeing your progress
 

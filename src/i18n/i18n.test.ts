@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dexEntriesFor, lookupText, mergeTextFiles, type TextFilesByLanguage } from './gameText';
+import { dexEntriesFor, dexEntryKey, lookupText, mergeTextFiles, type TextFilesByLanguage } from './gameText';
 import { setupI18n, uiResources } from './setup';
 import { coverage, flattenStrings, percent } from './translationStatus';
 
@@ -49,6 +49,22 @@ describe('Pokédex entries', () => {
 
   it('uses the generated entries of the language', () => {
     expect(dexEntriesFor('venusaur', 'es', generated, {}).map((e) => e.text)).toEqual(['Una entrada']);
+  });
+
+  it("uses a form's own entries when it has them, and its species' otherwise", () => {
+    const withForms = {
+      ...generated,
+      en: {
+        ...generated.en,
+        'venusaur-mega': [],
+        'raichu-alola': [{ games: ['sword'], text: 'Psychic surfer' }],
+      },
+    };
+    expect(dexEntryKey({ id: 'raichu-alola', speciesId: 'raichu' }, withForms)).toBe('raichu-alola');
+    // An empty list is a Mega with no entries yet: it must not show Venusaur's.
+    expect(dexEntryKey({ id: 'venusaur-mega', speciesId: 'venusaur' }, withForms)).toBe('venusaur-mega');
+    expect(dexEntryKey({ id: 'venusaur-gmax', speciesId: 'venusaur' }, withForms)).toBe('venusaur');
+    expect(dexEntryKey({ id: 'pichu', speciesId: 'pichu' }, withForms)).toBeNull();
   });
 
   it('follows the English groups for hand-made languages, entry by entry', () => {

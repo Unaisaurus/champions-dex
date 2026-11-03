@@ -98,6 +98,53 @@ describe.runIf(real)('generated game data', () => {
     const es = read<DexEntriesFile>('text/es/dex-entries.json');
     expect(en.venusaur?.length).toBeGreaterThan(5);
     expect(es.kingambit?.map((e) => e.games)).toEqual([['scarlet'], ['violet']]);
+    const speciesIds = new Set(core.species.map((s) => s.id));
+    const ids = new Set([...speciesIds, ...core.forms.map((f) => f.id)]);
+    expect(Object.keys(en).filter((key) => !ids.has(key))).toEqual([]);
+    expect(Object.keys(es).filter((key) => en[key] === undefined)).toEqual([]);
+    // Forms have their list in every language, so a form never falls back on its species.
+    expect(Object.keys(en).filter((key) => !speciesIds.has(key) && es[key] === undefined)).toEqual([]);
+  });
+
+  it('gives forms their own Pokédex entries', () => {
+    const en = read<DexEntriesFile>('text/en/dex-entries.json');
+    const texts = (key: string) => new Set((en[key] ?? []).map((e) => e.text));
+    const games = (key: string) => [...new Set((en[key] ?? []).flatMap((e) => e.games))];
+    /** Games released before Megas (Gen 6) and regional forms (Gen 7) existed. */
+    const older = ['red', 'blue', 'yellow', 'gold', 'silver', 'crystal', 'ruby', 'sapphire', 'emerald'];
+    const olderThanAlola = [...older, 'diamond', 'pearl', 'platinum', 'black', 'white', 'x', 'y'];
+    // Alolan Raichu: its own entries, none of Raichu's. (More sources may add games: "at least".)
+    expect(games('raichu-alola')).toEqual(
+      expect.arrayContaining(['ultra-sun', 'ultra-moon', 'sword', 'shield', 'legends-za']),
+    );
+    expect(games('raichu-alola').filter((game) => olderThanAlola.includes(game))).toEqual([]);
+    expect([...texts('raichu-alola')].filter((text) => texts('raichu').has(text))).toEqual([]);
+    // Megas: Legends: Z-A, and Ultra Sun/Ultra Moon for the Megas it had.
+    expect(games('venusaur-mega')).toContain('legends-za');
+    expect(games('venusaur-mega').filter((game) => older.includes(game))).toEqual([]);
+    expect(games('slowbro-mega')).toEqual(expect.arrayContaining(['ultra-sun', 'ultra-moon', 'legends-za']));
+    expect(games('rotom-heat')).toEqual(
+      expect.arrayContaining(['sword', 'shield', 'legends-arceus', 'scarlet', 'violet']),
+    );
+    expect(games('tauros-paldea-aqua-breed')).toEqual(expect.arrayContaining(['scarlet', 'violet']));
+    // Every Mega and regional form has a list (empty if the games give it nothing yet).
+    const ownOnly = core.forms.filter(
+      (f) => f.availability === 'champions' && (f.kind === 'mega' || f.kind === 'regional'),
+    );
+    expect(ownOnly.filter((f) => en[f.id] === undefined).map((f) => f.id)).toEqual([]);
+    // PokéAPI files Hisuian Arcanine's Legends: Arceus entry under Arcanine; not here.
+    expect(games('arcanine')).not.toContain('legends-arceus');
+    expect(games('arcanine-hisui')).toContain('legends-arceus');
+    // Legends: Z-A entries, often a text from an earlier game.
+    expect(games('venusaur')).toContain('legends-za');
+    expect(en.venusaur?.find((e) => e.games.includes('legends-za'))?.games.length).toBeGreaterThan(1);
+  });
+
+  it('knows which games were released together', () => {
+    const group = new Map(manifest.games.map((game) => [game.id, game.group]));
+    expect(group.get('scarlet')).toBe(group.get('violet'));
+    expect(group.get('legends-za')).toBe('legends-za');
+    expect(manifest.games.at(-1)?.id).toBe('legends-za');
   });
 
   it("knows every Champions form's name on Pokémon Showdown", () => {

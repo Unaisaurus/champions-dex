@@ -19,7 +19,8 @@ export function usePokedexQuery(): [PokedexQuery, (change: Change) => void] {
           const next = typeof change === 'function' ? change(current) : { ...current, ...change };
           return paramsFromQuery(next);
         },
-        { replace: true },
+        // Filtering keeps the list where it is.
+        { replace: true, preventScrollReset: true },
       );
     },
     [setParams],

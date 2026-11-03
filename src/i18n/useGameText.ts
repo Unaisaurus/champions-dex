@@ -15,6 +15,7 @@ import {
   HAND_MADE_DEX_ENTRIES,
   HAND_MADE_TEXT,
   dexEntriesFor,
+  dexEntryKey,
   lookupText,
   mergeTextFiles,
   type DexEntryView,
@@ -72,6 +73,11 @@ export interface GameText {
   /** Title and optional form label of a form, e.g. "Raichu" + "Alolan Form". */
   formTitle(form: Form): { title: string; subtitle: string | null };
   dexEntries(key: string): DexEntryView[];
+  /**
+   * The Pokédex entries a form shows (its own, or its species'). An empty list
+   * means the form has no entries of its own yet; null, that there's no data.
+   */
+  formDexEntries(form: Pick<Form, 'id' | 'speciesId'>): DexEntryView[] | null;
 }
 
 /**
@@ -108,6 +114,10 @@ function createGameText(
       return { title, subtitle: label === title ? null : label };
     },
     dexEntries: (key: string) => dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES),
+    formDexEntries: (form) => {
+      const key = dexEntryKey(form, dexEntries);
+      return key === null ? null : dexEntriesFor(key, language, dexEntries, HAND_MADE_DEX_ENTRIES);
+    },
   };
 }
 

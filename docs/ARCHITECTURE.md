@@ -73,6 +73,19 @@ several forms share a card, it shows whichever one matched (filtering Dragon
 shows Charizard as Mega Charizard X). Generation and favourites always look at
 the Pokédex entry a form belongs to.
 
+**Pokédex entries** (`dex-entries.json`, per language) are keyed by species,
+plus one key per form with entries of its own (`raichu-alola`, or an empty
+list for a Mega with none yet). `dexEntryKey` in `src/i18n/gameText.ts` picks
+the form's list or its species'; `src/domain/dexEntries.ts` orders them
+(newest release first, paired games in their own order) and picks what shows
+before "Show all": the newest game's entries, or both of the newest pair's
+(`manifest.json` lists each game with the release it belongs to).
+
+**Scrolling.** `ScrollRestoration` (in `AppShell`) opens new pages at the top
+and brings Back to where you were; the Pokédex list remembers its position per
+address. Changes within a page (filters, switching forms, picking a team
+member) pass `preventScrollReset`, so the page stays put.
+
 **The team builder** (`src/features/team-builder/`) edits teams that store
 only IDs and numbers (`src/domain/team.ts`), never names or copied game values,
 so a data update can't silently change a team.

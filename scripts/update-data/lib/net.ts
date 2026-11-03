@@ -16,16 +16,25 @@ export interface GitSource {
   /** `owner/repo` on GitHub. */
   repo: string;
   branch: string;
+  /**
+   * A known-good revision, used by `--offline` runs when the current data
+   * doesn't name one yet (a source added since the last update).
+   */
+  pin?: string;
 }
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function downloadText(url: string, attempts = 4): Promise<string> {
+  return decodeText(await downloadBytes(url, attempts));
+}
+
+export async function downloadBytes(url: string, attempts = 4): Promise<Buffer> {
   let lastError: unknown;
   for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       const response = await fetch(url);
-      if (response.ok) return await response.text();
+      if (response.ok) return Buffer.from(await response.arrayBuffer());
       if (response.status === 404) throw new Error(`Not found: ${url}`);
       lastError = new Error(`HTTP ${response.status} for ${url}`);
     } catch (error) {
@@ -64,14 +73,30 @@ export async function resolveRevision(source: GitSource): Promise<string> {
   throw new Error(`Couldn't find the latest version of ${source.repo}. Check your internet connection.`);
 }
 
+/**
+ * Text from file bytes: UTF-8, or UTF-16 when the file starts with a byte
+ * order mark (some game text dumps are saved that way).
+ */
+export function decodeText(bytes: Uint8Array): string {
+  if (bytes[0] === 0xff && bytes[1] === 0xfe) return new TextDecoder('utf-16le').decode(bytes.subarray(2));
+  if (bytes[0] === 0xfe && bytes[1] === 0xff) return new TextDecoder('utf-16be').decode(bytes.subarray(2));
+  // TextDecoder drops a UTF-8 byte order mark by itself.
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
 /** A file from a source at a revision, downloaded once and then read from the cache. */
-export async function sourceFile(source: GitSource, revision: string, path: string): Promise<string> {
+export async function sourceBytes(source: GitSource, revision: string, path: string): Promise<Buffer> {
   const cachePath = join(SOURCES_DIR, source.id, revision, path);
-  if (existsSync(cachePath)) return readFile(cachePath, 'utf8');
-  const text = await downloadText(`https://raw.githubusercontent.com/${source.repo}/${revision}/${path}`);
+  if (existsSync(cachePath)) return readFile(cachePath);
+  const bytes = await downloadBytes(`https://raw.githubusercontent.com/${source.repo}/${revision}/${path}`);
   await mkdir(dirname(cachePath), { recursive: true });
-  await writeFile(cachePath, text, 'utf8');
-  return text;
+  await writeFile(cachePath, bytes);
+  return bytes;
+}
+
+/** A text file from a source at a revision (UTF-8 or UTF-16), cached like `sourceBytes`. */
+export async function sourceFile(source: GitSource, revision: string, path: string): Promise<string> {
+  return decodeText(await sourceBytes(source, revision, path));
 }
 
 /** Runs async tasks with a concurrency limit. */

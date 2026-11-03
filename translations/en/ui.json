@@ -195,7 +195,8 @@
       "inEnglish": "In English",
       "showAll_one": "Show all {{count}} entries",
       "showAll_other": "Show all {{count}} entries",
-      "showFewer": "Show fewer"
+      "showFewer": "Show fewer",
+      "none": "No Pokédex entries for this form yet."
     },
     "moves": {
       "title": "Moves in Champions",

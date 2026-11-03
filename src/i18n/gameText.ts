@@ -89,7 +89,22 @@ export interface DexEntryView {
 }
 
 /**
- * Pokédex entries for one species in the requested language.
+ * Which list of Pokédex entries a form shows: its own (Alolan Raichu, Mega
+ * Venusaur, Heat Rotom…) when the data has one, otherwise its species'.
+ * Null when the data has neither.
+ */
+export function dexEntryKey(
+  form: { id: string; speciesId: string },
+  generated: Partial<Record<LanguageCode, DexEntriesFile>>,
+): string | null {
+  const files = Object.values(generated);
+  if (files.some((file) => file?.[form.id] !== undefined)) return form.id;
+  if (files.some((file) => file?.[form.speciesId] !== undefined)) return form.speciesId;
+  return null;
+}
+
+/**
+ * Pokédex entries for one species or form in the requested language.
  * - Generated languages have their own de-duplicated groups.
  * - Hand-made languages follow the English groups and use a translation when
  *   one exists for any game of the group, English otherwise.
