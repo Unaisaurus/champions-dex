@@ -8,6 +8,7 @@
     "label": "Main",
     "pokedex": "Pokédex",
     "teams": "Teams",
+    "calculator": "Calculator",
     "settings": "Settings",
     "translations": "Translations"
   },
@@ -391,6 +392,205 @@
         "tooManyMembers": "The team is full: {{value}} was left out.",
         "evsConverted": "These are main-series EVs, so they were turned into Stat Points (252 EVs = 32 points)."
       }
+    }
+  },
+  "calc": {
+    "title": "Calculator",
+    "tabs": {
+      "label": "Calculator views",
+      "damage": "Damage",
+      "speed": "Speed tiers"
+    },
+    "intro": "Damage, KO chances and who moves first at level {{level}}, as in Pokémon Champions. Choose both Pokémon, or load them from your teams.",
+    "credit": {
+      "prefix": "Damage is worked out with",
+      "name": "Smogon’s damage calculator",
+      "licence": "MIT licence"
+    },
+    "swap": "Swap sides",
+    "reset": "Start over",
+    "showSide": "Show",
+    "sides": {
+      "ours": "Your Pokémon",
+      "theirs": "Opponent’s Pokémon"
+    },
+    "sidesShort": {
+      "ours": "You",
+      "theirs": "Opponent"
+    },
+    "pokemon": {
+      "choose": "Choose a Pokémon",
+      "fromTeam": "From a team",
+      "change": "Change",
+      "remove": "Remove",
+      "missing": "This Pokémon ({{id}}) isn’t in the game data anymore.",
+      "pick": {
+        "ours": "Your Pokémon",
+        "theirs": "Opponent’s Pokémon"
+      },
+      "noTeams": "You don’t have any teams with Pokémon yet.",
+      "form": "Form",
+      "abilityOn": {
+        "intimidate": "Intimidate the opponent",
+        "flash-fire": "Flash Fire activated",
+        "plus": "Ally with Plus or Minus",
+        "minus": "Ally with Plus or Minus",
+        "stakeout": "Target just switched in",
+        "unburden": "Item used up",
+        "electromorphosis": "Charged (it was hit)",
+        "analytic": "Moves last",
+        "slow-start": "Slow Start still active",
+        "other": "Ability active"
+      },
+      "alliesFainted": "Fainted allies",
+      "noItem": "No item",
+      "noAlignment": "Neutral (no alignment chosen)",
+      "genderUnknown": "Unknown",
+      "stats": "Stats",
+      "spUsed": "{{used}} of {{total}} SP used",
+      "resetPoints": "Reset SP",
+      "resetStages": "Reset stages",
+      "points": "SP",
+      "stage": "Stage",
+      "stageFor": "{{stat}} stage",
+      "beforeStage": "{{value}} before the stage",
+      "status": "Status",
+      "hp": "HP left",
+      "hpPercent": "HP left, in percent",
+      "hpValue": "{{hp}} of {{max}} HP",
+      "crit": "Crit",
+      "critical": "Critical hit",
+      "hits": "Number of hits",
+      "hitsCount_one": "{{count}} hit",
+      "hitsCount_other": "{{count}} hits"
+    },
+    "statuses": {
+      "none": "Healthy",
+      "brn": "Burned",
+      "par": "Paralyzed",
+      "psn": "Poisoned",
+      "tox": "Badly poisoned",
+      "slp": "Asleep",
+      "frz": "Frozen"
+    },
+    "field": {
+      "title": "Battlefield",
+      "format": "Battle",
+      "doubles": "Doubles",
+      "singles": "Singles",
+      "weather": "Weather",
+      "terrain": "Terrain",
+      "none": "None",
+      "weathers": {
+        "sun": "Sun",
+        "rain": "Rain",
+        "sand": "Sandstorm",
+        "snow": "Snow"
+      },
+      "terrains": {
+        "electric": "Electric",
+        "grassy": "Grassy",
+        "psychic": "Psychic",
+        "misty": "Misty"
+      },
+      "whole": "Whole field",
+      "trickRoom": "Trick Room",
+      "gravity": "Gravity",
+      "magicRoom": "Magic Room",
+      "wonderRoom": "Wonder Room",
+      "sides": {
+        "ours": "Your side",
+        "theirs": "Opponent’s side"
+      },
+      "reflect": "Reflect",
+      "lightScreen": "Light Screen",
+      "auroraVeil": "Aurora Veil",
+      "helpingHand": "Helping Hand",
+      "friendGuard": "Friend Guard",
+      "tailwind": "Tailwind",
+      "stealthRock": "Stealth Rock",
+      "spikes": "Spikes"
+    },
+    "results": {
+      "title": "Results",
+      "choose": "Choose both Pokémon to see what their moves do to each other.",
+      "against": "against",
+      "noMoves": "Choose {{name}}’s moves to see their damage.",
+      "statusMove": "Status move",
+      "noDamage": "No effect",
+      "movesFirst": "{{name}} moves first",
+      "speedTie": "Speed tie: either can move first",
+      "inTrickRoom": "(Trick Room)",
+      "speeds": "Speed {{first}} vs {{second}}",
+      "speedValue": "Speed {{speed}}",
+      "detailsTitle": "{{attacker}}’s {{move}} against {{defender}}",
+      "hpRange": "{{min}}–{{max}} of {{total}} HP",
+      "spread": "Hits both opponents, so it does 75% of its damage to each.",
+      "recovery": "The attacker gets back {{min}}–{{max}} HP.",
+      "hpLoss": "The attacker loses {{min}}–{{max}} HP.",
+      "recoil": "Recoil: {{min}} – {{max}} of the attacker’s HP.",
+      "crash": "If it misses, the attacker loses half its HP.",
+      "currentHp": "The target has {{hp}} of {{max}} HP left.",
+      "incomplete": "Smogon’s calculator doesn’t know everything about one of these yet (such as which moves are punches or sound moves), so the result may be slightly off.",
+      "rolls": "Possible damage (each is equally likely)",
+      "hit": "Hit {{n}}:",
+      "showdown": "As Pokémon Showdown’s calculator writes it (in English):",
+      "copy": "Copy",
+      "copied": "Copied",
+      "copyFailed": "Couldn’t copy it. Select the text and copy it yourself."
+    },
+    "ko": {
+      "ohko": "OHKO",
+      "nhko": "{{n}}HKO",
+      "guaranteed": "Guaranteed {{ko}}",
+      "chance": "{{chance}} chance to {{ko}}",
+      "possible": "Possible {{ko}}",
+      "none": "Not a KO",
+      "approximately": "About: {{verdict}}",
+      "after": "{{verdict}} after {{effects}}"
+    },
+    "effects": {
+      "heals": "{{name}} recovery",
+      "hurts": "{{name}} damage",
+      "sandstorm": "sandstorm damage",
+      "hail": "hail damage",
+      "grassyTerrain": "Grassy Terrain recovery",
+      "brn": "burn damage",
+      "burnReduced": "reduced burn damage",
+      "psn": "poison damage",
+      "tox": "bad poison damage",
+      "stealthRock": "Stealth Rock",
+      "spikes_one": "{{count}} layer of Spikes",
+      "spikes_other": "{{count}} layers of Spikes"
+    },
+    "speed": {
+      "intro": "Every Pokémon in Champions at level {{level}}, fastest first, with your own team among them. Speed ties are decided at random.",
+      "options": "What to show",
+      "spreadsLabel": "Speed spreads",
+      "spreads": {
+        "fastest": "{{points}} SP, +Speed",
+        "max": "{{points}} SP",
+        "none": "0 SP",
+        "slowest": "0 SP, −Speed"
+      },
+      "theirs": "For the Pokémon in the list",
+      "ours": "For your team",
+      "stage": "Speed stage",
+      "choiceScarf": "Choice Scarf",
+      "paralysis": "Paralysis",
+      "trickRoom": "Trick Room (slowest moves first)",
+      "team": "Mark a team",
+      "noTeam": "None",
+      "noTeams": "Make a team to see your own Pokémon in the list:",
+      "search": "Search Pokémon",
+      "order": "Fastest first.",
+      "orderTrickRoom": "Slowest first, as in Trick Room.",
+      "none": "No Pokémon match.",
+      "base": "Base {{base}}",
+      "yourTeam": "Your team",
+      "points": "{{points}} SP",
+      "raised": "+Speed",
+      "lowered": "−Speed"
     }
   },
   "settings": {

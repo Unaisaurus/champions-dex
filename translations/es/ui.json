@@ -8,6 +8,7 @@
     "label": "Principal",
     "pokedex": "Pokédex",
     "teams": "Equipos",
+    "calculator": "Calculadora",
     "settings": "Opciones",
     "translations": "Traducciones"
   },
@@ -391,6 +392,205 @@
         "tooManyMembers": "El equipo está completo: {{value}} no se ha importado.",
         "evsConverted": "Son EVs de los juegos principales, así que se han convertido en puntos de característica (252 EVs = 32 puntos)."
       }
+    }
+  },
+  "calc": {
+    "title": "Calculadora",
+    "tabs": {
+      "label": "Vistas de la calculadora",
+      "damage": "Daño",
+      "speed": "Velocidades"
+    },
+    "intro": "Daño, probabilidad de KO y quién se mueve antes al nivel {{level}}, como en Pokémon Champions. Elige los dos Pokémon o cárgalos de tus equipos.",
+    "credit": {
+      "prefix": "El daño se calcula con",
+      "name": "la calculadora de daño de Smogon",
+      "licence": "licencia MIT"
+    },
+    "swap": "Intercambiar lados",
+    "reset": "Empezar de nuevo",
+    "showSide": "Mostrar",
+    "sides": {
+      "ours": "Tu Pokémon",
+      "theirs": "Pokémon rival"
+    },
+    "sidesShort": {
+      "ours": "Tú",
+      "theirs": "Rival"
+    },
+    "pokemon": {
+      "choose": "Elige un Pokémon",
+      "fromTeam": "De un equipo",
+      "change": "Cambiar",
+      "remove": "Quitar",
+      "missing": "Este Pokémon ({{id}}) ya no está en los datos del juego.",
+      "pick": {
+        "ours": "Tu Pokémon",
+        "theirs": "Pokémon rival"
+      },
+      "noTeams": "Todavía no tienes equipos con Pokémon.",
+      "form": "Forma",
+      "abilityOn": {
+        "intimidate": "Intimida al rival",
+        "flash-fire": "Absorbe Fuego activada",
+        "plus": "Aliado con Más o Menos",
+        "minus": "Aliado con Más o Menos",
+        "stakeout": "El objetivo acaba de entrar",
+        "unburden": "Objeto ya usado",
+        "electromorphosis": "Cargado (ha recibido un golpe)",
+        "analytic": "Se mueve el último",
+        "slow-start": "Inicio Lento aún activo",
+        "other": "Habilidad activa"
+      },
+      "alliesFainted": "Aliados debilitados",
+      "noItem": "Sin objeto",
+      "noAlignment": "Neutra (sin variación elegida)",
+      "genderUnknown": "Desconocido",
+      "stats": "Características",
+      "spUsed": "{{used}} de {{total}} puntos de característica usados",
+      "resetPoints": "Reiniciar puntos",
+      "resetStages": "Reiniciar cambios",
+      "points": "Puntos",
+      "stage": "Cambio",
+      "stageFor": "Cambio de {{stat}}",
+      "beforeStage": "{{value}} antes del cambio",
+      "status": "Estado",
+      "hp": "PS restantes",
+      "hpPercent": "PS restantes, en porcentaje",
+      "hpValue": "{{hp}} de {{max}} PS",
+      "crit": "Crítico",
+      "critical": "Golpe crítico",
+      "hits": "Número de golpes",
+      "hitsCount_one": "{{count}} golpe",
+      "hitsCount_other": "{{count}} golpes"
+    },
+    "statuses": {
+      "none": "Sano",
+      "brn": "Quemado",
+      "par": "Paralizado",
+      "psn": "Envenenado",
+      "tox": "Gravemente envenenado",
+      "slp": "Dormido",
+      "frz": "Congelado"
+    },
+    "field": {
+      "title": "Campo de batalla",
+      "format": "Combate",
+      "doubles": "Dobles",
+      "singles": "Individual",
+      "weather": "Tiempo",
+      "terrain": "Campo",
+      "none": "Ninguno",
+      "weathers": {
+        "sun": "Sol",
+        "rain": "Lluvia",
+        "sand": "Tormenta de arena",
+        "snow": "Nieve"
+      },
+      "terrains": {
+        "electric": "Eléctrico",
+        "grassy": "Hierba",
+        "psychic": "Psíquico",
+        "misty": "Niebla"
+      },
+      "whole": "Todo el campo",
+      "trickRoom": "Espacio Raro",
+      "gravity": "Gravedad",
+      "magicRoom": "Zona Mágica",
+      "wonderRoom": "Zona Extraña",
+      "sides": {
+        "ours": "Tu lado",
+        "theirs": "Lado rival"
+      },
+      "reflect": "Reflejo",
+      "lightScreen": "Pantalla de Luz",
+      "auroraVeil": "Velo Aurora",
+      "helpingHand": "Refuerzo",
+      "friendGuard": "Compiescolta",
+      "tailwind": "Viento Afín",
+      "stealthRock": "Trampa Rocas",
+      "spikes": "Púas"
+    },
+    "results": {
+      "title": "Resultados",
+      "choose": "Elige los dos Pokémon para ver lo que se hacen sus movimientos.",
+      "against": "contra",
+      "noMoves": "Elige los movimientos de {{name}} para ver su daño.",
+      "statusMove": "Movimiento de estado",
+      "noDamage": "No le afecta",
+      "movesFirst": "{{name}} se mueve antes",
+      "speedTie": "Empate de velocidad: cualquiera puede moverse antes",
+      "inTrickRoom": "(Espacio Raro)",
+      "speeds": "Velocidad {{first}} contra {{second}}",
+      "speedValue": "Velocidad {{speed}}",
+      "detailsTitle": "{{move}} de {{attacker}} contra {{defender}}",
+      "hpRange": "{{min}}–{{max}} de {{total}} PS",
+      "spread": "Golpea a los dos rivales, así que hace el 75 % de su daño a cada uno.",
+      "recovery": "El atacante recupera {{min}}–{{max}} PS.",
+      "hpLoss": "El atacante pierde {{min}}–{{max}} PS.",
+      "recoil": "Daño de retroceso: {{min}} – {{max}} de los PS del atacante.",
+      "crash": "Si falla, el atacante pierde la mitad de sus PS.",
+      "currentHp": "Al objetivo le quedan {{hp}} de {{max}} PS.",
+      "incomplete": "La calculadora de Smogon aún no lo sabe todo sobre uno de ellos (por ejemplo, qué movimientos son puñetazos o de sonido), así que el resultado podría variar un poco.",
+      "rolls": "Daño posible (todos igual de probables)",
+      "hit": "Golpe {{n}}:",
+      "showdown": "Tal como lo escribe la calculadora de Pokémon Showdown (en inglés):",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "copyFailed": "No se ha podido copiar. Selecciona el texto y cópialo tú."
+    },
+    "ko": {
+      "ohko": "KO de un golpe",
+      "nhko": "KO en {{n}} golpes",
+      "guaranteed": "{{ko}} asegurado",
+      "chance": "{{chance}} de probabilidad de {{ko}}",
+      "possible": "{{ko}} posible",
+      "none": "No llega a debilitarlo",
+      "approximately": "Aprox.: {{verdict}}",
+      "after": "{{verdict}} tras {{effects}}"
+    },
+    "effects": {
+      "heals": "recuperación por {{name}}",
+      "hurts": "daño por {{name}}",
+      "sandstorm": "daño de la tormenta de arena",
+      "hail": "daño del granizo",
+      "grassyTerrain": "recuperación del Campo de Hierba",
+      "brn": "daño por quemadura",
+      "burnReduced": "daño reducido por quemadura",
+      "psn": "daño por envenenamiento",
+      "tox": "daño por envenenamiento grave",
+      "stealthRock": "Trampa Rocas",
+      "spikes_one": "{{count}} capa de Púas",
+      "spikes_other": "{{count}} capas de Púas"
+    },
+    "speed": {
+      "intro": "Todos los Pokémon de Champions al nivel {{level}}, del más rápido al más lento, con tu equipo entre ellos. Los empates de velocidad se deciden al azar.",
+      "options": "Qué mostrar",
+      "spreadsLabel": "Repartos de velocidad",
+      "spreads": {
+        "fastest": "{{points}} puntos, +Velocidad",
+        "max": "{{points}} puntos",
+        "none": "0 puntos",
+        "slowest": "0 puntos, −Velocidad"
+      },
+      "theirs": "Para los Pokémon de la lista",
+      "ours": "Para tu equipo",
+      "stage": "Cambio de Velocidad",
+      "choiceScarf": "Pañuelo Elección",
+      "paralysis": "Parálisis",
+      "trickRoom": "Espacio Raro (los más lentos primero)",
+      "team": "Marcar un equipo",
+      "noTeam": "Ninguno",
+      "noTeams": "Crea un equipo para ver tus propios Pokémon en la lista:",
+      "search": "Buscar Pokémon",
+      "order": "Del más rápido al más lento.",
+      "orderTrickRoom": "Del más lento al más rápido, como en Espacio Raro.",
+      "none": "Ningún Pokémon coincide.",
+      "base": "Base {{base}}",
+      "yourTeam": "Tu equipo",
+      "points": "{{points}} puntos",
+      "raised": "+Velocidad",
+      "lowered": "−Velocidad"
     }
   },
   "settings": {

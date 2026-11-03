@@ -1,4 +1,4 @@
-import { LayoutGrid, Settings, Users } from 'lucide-react';
+import { Calculator, LayoutGrid, Settings, Users } from 'lucide-react';
 import { NavLink, Outlet, ScrollRestoration, type Location } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { AddToTeamDialog } from '@/features/team-builder/AddToTeamDialog';
@@ -10,6 +10,7 @@ import styles from './AppShell.module.css';
 const NAV_ITEMS = [
   { to: '/', labelKey: 'nav.pokedex', Icon: LayoutGrid, end: true },
   { to: '/teams', labelKey: 'nav.teams', Icon: Users, end: false },
+  { to: '/calc', labelKey: 'nav.calculator', Icon: Calculator, end: false },
   { to: '/settings', labelKey: 'nav.settings', Icon: Settings, end: false },
 ] as const;
 

@@ -45,25 +45,26 @@ with history → species → text and Pokédex entries → apply
 `data/overrides/forms.json` → artwork (fan art from `data/overrides/art.json`,
 then each shiny lined up with its regular art) → check everything → write
 `public/data/` (all at once, only if every check passed) →
-`data/update-report.md` and `data/artwork-measurements.json` → sync the
-translation files.
+`data/update-report.md` (with what Smogon's damage calculator lacks or sees
+differently, from `build/calculator.ts`) and `data/artwork-measurements.json`
+→ sync the translation files.
 
 If a run produces exactly the same data as before, nothing is written and the
 data version stays the same.
 
 ## Code layout
 
-| Folder           | Responsibility                                                                       |
-| ---------------- | ------------------------------------------------------------------------------------ |
-| `src/app/`       | App shell, routes, startup tasks, the installable app (`pwa.ts`)                     |
-| `src/data/`      | Data contracts (`contracts.ts`), loading, cross-file checks, indexes                 |
-| `src/domain/`    | Pure game logic with tests: stats, type matchups, validation, search, generations    |
-| `src/mechanics/` | Battle mechanics as modules (Mega now; Tera, Dynamax… later)                         |
-| `src/storage/`   | Browser database, backups, snapshots, renamed-ID handling                            |
-| `src/i18n/`      | Languages, interface text, game text with English fallback, progress                 |
-| `src/state/`     | Settings and live access to your saved data                                          |
-| `src/features/`  | One folder per page: Pokédex, Pokémon page, teams, settings, translations, changelog |
-| `src/ui/`        | Shared components and design tokens                                                  |
+| Folder           | Responsibility                                                                      |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| `src/app/`       | App shell, routes, startup tasks, the installable app (`pwa.ts`)                    |
+| `src/data/`      | Data contracts (`contracts.ts`), loading, cross-file checks, indexes                |
+| `src/domain/`    | Pure game logic with tests: stats, type matchups, validation, search, damage, Speed |
+| `src/mechanics/` | Battle mechanics as modules (Mega now; Tera, Dynamax… later)                        |
+| `src/storage/`   | Browser database, backups, snapshots, renamed-ID handling                           |
+| `src/i18n/`      | Languages, interface text, game text with English fallback, progress                |
+| `src/state/`     | Settings and live access to your saved data                                         |
+| `src/features/`  | One folder per page: Pokédex, Pokémon page, teams, calculator, settings, changelog… |
+| `src/ui/`        | Shared components and design tokens                                                 |
 
 Rules of thumb: `domain/` never imports React; pages use `domain/` and
 `data/`; only `storage/` and `state/` talk to the database.
@@ -126,6 +127,33 @@ so a data update can't silently change a team.
   form's Showdown name comes from the updater), and `src/storage/teamFile.ts`
   writes and reads team files. Imported teams get new IDs and renamed game IDs
   are updated, as when restoring a backup.
+
+**The damage calculator** (`src/features/calculator/`, routes `#/calc` and
+`#/calc/speed`, loaded on first visit by `src/app/LazyPages.tsx`).
+
+- `src/domain/calculator.ts`: the state. Each side's build is a team member
+  (`set`), so loading from a team and changing Pokémon reuse the team
+  builder's rules; next to it, what only matters in battle: the battle form
+  (`battleFormId`: a Mega Evolution needs its stone, which choosing it hands
+  over), stat stages, status, HP left, Ability switches, per-move options. The
+  field and each side's conditions too. `src/state/calculator.ts` keeps it in
+  the browser (not in backups: it's a scratchpad), checked on load.
+- `src/domain/damage/generation.ts`: `@smogon/calc`'s Champions data
+  ("generation 0") with the game data laid over it: base stats, types and
+  weight of every form, type, category, power and priority of every move.
+  Gaps are filled from its Scarlet and Violet data (`borrowed`), or built from
+  the game data alone (`missing`, shown as a note on the result).
+- `src/domain/damage/calculate.ts`: turns the state into the calculator's
+  objects (Stat Points as EVs, alignments as natures, level 50), runs it, and
+  returns plain numbers: rolls per hit, range, KO chance (`kochance` of the
+  calculator, with its end-of-turn effects read into `KoEffect`s so they can
+  be translated), recovery, recoil, and the English description. `battleSpeeds`
+  uses the calculator's own Speed rules.
+- `src/features/calculator/resultText.ts` writes results in the app's
+  language; the page itself is `CalculatorPage.tsx` with a panel per side.
+- `src/domain/speed.ts`: Speed with stages, Tailwind, Choice Scarf and
+  paralysis (rounded like the games; a test compares it with the calculator's)
+  and the Speed tier list. `src/state/speedTiers.ts` remembers its options.
 
 **Translating in the app** (`src/features/translations/`, route
 `#/translations/eu`). Texts typed in the editor are drafts, kept in the

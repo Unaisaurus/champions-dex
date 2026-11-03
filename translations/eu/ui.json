@@ -8,6 +8,7 @@
     "label": "",
     "pokedex": "",
     "teams": "",
+    "calculator": "",
     "settings": "",
     "translations": ""
   },
@@ -391,6 +392,205 @@
         "tooManyMembers": "",
         "evsConverted": ""
       }
+    }
+  },
+  "calc": {
+    "title": "",
+    "tabs": {
+      "label": "",
+      "damage": "",
+      "speed": ""
+    },
+    "intro": "",
+    "credit": {
+      "prefix": "",
+      "name": "",
+      "licence": ""
+    },
+    "swap": "",
+    "reset": "",
+    "showSide": "",
+    "sides": {
+      "ours": "",
+      "theirs": ""
+    },
+    "sidesShort": {
+      "ours": "",
+      "theirs": ""
+    },
+    "pokemon": {
+      "choose": "",
+      "fromTeam": "",
+      "change": "",
+      "remove": "",
+      "missing": "",
+      "pick": {
+        "ours": "",
+        "theirs": ""
+      },
+      "noTeams": "",
+      "form": "",
+      "abilityOn": {
+        "intimidate": "",
+        "flash-fire": "",
+        "plus": "",
+        "minus": "",
+        "stakeout": "",
+        "unburden": "",
+        "electromorphosis": "",
+        "analytic": "",
+        "slow-start": "",
+        "other": ""
+      },
+      "alliesFainted": "",
+      "noItem": "",
+      "noAlignment": "",
+      "genderUnknown": "",
+      "stats": "",
+      "spUsed": "",
+      "resetPoints": "",
+      "resetStages": "",
+      "points": "",
+      "stage": "",
+      "stageFor": "",
+      "beforeStage": "",
+      "status": "",
+      "hp": "",
+      "hpPercent": "",
+      "hpValue": "",
+      "crit": "",
+      "critical": "",
+      "hits": "",
+      "hitsCount_one": "",
+      "hitsCount_other": ""
+    },
+    "statuses": {
+      "none": "",
+      "brn": "",
+      "par": "",
+      "psn": "",
+      "tox": "",
+      "slp": "",
+      "frz": ""
+    },
+    "field": {
+      "title": "",
+      "format": "",
+      "doubles": "",
+      "singles": "",
+      "weather": "",
+      "terrain": "",
+      "none": "",
+      "weathers": {
+        "sun": "",
+        "rain": "",
+        "sand": "",
+        "snow": ""
+      },
+      "terrains": {
+        "electric": "",
+        "grassy": "",
+        "psychic": "",
+        "misty": ""
+      },
+      "whole": "",
+      "trickRoom": "",
+      "gravity": "",
+      "magicRoom": "",
+      "wonderRoom": "",
+      "sides": {
+        "ours": "",
+        "theirs": ""
+      },
+      "reflect": "",
+      "lightScreen": "",
+      "auroraVeil": "",
+      "helpingHand": "",
+      "friendGuard": "",
+      "tailwind": "",
+      "stealthRock": "",
+      "spikes": ""
+    },
+    "results": {
+      "title": "",
+      "choose": "",
+      "against": "",
+      "noMoves": "",
+      "statusMove": "",
+      "noDamage": "",
+      "movesFirst": "",
+      "speedTie": "",
+      "inTrickRoom": "",
+      "speeds": "",
+      "speedValue": "",
+      "detailsTitle": "",
+      "hpRange": "",
+      "spread": "",
+      "recovery": "",
+      "hpLoss": "",
+      "recoil": "",
+      "crash": "",
+      "currentHp": "",
+      "incomplete": "",
+      "rolls": "",
+      "hit": "",
+      "showdown": "",
+      "copy": "",
+      "copied": "",
+      "copyFailed": ""
+    },
+    "ko": {
+      "ohko": "",
+      "nhko": "",
+      "guaranteed": "",
+      "chance": "",
+      "possible": "",
+      "none": "",
+      "approximately": "",
+      "after": ""
+    },
+    "effects": {
+      "heals": "",
+      "hurts": "",
+      "sandstorm": "",
+      "hail": "",
+      "grassyTerrain": "",
+      "brn": "",
+      "burnReduced": "",
+      "psn": "",
+      "tox": "",
+      "stealthRock": "",
+      "spikes_one": "",
+      "spikes_other": ""
+    },
+    "speed": {
+      "intro": "",
+      "options": "",
+      "spreadsLabel": "",
+      "spreads": {
+        "fastest": "",
+        "max": "",
+        "none": "",
+        "slowest": ""
+      },
+      "theirs": "",
+      "ours": "",
+      "stage": "",
+      "choiceScarf": "",
+      "paralysis": "",
+      "trickRoom": "",
+      "team": "",
+      "noTeam": "",
+      "noTeams": "",
+      "search": "",
+      "order": "",
+      "orderTrickRoom": "",
+      "none": "",
+      "base": "",
+      "yourTeam": "",
+      "points": "",
+      "raised": "",
+      "lowered": ""
     }
   },
   "settings": {

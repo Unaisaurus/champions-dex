@@ -11,7 +11,8 @@ computer: no account, no server of your own, nothing to pay.
 > editor inside the app, an installable app that works offline, and a page
 > listing what each data update changed. Shiny artwork is lined up with the
 > regular art, and missing or odd artwork can be replaced with credited fan
-> art. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> art. Since then: a damage calculator and Speed tiers. See
+> [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Building teams
 
@@ -28,6 +29,35 @@ regular Pokémon already holding its Mega Stone.
 **Overview** (next to **Edit** on a team) shows the whole team at once: any
 problems, each Pokémon's build, which types the team is weak to, which types
 its moves hit hard, and who moves first.
+
+## Damage calculator and Speed tiers
+
+**Calculator** (in the menu) works out what each Pokémon's moves do to the
+other: the damage range in HP and percent, the chance of a KO (counting
+Leftovers, sandstorm and other end-of-turn effects), every possible damage
+roll, and who moves first. Choose both Pokémon, or load them from your teams
+with **From a team**, then set what matters for the battle: Mega Evolution or
+another battle form, Ability, item, Stat Alignment, Stat Points, stat stages,
+status and HP left, critical hits and the number of hits of multi-hit moves,
+plus the battlefield (double or single battle, weather, terrain, Trick Room,
+Reflect, Helping Hand, Tailwind…). A Pokémon with Drought, Electric Surge or
+the like starts its weather or terrain, as it would in battle. Tap a move for
+its details, including the description Pokémon Showdown's calculator would give
+(**Copy** it for chats). On a phone, the switch above the Pokémon shows one at
+a time, and the chosen result stays at the bottom while you change things.
+
+The damage itself is worked out by
+[Smogon's damage calculator](https://github.com/smogon/damage-calc) (the one
+behind Pokémon Showdown's, MIT licence), which follows Champions' rules; it's
+given this app's game data, so its base stats, types and move power are the
+Champions ones.
+
+**Speed tiers** (the other tab) lists every Pokémon in Champions, Mega
+Evolutions included, at the usual Speed spreads (all Stat Points in Speed with
+or without a Speed-raising alignment, none, or the slowest for Trick Room),
+fastest first. Mark one of your teams to see where its members fall, with
+their own Stat Points and Choice Scarf, and add Tailwind, stat stages,
+paralysis or Trick Room on either side.
 
 ## Sharing teams
 

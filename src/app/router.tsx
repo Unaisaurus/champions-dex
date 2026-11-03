@@ -9,6 +9,7 @@ import { TeamsPage } from '@/features/team-builder/TeamsPage';
 import { TranslationEditor } from '@/features/translations/TranslationEditor';
 import { TranslationsPage } from '@/features/translations/TranslationsPage';
 import { AppShell } from './AppShell';
+import { CalculatorRoute, SpeedTiersRoute } from './LazyPages';
 import { NotFoundPage } from './NotFoundPage';
 
 /**
@@ -23,6 +24,8 @@ export const router = createHashRouter([
       { path: 'pokemon/:formId', element: <PokemonPage /> },
       { path: 'teams', element: <TeamsPage /> },
       { path: 'teams/:teamId', element: <TeamEditorPage /> },
+      { path: 'calc', element: <CalculatorRoute /> },
+      { path: 'calc/speed', element: <SpeedTiersRoute /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'changelog', element: <ChangelogPage /> },
       { path: 'artwork', element: <ArtworkPage /> },

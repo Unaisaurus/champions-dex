@@ -43,6 +43,7 @@ import { buildChampionsForms, readMegaStones } from './build/forms';
 import { buildLearnsets } from './build/learnsets';
 import { matchForms } from './build/matching';
 import { loadOverrides } from './build/overrides';
+import { calculatorNotes } from './build/calculator';
 import { compareData, compareText, hasChanges, reportMarkdown, type TextSnapshot } from './build/report';
 import { buildSpecies, setLineGenerations } from './build/species';
 import { buildSearchNames, buildText } from './build/text';
@@ -468,6 +469,7 @@ async function main() {
     'Shiny artwork lined up with the regular art': artwork.lined,
     'Fan art (data/overrides/art.json)': fanArt.used,
   };
+  const calculator = calculatorNotes(core);
   const report = reportMarkdown({
     manifest,
     changes,
@@ -481,6 +483,10 @@ async function main() {
       'Pokédex entries of single forms found in each game': dex.notes.matching,
       'Forms without Pokédex entries of their own yet': dex.notes.formsWithoutEntries,
       "Forms whose regular and shiny art aren't the same drawing (better art welcome)": artwork.different,
+      // Updating @smogon/calc (npm update @smogon/calc) usually clears these.
+      "Damage calculator: not in Smogon's calculator yet (its results lack some details)": calculator.missing,
+      "Damage calculator: taken from the calculator's Scarlet and Violet data": calculator.borrowed,
+      "Damage calculator: where the game data and Smogon's calculator disagree": calculator.differences,
     },
   });
 

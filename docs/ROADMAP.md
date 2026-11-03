@@ -49,11 +49,18 @@ and a visual review.
       Shiny artwork lined up with the regular art, credited fan art for
       missing or odd artwork, and an artwork check page.
 
-Next: pages for moves, Abilities and items, Speed tiers and a damage
-calculator.
+Next: pages for moves, Abilities and items.
 
-Done since Stage 6: "Report a problem" on every Pokémon page and in Settings,
-opening a GitHub issue with the page and data version filled in.
+Done since Stage 6:
+
+- "Report a problem" on every Pokémon page and in Settings, opening a GitHub
+  issue with the page and data version filled in.
+- Damage calculator (Smogon's calculator with the Champions game data: both
+  Pokémon with battle forms, Abilities, items, Stat Points, stages, status and
+  HP; the battlefield; damage, KO chances, every roll and who moves first,
+  both ways; loading from your teams) and Speed tiers (every Pokémon and Mega
+  at the usual spreads, your team marked, Tailwind, Choice Scarf, stages,
+  paralysis and Trick Room).
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
 Generation 10, a regulation filter, pages for reference-only Pokémon.
@@ -75,6 +82,11 @@ Generation 10, a regulation filter, pages for reference-only Pokémon.
   `Vivillon-High Plains`).
 - **Mechanics:** Mega Evolution active; Terastallization, Dynamax and Z-Moves
   switched off in `rules.json` until Champions enables them.
+- **Damage calculator:** Smogon's `@smogon/calc` (MIT), whose "generation 0"
+  is Champions, rather than a calculator of our own: it's the one the
+  community checks against the games. The app's game data is laid over its
+  copy, so the Champions values win; its copy adds what the game data doesn't
+  keep (punch and sound moves, multi-hit counts, spread targets).
 
 - **Phone and computer:** the app is published with GitHub Pages from the
   public repository, so it works in any browser, and can be installed as an app

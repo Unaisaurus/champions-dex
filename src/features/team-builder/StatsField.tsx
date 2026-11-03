@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
-import { useId, useMemo, useState, type CSSProperties } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import { useTranslation } from 'react-i18next';
 import { STAT_IDS, type Form, type StatId } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
@@ -13,13 +13,13 @@ import {
 } from '@/domain/stats';
 import type { TeamMember } from '@/domain/team';
 import type { ValidationIssue } from '@/domain/validation';
-import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { Button } from '@/ui/components/Button';
 import { SegmentedControl } from '@/ui/components/SegmentedControl';
 import { useFormLabels } from '@/ui/useFormLabels';
 import { IssueList } from './IssueList';
 import type { MemberChange } from './types';
+import { useAlignmentOptions } from './useFieldOptions';
 import styles from './TeamEditor.module.css';
 
 /**
@@ -55,23 +55,7 @@ export function StatsField({
   const left = rules.statPoints.total - used;
   const statName = (stat: StatId) => t(`stats.${stat}`);
 
-  const alignmentOptions = useMemo(() => {
-    const collator = new Intl.Collator(localeOf(text.language), { sensitivity: 'base' });
-    return data.alignments
-      .map((entry) => {
-        const name = text.name('alignment-names', entry.id);
-        const neutral = !entry.raises || !entry.lowers || entry.raises === entry.lowers;
-        const label = neutral
-          ? t('teamEditor.member.alignmentNeutral', { name })
-          : t('teamEditor.member.alignmentOption', {
-              name,
-              raises: t(`stats.${entry.raises}`),
-              lowers: t(`stats.${entry.lowers}`),
-            });
-        return { id: entry.id, name, label };
-      })
-      .sort((a, b) => collator.compare(a.name, b.name));
-  }, [data.alignments, text, t]);
+  const alignmentOptions = useAlignmentOptions();
   const unknownAlignment = member.alignmentId !== null && !alignment;
 
   const setPoints = (stat: StatId, value: number) =>

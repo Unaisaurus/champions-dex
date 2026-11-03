@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import type { Form, Id, Move } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import type { TeamMember } from '@/domain/team';
-import { learnsetFor, moveSlots, setMoveSlot } from '@/domain/teamEditing';
+import { moveSlots, setMoveSlot } from '@/domain/teamEditing';
 import type { ValidationIssue } from '@/domain/validation';
 import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { SearchSelect, type SearchSelectOption } from '@/ui/components/SearchSelect';
 import { TypeBadge } from '@/ui/components/TypeBadge';
-import { useTextSearchIndex } from '@/ui/useTextSearchIndex';
 import { IssueList } from './IssueList';
 import type { MemberChange } from './types';
+import { useLearnableMoveOptions, useMoveSlotOptions } from './useFieldOptions';
 import styles from './TeamEditor.module.css';
 
 /** The member's moves: each slot offers only what it can learn in Champions. */
@@ -28,43 +28,10 @@ export function MovesField({
 }) {
   const { t } = useTranslation();
   const data = useGameData();
-  const text = useGameText();
   const titleId = useId();
-  const searchIndex = useTextSearchIndex('move-names', data.moves);
   const slots = useMemo(() => moveSlots(member.moves, data.rules), [member.moves, data.rules]);
-
-  const learnable = useMemo<SearchSelectOption[]>(() => {
-    const collator = new Intl.Collator(localeOf(text.language), { sensitivity: 'base' });
-    return (learnsetFor(form, data) ?? [])
-      .flatMap((entry) => {
-        const move = data.movesById.get(entry.move);
-        if (!move?.availableInChampions) return [];
-        return [
-          {
-            id: move.id,
-            label: text.name('move-names', move.id),
-            searchText: searchIndex.get(move.id),
-            detail: <MoveOptionDetail move={move} isNew={entry.newInChampions} />,
-          },
-        ];
-      })
-      .sort((a, b) => collator.compare(a.label, b.label));
-  }, [form, data, text, searchIndex]);
-
-  // Each slot leaves out the moves already in the other slots, but keeps its own
-  // move even if it can't be learned anymore (so it shows, with its warning).
-  const slotOptions = useMemo(
-    () =>
-      slots.map((own, index) => {
-        const others = new Set(slots.filter((move, i) => i !== index && move !== null));
-        const options = learnable.filter((option) => !others.has(option.id));
-        if (own !== null && !options.some((option) => option.id === own)) {
-          options.unshift({ id: own, label: text.name('move-names', own) });
-        }
-        return options;
-      }),
-    [learnable, slots, text],
-  );
+  const learnable = useLearnableMoveOptions(form);
+  const slotOptions = useMoveSlotOptions(learnable, slots);
 
   const ofMove = (move: Id) => issues.filter((issue) => issue.params?.move === move);
   const general = issues.filter((issue) => typeof issue.params?.move !== 'string');
@@ -136,18 +103,6 @@ function MoveSlot({
         <IssueList id={issuesId} issues={issues} />
       </div>
     </li>
-  );
-}
-
-/** Type and power in the move list. */
-function MoveOptionDetail({ move, isNew }: { move: Move; isNew: boolean }) {
-  const { t } = useTranslation();
-  return (
-    <span className={styles.optionDetail}>
-      {isNew && <span className={styles.optionTag}>{t('pokemon.moves.new')}</span>}
-      <span className={styles.optionPower}>{move.power ?? '—'}</span>
-      <TypeBadge type={move.type} size="sm" />
-    </span>
   );
 }
 

@@ -17,6 +17,17 @@ public sources:
 | [WikiDex](https://www.wikidex.net)                                                                     | Spanish Pokédex entries for the games before X and Y (Red and Blue to Black 2 and White 2), which no game text dump has; imported into `data/wikidex/` and checked against the English entries                                                                                               |
 | [PKHeX](https://github.com/kwsch/PKHeX)                                                                | Ultra Sun/Ultra Moon's and Let's Go's form tables (how many forms each species has), which fix where each form's entry sits                                                                                                                                                                  |
 
+The damage calculator uses one more: [Smogon's damage calculator](https://github.com/smogon/damage-calc)
+(`@smogon/calc`, MIT licence, pinned in `package.json`; the licence ships with
+the app in `public/licenses/`). It isn't read by the updater for the game
+data: the app gives it the game data's base stats, types and weights, and each
+move's type, category, power and priority, and it adds the details it keeps
+itself (which moves are punches, bites or sound moves, recoil and draining,
+multi-hit counts, which moves hit both opponents). Anything its Champions copy
+lacks is taken from its Scarlet and Violet copy. The update report lists what
+it doesn't have yet and every disagreement with the game data, so a newer
+version can be installed when one is needed (`npm update @smogon/calc`).
+
 Every run pins each source to an exact revision, recorded in
 `public/data/manifest.json`, and keeps the downloads in `data/sources/`, so a
 data set can always be rebuilt identically (`npm run update-data -- --offline`).
@@ -139,6 +150,10 @@ and other game text.
   by hand in `data/overrides/dex-entries.json` (Alolan Ninetales in
   Sword/Shield and Scarlet/Violet, Galarian Slowbro and Slowking in
   Scarlet/Violet). The report lists anything still unplaced.
+- **Move targets come from PokéAPI**, which has at least one wrong:
+  Matcha Gotcha hits both opponents, but PokéAPI lists one target. The
+  damage calculator uses its own (correct) target; the update report lists
+  every move where the two disagree.
 - **Minor gender differences** (Venusaur, Pikachu…) have no artwork in the
   official style, so only forms with real artwork get a female toggle.
 - **Images are loaded from the sprite repository**, pinned to the same
