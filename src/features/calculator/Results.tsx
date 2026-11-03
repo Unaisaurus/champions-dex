@@ -34,7 +34,7 @@ interface ResultsProps {
 function shownMove(results: readonly SideResults[], selected: SelectedMove | null): SelectedMove | null {
   const outcomeAt = (move: SelectedMove) =>
     results.find((entry) => entry.side === move.side)?.outcomes[move.slot] ?? null;
-  if (selected && outcomeAt(selected)) return selected;
+  if (selected && outcomeAt(selected)?.kind === 'damage') return selected;
   for (const { side, outcomes } of results) {
     const slot = outcomes.findIndex((outcome) => outcome?.kind === 'damage');
     if (slot >= 0) return { side, slot };
