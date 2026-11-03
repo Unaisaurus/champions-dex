@@ -590,6 +590,28 @@
     "smaller": "Shiny drawn {{percent}} smaller: lined up",
     "moved": "Shiny drawn off-centre: lined up"
   },
+  "report": {
+    "button": "Report a problem",
+    "prompt": "Something wrong on this page?",
+    "title": "Report a problem",
+    "intro": "Say what's wrong, then continue on GitHub, where the report is kept. The page, the data version and the app's language are added for you.",
+    "topic": "What's it about?",
+    "topics": {
+      "pokemon": "Stats, types or Abilities",
+      "moves": "Moves or learnset",
+      "dex": "Pokédex entries",
+      "evolution": "Evolutions",
+      "art": "Artwork",
+      "text": "Names or translations",
+      "team": "Team builder",
+      "app": "Something in the app doesn't work",
+      "other": "Something else"
+    },
+    "description": "What's wrong? (You can also write it on GitHub.)",
+    "account": "You need to be signed in to GitHub. Reports are public, like the project.",
+    "offline": "You're offline, and GitHub needs a connection.",
+    "continue": "Continue on GitHub"
+  },
   "pwa": {
     "updateReady": "A new version of Champions Dex is ready.",
     "reload": "Reload",

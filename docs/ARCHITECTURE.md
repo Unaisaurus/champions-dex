@@ -154,6 +154,14 @@ store them), or all at once with "Save all artwork" in Settings.
 with `npm run dev`), keeps the install prompt and runs the artwork download;
 `UpdatePrompt.tsx` offers the reload when a new version has been published.
 
+**Report a problem** (`src/features/report/`): a short form that opens a new
+GitHub issue with `title` and `body` filled in (`issueUrl` in
+`reportProblem.ts`; only parameters anyone may use, so no labels). The
+repository and the build's commit come from GitHub's build machines
+(`GITHUB_REPOSITORY`, `GITHUB_SHA`, read in `vite.config.ts`), with this
+repository as the fallback for local builds. It's on every Pokémon page and
+in Settings → Game data.
+
 **The data changelog** (`src/features/changelog/`, route `#/changelog`) shows
 `public/data/changelog.json`. The updater writes one entry per data version:
 `compareData` lists Pokémon, moves, items and learnsets that changed, and

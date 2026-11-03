@@ -590,6 +590,28 @@
     "smaller": "Variocolor dibujada un {{percent}} más pequeña: ajustada",
     "moved": "Variocolor descentrada: ajustada"
   },
+  "report": {
+    "button": "Informar de un problema",
+    "prompt": "¿Hay algo mal en esta página?",
+    "title": "Informar de un problema",
+    "intro": "Explica qué está mal y continúa en GitHub, donde se guarda el informe. La página, la versión de los datos y el idioma de la app se añaden solos.",
+    "topic": "¿De qué se trata?",
+    "topics": {
+      "pokemon": "Características, tipos o habilidades",
+      "moves": "Movimientos",
+      "dex": "Entradas de la Pokédex",
+      "evolution": "Evoluciones",
+      "art": "Ilustraciones",
+      "text": "Nombres o traducciones",
+      "team": "Equipos",
+      "app": "Algo de la app no funciona",
+      "other": "Otra cosa"
+    },
+    "description": "¿Qué está mal? (También puedes escribirlo en GitHub).",
+    "account": "Tienes que haber iniciado sesión en GitHub. Los informes son públicos, como el proyecto.",
+    "offline": "No tienes conexión, y GitHub la necesita.",
+    "continue": "Continuar en GitHub"
+  },
   "pwa": {
     "updateReady": "Hay una nueva versión de Champions Dex.",
     "reload": "Recargar",

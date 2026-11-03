@@ -12,6 +12,14 @@ import pkg from './package.json' with { type: 'json' };
  */
 const PORT = 5173;
 
+/**
+ * The project on GitHub ("Report a problem" opens an issue there) and the
+ * commit being built. GitHub's build machines say both; elsewhere the
+ * repository falls back to this one.
+ */
+const REPOSITORY = process.env.GITHUB_REPOSITORY ?? 'Unaisaurus/champions-dex';
+const BUILD = (process.env.GITHUB_SHA ?? '').slice(0, 7);
+
 export default defineConfig({
   // Relative paths, so the built app also works from a sub-folder or any static host.
   base: './',
@@ -63,7 +71,11 @@ export default defineConfig({
       },
     }),
   ],
-  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+    __REPOSITORY__: JSON.stringify(REPOSITORY),
+    __APP_BUILD__: JSON.stringify(BUILD),
+  },
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },

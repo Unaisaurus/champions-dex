@@ -49,8 +49,11 @@ and a visual review.
       Shiny artwork lined up with the regular art, credited fan art for
       missing or odd artwork, and an artwork check page.
 
-Next: a "Report a problem" link, pages for moves, Abilities and items, Speed
-tiers and a damage calculator.
+Next: pages for moves, Abilities and items, Speed tiers and a damage
+calculator.
+
+Done since Stage 6: "Report a problem" on every Pokémon page and in Settings,
+opening a GitHub issue with the page and data version filled in.
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
 Generation 10, a regulation filter, pages for reference-only Pokémon.

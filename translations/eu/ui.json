@@ -590,6 +590,28 @@
     "smaller": "",
     "moved": ""
   },
+  "report": {
+    "button": "",
+    "prompt": "",
+    "title": "",
+    "intro": "",
+    "topic": "",
+    "topics": {
+      "pokemon": "",
+      "moves": "",
+      "dex": "",
+      "evolution": "",
+      "art": "",
+      "text": "",
+      "team": "",
+      "app": "",
+      "other": ""
+    },
+    "description": "",
+    "account": "",
+    "offline": "",
+    "continue": ""
+  },
   "pwa": {
     "updateReady": "",
     "reload": "",

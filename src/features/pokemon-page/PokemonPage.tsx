@@ -15,6 +15,8 @@ import { TypeList } from '@/ui/components/TypeBadge';
 import { formatHeight, formatNumber, formatWeight } from '@/ui/format';
 import { artFits, formatDexNumber } from '@/ui/images';
 import { useFormLabels } from '@/ui/useFormLabels';
+import { ReportProblemButton } from '@/features/report/ReportProblem';
+import { POKEMON_PAGE_TOPICS } from '@/features/report/reportProblem';
 import { DexEntries } from './DexEntries';
 import { EvolutionTree } from './EvolutionTree';
 import { Learnset } from './Learnset';
@@ -154,6 +156,8 @@ export function PokemonPage() {
   const title = text.name('pokemon-names', species.id);
   const subtitle = labels.get(shown.id) ?? null;
   const fullName = subtitle ? `${title} (${subtitle})` : title;
+  // "Mega Venusaur" rather than "Venusaur (Mega Venusaur)".
+  const shortName = subtitle?.includes(title) ? subtitle : fullName;
   const artKeys = shiny ? [shown.art.officialShiny, shown.art.official] : [shown.art.official];
   // Fan art is credited to its artist.
   const credit = shown.art.credits?.[shiny && shown.art.officialShiny ? 'officialShiny' : 'official'];
@@ -287,6 +291,10 @@ export function PokemonPage() {
         <TypeMatchups form={profile} />
       </div>
       {hasMoves && <Learnset form={shown} />}
+      <footer className={styles.report}>
+        <span>{t('report.prompt')}</span>
+        <ReportProblemButton subject={shortName} topics={POKEMON_PAGE_TOPICS} variant="secondary" />
+      </footer>
     </article>
   );
 }

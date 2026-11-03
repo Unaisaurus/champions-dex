@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useDataProblems, useGameData } from '@/data/useGameData';
+import { ReportProblemButton } from '@/features/report/ReportProblem';
 import styles from './SettingsPage.module.css';
 
 export function DataSection() {
@@ -44,6 +45,9 @@ export function DataSection() {
       <Link to="/artwork" className={styles.link}>
         {t('settings.data.artwork')}
       </Link>
+      <div className={styles.row}>
+        <ReportProblemButton subject="General" variant="secondary" />
+      </div>
       {problems.length === 0 ? (
         <p className={styles.muted}>{t('settings.data.healthy')}</p>
       ) : (

@@ -121,6 +121,16 @@ Pokémon's regular and shiny art side by side, with the ones that need a look
 first (missing, or not the same drawing). To use fan art for those, see
 [data/overrides/README.md](data/overrides/README.md#adding-fan-art).
 
+## Reporting a problem
+
+Spotted a mistake? Press **Report a problem** at the bottom of any Pokémon's
+page (or in **Settings → Game data** for anything else). Choose what it's
+about, say what's wrong and press **Continue on GitHub**: a new issue opens with
+the page, the data version and the app's language already filled in; press
+**Create** (or **Submit new issue**) to save it. You need to be signed in to
+GitHub, and reports are public, like the project. To have them fixed, ask
+Claude to go through the open reports.
+
 ## Your saved data
 
 - Teams and favourites are stored in the browser on this device.
