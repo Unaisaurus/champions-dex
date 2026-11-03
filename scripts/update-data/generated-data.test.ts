@@ -170,6 +170,15 @@ describe.runIf(real)('generated game data', () => {
     expect(games('raichu-mega-x')).toContain('legends-za');
     expect(games('sinistcha-masterpiece')).toEqual(expect.arrayContaining(['scarlet', 'violet']));
     expect(read<DexEntriesFile>('text/es/dex-entries.json').sinistcha?.length).toBeGreaterThan(0);
+    // Brilliant Diamond and Shining Pearl, species only, in both languages.
+    expect(games('venusaur')).toEqual(expect.arrayContaining(['brilliant-diamond', 'shining-pearl']));
+    expect(games('raichu-alola')).not.toContain('brilliant-diamond');
+    expect(games('excadrill')).not.toContain('brilliant-diamond');
+    expect(
+      read<DexEntriesFile>('text/es/dex-entries.json').venusaur?.some((e) =>
+        e.games.includes('shining-pearl'),
+      ),
+    ).toBe(true);
     // Sun/Moon and Let's Go have form entries too.
     expect(games('raichu-alola')).toEqual(expect.arrayContaining(['sun', 'moon', 'lets-go-pikachu']));
     // Hand-checked lines (data/overrides/dex-entries.json) and the other version's same line.

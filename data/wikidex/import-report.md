@@ -4,7 +4,7 @@ Pages retrieved 2026-11-03T14:58:00.331Z. 1615 entries for 127 Pokémon, for the
 
 ## How reliable WikiDex is
 
-For X and Y onwards, the app has the games' own Spanish text. On these pages, WikiDex's entries for those games match it in 1070 of 1117 cases (95.8%, ignoring punctuation and case). Nearly all the differences are in X, Y, Omega Ruby and Alpha Sapphire, where WikiDex gives an older game's text that those games reworded.
+For X and Y onwards, the app has the games' own Spanish text. On these pages, WikiDex's entries for those games match it in 1266 of 1313 cases (96.4%, ignoring punctuation and case). Nearly all the differences are in X, Y, Omega Ruby and Alpha Sapphire, where WikiDex gives an older game's text that those games reworded.
 
 ## Corrected (4)
 

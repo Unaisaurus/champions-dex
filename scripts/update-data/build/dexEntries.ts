@@ -8,8 +8,8 @@
  * - PokéAPI: English for every game; Spanish from X and Y to Sword and Shield.
  *   Species only, so it's used for the games below only when they lack a text.
  * - Game text dumps (see sources/dexDumps.ts): Sun/Moon, Ultra Sun/Ultra Moon,
- *   Let's Go, Sword/Shield, Legends: Arceus, Scarlet/Violet and Legends: Z-A
- *   (with their DLC), for species and forms.
+ *   Let's Go, Sword/Shield, Brilliant Diamond/Shining Pearl, Legends: Arceus,
+ *   Scarlet/Violet and Legends: Z-A (with their DLC), for species and forms.
  * - WikiDex (data/wikidex/dex-entries-es.json): Spanish for the games before X
  *   and Y, which neither of the above has.
  *
@@ -535,6 +535,18 @@ export function buildDexEntries(ctx: Context, input: DexEntriesInput): DexEntrie
       }
       matching.push(`${dump.version}: ${found} entries placed by position`);
     }
+  }
+
+  // Brilliant Diamond and Shining Pearl: one entry per National Dex number, species only.
+  for (const dump of input.dumps.numbered) {
+    const version = versionId(dump.version);
+    if (version === undefined) {
+      problems.push(`PokéAPI has no "${dump.version}" version: its Pokédex entries were skipped`);
+      continue;
+    }
+    let found = 0;
+    for (const no of wanted) if (putLine(formKey(no, 0), version, dump, no)) found += 1;
+    matching.push(`${dump.version}: ${found} entries placed by number`);
   }
 
   // Forms the game names after another form share its entries (female Mega Meowstic).

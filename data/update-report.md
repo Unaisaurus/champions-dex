@@ -1,6 +1,6 @@
-# Data update 2026-11-03.4
+# Data update 2026-11-03.5
 
-Generated 2026-11-03T15:11:38Z.
+Generated 2026-11-03T16:29:23Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -22,7 +22,7 @@ Game: version 1.2.2, Regulation M-C.
 
 ## Changes since the previous update
 
-### Changed: dex-entries (127)
+### Changed: dex-entries (98)
 
 - abomasnow
 - absol
@@ -34,55 +34,41 @@ Game: version 1.2.2, Regulation M-C.
 - arbok
 - arcanine
 - ariados
-- audino
 - azumarill
 - banette
 - bastiodon
-- beartic
 - beedrill
 - blastoise
 - blaziken
 - camerupt
 - castform
-- chandelure
 - charizard
 - chimecho
 - clefable
-- cofagrigus
-- conkeldurr
 - ditto
 - dragonite
-- eelektross
-- emboar
-- emolga
 - empoleon
 - espeon
-- excadrill
 - farfetchd
 - feraligatr
 - flareon
 - forretress
 - froslass
 - gallade
-- garbodor
 - garchomp
 - gardevoir
 - gengar
 - glaceon
 - glalie
 - gliscor
-- golurk
 - gyarados
 - heracross
 - hippowdon
 - houndoom
-- hydreigon
 - infernape
 - jolteon
 - kangaskhan
-- krookodile
 - leafeon
-- liepard
 - lopunny
 - lucario
 - luxray
@@ -95,7 +81,6 @@ Game: version 1.2.2, Regulation M-C.
 - metagross
 - milotic
 - mr-mime
-- musharna
 - ninetales
 - pelipper
 - persian
@@ -106,22 +91,14 @@ Game: version 1.2.2, Regulation M-C.
 - qwilfish
 - raichu
 - rampardos
-- reuniclus
 - rhyperior
 - roserade
 - rotom
 - sableye
 - salamence
-- samurott
 - sceptile
 - scizor
-- scolipede
-- scrafty
-- serperior
 - sharpedo
-- simipour
-- simisage
-- simisear
 - skarmory
 - slowbro
 - slowking
@@ -130,7 +107,6 @@ Game: version 1.2.2, Regulation M-C.
 - staraptor
 - starmie
 - steelix
-- stunfisk
 - swalot
 - swampert
 - tauros
@@ -140,17 +116,16 @@ Game: version 1.2.2, Regulation M-C.
 - typhlosion
 - tyranitar
 - umbreon
-- vanilluxe
 - vaporeon
 - venusaur
 - victreebel
 - vileplume
-- volcarona
-- watchog
 - weavile
-- whimsicott
 - wigglytuff
-- zoroark
+
+### Changed: text (1)
+
+- game-names:2
 
 
 ## Sources
@@ -160,16 +135,11 @@ Game: version 1.2.2, Regulation M-C.
 - [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1dd55c0436d2`
 - [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `035c1a1f3c2e`
 - [Pokémon main series text dumps (tanripj)](https://github.com/tanripj/pokemon_text_dumps) at `d67e1c3cbcf5`
+- [Brilliant Diamond and Shining Pearl text dumps (tanripj)](https://github.com/tanripj/bdsp_text_dumps) at `1f94006a6838`
 - [Pokémon Legends: Z-A text dump with labels (CPokemon)](https://github.com/CPokemon/plza-text) at `3f149c41285b`
 - [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `0660d1e1f492`
 - [Pokémon JSON API by towakey (Japanese Pokédex text per form)](https://github.com/towakey/pokedex) at `142c54d3f6a8`
 - [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-03`
-
-## Things to check (1)
-
-Nothing here stops the app from working; these are spots where the sources disagree or data is missing.
-
-- No Spanish entries for the games before X and Y for: azumarill, sceptile. Run "Import Spanish Pokédex entries" on GitHub (or npm run import-wikidex -- --download).
 
 ## Learnsets that differ from PokéAPI's copy of the Champions learnsets (32)
 
@@ -206,7 +176,7 @@ Nothing here stops the app from working; these are spots where the sources disag
 - kingambit (+1/−0)
 - archaludon (+1/−2)
 
-## Pokédex entries of single forms found in each game (12)
+## Pokédex entries of single forms found in each game (14)
 
 - legends-za: 300 entries placed by label
 - sun: 84 entries placed
@@ -220,6 +190,8 @@ Nothing here stops the app from working; these are spots where the sources disag
 - ultra-moon: 150 entries placed by position
 - lets-go-pikachu: 49 entries placed by position
 - lets-go-eevee: 49 entries placed by position
+- brilliant-diamond: 98 entries placed by number
+- shining-pearl: 98 entries placed by number
 
 ## Forms whose regular and shiny art aren't the same drawing (better art welcome) (6)
 

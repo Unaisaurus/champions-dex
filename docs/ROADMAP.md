@@ -44,7 +44,8 @@ and a visual review.
       all artwork on request; a prompt when a new version is ready), and a data
       changelog page (Pokémon, moves, items, learnsets and texts per update).
       Pokédex entries from every game since Sun/Moon, DLC included, for every
-      form, and Spanish entries for the games before X and Y (from WikiDex).
+      form, plus Brilliant Diamond and Shining Pearl, and Spanish entries for
+      the games before X and Y (from WikiDex).
       Shiny artwork lined up with the regular art, credited fan art for
       missing or odd artwork, and an artwork check page.
 

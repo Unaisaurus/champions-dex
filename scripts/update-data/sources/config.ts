@@ -25,6 +25,14 @@ export const SOURCES = {
     branch: 'main',
     pin: 'd67e1c3cbcf56571b84b1951a4d2dfc6619dc468',
   },
+  // Brilliant Diamond and Shining Pearl's own text (PokéAPI has no entries for them).
+  bdspText: {
+    id: 'bdsp-text-dumps',
+    name: 'Brilliant Diamond and Shining Pearl text dumps (tanripj)',
+    repo: 'tanripj/bdsp_text_dumps',
+    branch: 'master',
+    pin: '1f94006a68387f041d11e06dc316ac5a5b8e888e',
+  },
   zaText: {
     id: 'plza-text',
     name: 'Pokémon Legends: Z-A text dump with labels (CPokemon)',

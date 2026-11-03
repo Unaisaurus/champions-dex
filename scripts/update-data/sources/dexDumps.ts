@@ -53,6 +53,11 @@ export interface SlottedGame extends DumpGame {
 export interface DexDumps {
   /** Legends: Z-A (with the Mega Dimension DLC): each line's label, and the lines per language. */
   legendsZa: { labels: string[]; lines: Partial<Record<'en' | 'es', string[]>> };
+  /**
+   * Games whose Pokédex file has one entry per National Dex number, species
+   * only (Brilliant Diamond and Shining Pearl): line n is species n.
+   */
+  numbered: DumpVersion[];
   /** Games whose form entries are found by matching towakey's Japanese text. */
   matched: DumpGame[];
   /** Games whose form entries are found by position. */
@@ -239,6 +244,46 @@ async function loadGame(spec: GameSpec, revisions: Revisions): Promise<DumpGame>
   };
 }
 
+/**
+ * A Brilliant Diamond / Shining Pearl message file (exported from the game's
+ * Unity data): each label ends in the entry's number (`DP_pokedex_diamond_025`)
+ * and holds the text line by line. Index n of the result is entry n.
+ */
+export function parseBdspMessages(json: string): string[] {
+  const data = JSON.parse(json) as {
+    labelDataArray?: Array<{ labelName: string; wordDataArray: Array<{ str: string }> }>;
+  };
+  const lines: string[] = [];
+  for (const label of data.labelDataArray ?? []) {
+    const number = Number(/_(\d+)$/.exec(label.labelName)?.[1]);
+    if (!Number.isInteger(number)) continue;
+    lines[number] = label.wordDataArray.map((word) => word.str).join(' ');
+  }
+  return Array.from(lines, (line) => line ?? '');
+}
+
+/** The latest version of Brilliant Diamond and Shining Pearl in the dump. */
+const BDSP_VERSION = '1.3.0';
+
+async function loadBdsp(revisions: Revisions): Promise<DumpVersion[]> {
+  const file = (language: 'english' | 'spanish', game: 'diamond' | 'pearl') =>
+    sourceFile(
+      SOURCES.bdspText,
+      revisions.bdspText,
+      `input/${BDSP_VERSION}/${language}/${language}_dp_pokedex_${game}.json`,
+    ).then(parseBdspMessages);
+  const [diamondEn, diamondEs, pearlEn, pearlEs] = await Promise.all([
+    file('english', 'diamond'),
+    file('spanish', 'diamond'),
+    file('english', 'pearl'),
+    file('spanish', 'pearl'),
+  ]);
+  return [
+    { version: 'brilliant-diamond', towakeyVersion: '', lines: { en: diamondEn, es: diamondEs } },
+    { version: 'shining-pearl', towakeyVersion: '', lines: { en: pearlEn, es: pearlEs } },
+  ];
+}
+
 export async function loadDexDumps(revisions: Revisions, sv: SvText): Promise<DexDumps> {
   const zaFile = (language: string) =>
     sourceFile(
@@ -246,7 +291,7 @@ export async function loadDexDumps(revisions: Revisions, sv: SvText): Promise<De
       revisions.textDumps,
       `za/2.0.1/gametext/za-2.0.1_gametext_${language}.txt`,
     ).then((text) => parseTextDump(text, new Set(['zukan_comment_A'])).get('zukan_comment_A') ?? []);
-  const [zaLabels, zaEnglish, zaSpanish, matched, slotted, svTowakey] = await Promise.all([
+  const [zaLabels, zaEnglish, zaSpanish, matched, slotted, svTowakey, numbered] = await Promise.all([
     sourceFile(SOURCES.zaText, revisions.zaText, 'english/common/zukan_comment_A.txt').then(readZaLabels),
     zaFile('english'),
     zaFile('spanish'),
@@ -263,6 +308,7 @@ export async function loadDexDumps(revisions: Revisions, sv: SvText): Promise<De
     sourceFile(SOURCES.towakey, revisions.towakey, 'pokedex/Scarlet_Violet/Scarlet_Violet.json').then(
       (text) => parseTowakeyGame(JSON.parse(text)),
     ),
+    loadBdsp(revisions),
   ]);
 
   // Scarlet/Violet's text is already loaded for the rest of the game text.
@@ -291,5 +337,6 @@ export async function loadDexDumps(revisions: Revisions, sv: SvText): Promise<De
     legendsZa: { labels: zaLabels, lines: { en: zaEnglish, es: zaSpanish } },
     matched: [...matched, scarletViolet],
     slotted,
+    numbered,
   };
 }

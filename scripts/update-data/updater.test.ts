@@ -20,7 +20,13 @@ import { int, intOrNull, parseCsv } from './lib/csv';
 import { formatJson } from './lib/output';
 import { methodFromShowdownSource, toShowdownId, showdownCandidates } from './sources/showdown';
 import { cleanDumpText, isPlaceholder, parseDump } from './sources/svText';
-import { formCountsFromPersonal, parseTowakeyGame, parseZaLabel, readZaLabels } from './sources/dexDumps';
+import {
+  formCountsFromPersonal,
+  parseBdspMessages,
+  parseTowakeyGame,
+  parseZaLabel,
+  readZaLabels,
+} from './sources/dexDumps';
 import { japaneseKey, parseTextDump } from './sources/textDump';
 import { decodeText } from './lib/net';
 import { typeFromTextLabel } from './sources/champions';
@@ -301,5 +307,26 @@ describe('text', () => {
     expect(formatJson([{ a: 1 }, { b: 2 }])).toBe('[\n{"a":1},\n{"b":2}\n]\n');
     expect(formatJson({ x: 'y' })).toBe('{\n"x": "y"\n}\n');
     expect(formatJson([])).toBe('[]\n');
+  });
+});
+
+describe('Brilliant Diamond and Shining Pearl text', () => {
+  it('reads each entry by its number, lines joined', () => {
+    const json = JSON.stringify({
+      labelDataArray: [
+        { labelName: 'DP_pokedex_diamond_000', wordDataArray: [{ str: '' }] },
+        {
+          labelName: 'DP_pokedex_diamond_002',
+          wordDataArray: [
+            { str: 'When the bulb on its back grows large, it' },
+            { str: 'appears to lose the ability to stand.' },
+          ],
+        },
+      ],
+    });
+    const lines = parseBdspMessages(json);
+    expect(lines[2]).toBe('When the bulb on its back grows large, it appears to lose the ability to stand.');
+    expect(lines[1]).toBe('');
+    expect(lines).toHaveLength(3);
   });
 });
