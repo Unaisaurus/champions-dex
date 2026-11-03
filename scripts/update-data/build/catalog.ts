@@ -8,6 +8,7 @@ import type {
   Item,
   Move,
   MoveCategory,
+  MoveKind,
   StatId,
   TypesFile,
 } from '../../../src/data/contracts';
@@ -41,6 +42,67 @@ export const TYPE_ORDER = [
 
 const POKEAPI_CATEGORY: Record<string, MoveCategory> = { '1': 'status', '2': 'physical', '3': 'special' };
 
+/**
+ * The game's move target numbers, as PokéAPI's names for them. Worked out by
+ * comparing every move with PokéAPI's targets: they agree everywhere except
+ * where Champions changed a move (Milk Drink can heal an ally) or PokéAPI is
+ * wrong (Matcha Gotcha hits both opponents; Coaching, only the allies).
+ */
+export const GAME_MOVE_TARGETS: Readonly<Record<number, string>> = {
+  0: 'selected-pokemon',
+  1: 'user-or-ally',
+  2: 'ally',
+  4: 'all-other-pokemon',
+  5: 'all-opponents',
+  6: 'user-and-allies',
+  7: 'user',
+  8: 'all-pokemon',
+  9: 'random-opponent',
+  10: 'entire-field',
+  11: 'opponents-field',
+  12: 'users-field',
+  13: 'specific-move',
+  14: 'all-allies',
+};
+
+/** PokéAPI's targets that say more than the game's number does (Revival Blessing: a fainted ally). */
+const MORE_SPECIFIC_TARGETS = new Set(['fainting-pokemon']);
+
+/** The game's move kind numbers (0: none). */
+export const GAME_MOVE_KINDS: Readonly<Record<number, MoveKind>> = {
+  1: 'punch',
+  2: 'sound',
+  3: 'dance',
+  4: 'slicing',
+  5: 'wind',
+  6: 'powder',
+  7: 'ball',
+  8: 'pulse',
+  9: 'bite',
+  10: 'explosive',
+  11: 'mental',
+  12: 'healing',
+};
+
+/** A move's target from the game files, PokéAPI's where the game's number is unknown or says less. */
+export function moveTarget(gameTarget: number, pokeapiTarget: string | undefined): string {
+  const fromGame = GAME_MOVE_TARGETS[gameTarget];
+  if (pokeapiTarget && (!fromGame || (fromGame === 'user' && MORE_SPECIFIC_TARGETS.has(pokeapiTarget)))) {
+    return pokeapiTarget;
+  }
+  return fromGame ?? pokeapiTarget ?? 'selected-pokemon';
+}
+
+/** A move's kinds from the game's two kind numbers, in the game's order, each once. */
+export function moveKinds(numbers: readonly number[]): MoveKind[] {
+  const kinds: MoveKind[] = [];
+  for (const number of numbers) {
+    const kind = GAME_MOVE_KINDS[number];
+    if (kind && !kinds.includes(kind)) kinds.push(kind);
+  }
+  return kinds;
+}
+
 /** Champions' usual PP from the main-series PP: 5 → 8, 10 → 12, 15 → 16, 20 or more → 20. */
 export function usualChampionsPp(mainSeriesPp: number): number {
   if (mainSeriesPp <= 1) return mainSeriesPp;
@@ -51,6 +113,8 @@ export interface MovesResult {
   moves: Move[];
   idByNumber: Map<number, string>;
   available: Set<number>;
+  /** Moves whose target in the game files isn't PokéAPI's (the game's is used). */
+  targetNotes: string[];
   /** Move ID → game text labels (name, description). */
   labels: Map<string, { name: string; info: string }>;
   problems: string[];
@@ -67,6 +131,7 @@ export function buildMoves(ctx: Context, referenced: ReadonlySet<string>): Moves
   );
   const mainSeries = new Map(ctx.pokeapi.moves.map((row) => [int(row.id), row]));
   const englishNames = ctx.champions.text('usa', 'wazaname');
+  const targetNotes: string[] = [];
 
   for (const entry of ctx.champions.moves) {
     if (entry.number === 0 || !englishNames.get(entry.nameLabel)) continue;
@@ -77,6 +142,11 @@ export function buildMoves(ctx: Context, referenced: ReadonlySet<string>): Moves
     if (!entry.available && !referenced.has(id)) continue;
 
     const main = mainSeries.get(entry.number);
+    const pokeapiTarget = targetIdentifier.get(main?.target_id ?? '') || undefined;
+    const target = moveTarget(entry.target, pokeapiTarget);
+    if (entry.available && pokeapiTarget && target !== pokeapiTarget) {
+      targetNotes.push(`\`${id}\`: ${target} in the game files, ${pokeapiTarget} in PokéAPI`);
+    }
     const move: Move = {
       id,
       type: entry.type,
@@ -85,8 +155,9 @@ export function buildMoves(ctx: Context, referenced: ReadonlySet<string>): Moves
       accuracy: entry.accuracy,
       pp: entry.pp,
       priority: entry.priority,
-      target: targetIdentifier.get(main?.target_id ?? '') || 'selected-pokemon',
+      target,
       makesContact: entry.makesContact,
+      kinds: moveKinds(entry.kindNumbers),
       availableInChampions: entry.available,
       caveats: [],
     };
@@ -115,7 +186,7 @@ export function buildMoves(ctx: Context, referenced: ReadonlySet<string>): Moves
       problems.push(`Move "${id}" is used by an evolution method but isn't in the game files`);
   }
   moves.sort((a, b) => a.id.localeCompare(b.id));
-  return { moves, idByNumber, available, labels, problems };
+  return { moves, idByNumber, available, targetNotes: targetNotes.sort(), labels, problems };
 }
 
 export interface AbilitiesResult {

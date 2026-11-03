@@ -67,7 +67,11 @@ export interface MoveEntry {
   accuracy: number | null;
   pp: number;
   priority: number;
+  /** The game's own target number (see `GAME_MOVE_TARGETS` in build/catalog.ts). */
+  target: number;
   makesContact: boolean;
+  /** The game's move kinds (punch, sound…) as numbers, 0 for none: its main kind and a second one. */
+  kindNumbers: [number, number];
   available: boolean;
   nameLabel: string;
   infoLabel: string;
@@ -184,7 +188,9 @@ export async function loadChampions(revision: string): Promise<ChampionsData> {
       accuracy: accuracy > 100 ? null : accuracy,
       pp: Number(w.pp),
       priority: Number(w.priority),
+      target: Number(w.target),
       makesContact: w.direct === '1',
+      kindNumbers: [Number(w.classification_a ?? 0), Number(w.classification_b ?? 0)],
       available: w.available === '1',
       nameLabel: w.ms_lbl ?? '',
       infoLabel: w.ms_lbl_info ?? '',

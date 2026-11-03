@@ -480,6 +480,7 @@ async function main() {
       "Learnsets that differ from PokéAPI's copy of the Champions learnsets":
         learnsets.stats.pokeapiDifferences,
       'Items Showdown treats differently': items.notes,
+      "Move targets the game files give differently from PokéAPI (the game's are used)": moves.targetNotes,
       'Pokédex entries of single forms found in each game': dex.notes.matching,
       'Forms without Pokédex entries of their own yet': dex.notes.formsWithoutEntries,
       "Forms whose regular and shiny art aren't the same drawing (better art welcome)": artwork.different,

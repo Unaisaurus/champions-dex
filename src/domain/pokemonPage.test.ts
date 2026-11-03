@@ -86,6 +86,7 @@ function move(id: string, extra: Partial<Move>): Move {
     priority: 0,
     target: 'selected-pokemon',
     makesContact: true,
+    kinds: [],
     availableInChampions: true,
     caveats: [],
     ...extra,

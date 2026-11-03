@@ -119,6 +119,7 @@ export const moves: Move[] = [
   priority: 0,
   target: 'selected-pokemon',
   makesContact: false,
+  kinds: [],
   availableInChampions: available,
   caveats: [],
 })) as Move[];

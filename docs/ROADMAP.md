@@ -85,8 +85,9 @@ Generation 10, a regulation filter, pages for reference-only Pokémon.
 - **Damage calculator:** Smogon's `@smogon/calc` (MIT), whose "generation 0"
   is Champions, rather than a calculator of our own: it's the one the
   community checks against the games. The app's game data is laid over its
-  copy, so the Champions values win; its copy adds what the game data doesn't
-  keep (punch and sound moves, multi-hit counts, spread targets).
+  copy, so the Champions values win (move kinds and targets included); its
+  copy adds what the game data doesn't keep (recoil, draining, multi-hit
+  counts, secondary effects).
 
 - **Phone and computer:** the app is published with GitHub Pages from the
   public repository, so it works in any browser, and can be installed as an app

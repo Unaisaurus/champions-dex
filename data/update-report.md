@@ -1,6 +1,6 @@
-# Data update 2026-11-03.5
+# Data update 2026-11-03.6
 
-Generated 2026-11-03T16:29:23Z.
+Generated 2026-11-03T20:46:53Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -22,110 +22,11 @@ Game: version 1.2.2, Regulation M-C.
 
 ## Changes since the previous update
 
-### Changed: dex-entries (98)
+### Changed: moves (3)
 
-- abomasnow
-- absol
-- aerodactyl
-- aggron
-- alakazam
-- altaria
-- ampharos
-- arbok
-- arcanine
-- ariados
-- azumarill
-- banette
-- bastiodon
-- beedrill
-- blastoise
-- blaziken
-- camerupt
-- castform
-- charizard
-- chimecho
-- clefable
-- ditto
-- dragonite
-- empoleon
-- espeon
-- farfetchd
-- feraligatr
-- flareon
-- forretress
-- froslass
-- gallade
-- garchomp
-- gardevoir
-- gengar
-- glaceon
-- glalie
-- gliscor
-- gyarados
-- heracross
-- hippowdon
-- houndoom
-- infernape
-- jolteon
-- kangaskhan
-- leafeon
-- lopunny
-- lucario
-- luxray
-- machamp
-- mamoswine
-- manectric
-- mawile
-- medicham
-- meganium
-- metagross
-- milotic
-- mr-mime
-- ninetales
-- pelipper
-- persian
-- pidgeot
-- pikachu
-- pinsir
-- politoed
-- qwilfish
-- raichu
-- rampardos
-- rhyperior
-- roserade
-- rotom
-- sableye
-- salamence
-- sceptile
-- scizor
-- sharpedo
-- skarmory
-- slowbro
-- slowking
-- snorlax
-- spiritomb
-- staraptor
-- starmie
-- steelix
-- swalot
-- swampert
-- tauros
-- torkoal
-- torterra
-- toxicroak
-- typhlosion
-- tyranitar
-- umbreon
-- vaporeon
-- venusaur
-- victreebel
-- vileplume
-- weavile
-- wigglytuff
-
-### Changed: text (1)
-
-- game-names:2
+- coaching (target: user-and-allies → all-allies)
+- matcha-gotcha (target: selected-pokemon → all-opponents)
+- milk-drink (target: user → user-or-ally)
 
 
 ## Sources
@@ -176,6 +77,12 @@ Game: version 1.2.2, Regulation M-C.
 - kingambit (+1/−0)
 - archaludon (+1/−2)
 
+## Move targets the game files give differently from PokéAPI (the game's are used) (3)
+
+- `coaching`: all-allies in the game files, user-and-allies in PokéAPI
+- `matcha-gotcha`: all-opponents in the game files, selected-pokemon in PokéAPI
+- `milk-drink`: user-or-ally in the game files, user in PokéAPI
+
 ## Pokédex entries of single forms found in each game (14)
 
 - legends-za: 300 entries placed by label
@@ -201,3 +108,11 @@ Game: version 1.2.2, Regulation M-C.
 - squawkabilly-blue-plumage
 - squawkabilly-white-plumage
 - squawkabilly-yellow-plumage
+
+## Damage calculator: taken from the calculator's Scarlet and Violet data (1)
+
+- Move `pound`
+
+## Damage calculator: where the game data and Smogon's calculator disagree (1)
+
+- `growth`: type grass (calculator: normal). The game data is used.

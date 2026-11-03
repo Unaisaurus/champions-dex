@@ -140,7 +140,8 @@ so a data update can't silently change a team.
   the browser (not in backups: it's a scratchpad), checked on load.
 - `src/domain/damage/generation.ts`: `@smogon/calc`'s Champions data
   ("generation 0") with the game data laid over it: base stats, types and
-  weight of every form, type, category, power and priority of every move.
+  weight of every form; type, category, power, priority, contact, kinds
+  (as the calculator's flags) and spread targets of every move.
   Gaps are filled from its Scarlet and Violet data (`borrowed`), or built from
   the game data alone (`missing`, shown as a note on the result).
 - `src/domain/damage/calculate.ts`: turns the state into the calculator's

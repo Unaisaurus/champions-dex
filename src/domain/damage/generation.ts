@@ -5,9 +5,10 @@
  * Champions. It ships its own copy of the data, taken from Pokémon Showdown;
  * here that copy is merged with this app's data, which comes from the
  * Champions game files and wins wherever the two differ: the base stats,
- * types and weight of every form, and the type, category, power and priority
- * of every move. The calculator's copy adds the details this app doesn't keep
- * (which moves are punches or sound moves, recoil, multi-hit counts…).
+ * types and weight of every form, and the type, category, power, priority,
+ * contact, kind (punch, sound move…) and spread of every move. The
+ * calculator's copy adds the details this app doesn't keep (recoil, draining,
+ * multi-hit counts, secondary effects for Sheer Force…).
  *
  * Anything the calculator's Champions copy doesn't have (a Pokémon or move
  * added by a game update before the calculator is updated) is taken from its
@@ -17,7 +18,7 @@
  */
 import { Generations, toID } from '@smogon/calc';
 import type * as I from '@smogon/calc/dist/data/interface';
-import type { Ability, Alignment, Form, Id, Item, Move } from '@/data/contracts';
+import type { Ability, Alignment, Form, Id, Item, Move, MoveKind } from '@/data/contracts';
 
 /** What the calculator's data is built from (GameData has all of it). */
 export interface DamageSourceData {
@@ -83,6 +84,36 @@ function targetOf(target: string): I.MoveTarget {
     default:
       return 'normal';
   }
+}
+
+const SPREAD_TARGETS: ReadonlySet<string> = new Set(['allAdjacent', 'allAdjacentFoes']);
+
+/**
+ * The move's target: the calculator's own, unless the game data disagrees on
+ * whether it hits several Pokémon (only that matters for damage).
+ */
+function mergedTarget(move: Move, known: I.MoveTarget | undefined): I.MoveTarget {
+  const ours = targetOf(move.target);
+  if (!known) return ours;
+  return SPREAD_TARGETS.has(ours) === SPREAD_TARGETS.has(known) ? known : ours;
+}
+
+/** The game data's move kinds, as the calculator's flags. */
+const KIND_FLAGS: ReadonlyArray<[MoveKind, keyof I.MoveFlags]> = [
+  ['punch', 'punch'],
+  ['sound', 'sound'],
+  ['ball', 'bullet'],
+  ['pulse', 'pulse'],
+  ['bite', 'bite'],
+  ['slicing', 'slicing'],
+  ['wind', 'wind'],
+];
+
+function flagsOf(move: Move): I.MoveFlags {
+  const flags: { -readonly [K in keyof I.MoveFlags]: 1 } = {};
+  if (move.makesContact) flags.contact = 1;
+  for (const [kind, flag] of KIND_FLAGS) if (move.kinds.includes(kind)) flags[flag] = 1;
+  return flags;
 }
 
 /** Whether two Stat Alignments raise and lower the same stats (neutral ones: nothing). */
@@ -225,7 +256,7 @@ export function damageGeneration(data: DamageSourceData): DamageGeneration {
     missingItems.add(item.id);
   }
 
-  // Moves: this app's type, category, power and priority over the calculator's entry.
+  // Moves: this app's type, category, power, priority, contact, kinds and spread over the calculator's entry.
   const moveNames = new Map<Id, string>();
   const ownMoves = new Map<string, I.Move>();
   const missingMoves = new Set<Id>();
@@ -234,10 +265,7 @@ export function damageGeneration(data: DamageSourceData): DamageGeneration {
     const name = (known?.name ?? nameFromId(move.id)) as I.MoveName;
     const category = (move.category.charAt(0).toUpperCase() + move.category.slice(1)) as I.MoveCategory;
     ownMoves.set(toID(name), {
-      ...(known ?? {
-        flags: move.makesContact ? { contact: 1 } : {},
-        target: targetOf(move.target),
-      }),
+      ...known,
       kind: 'Move',
       id: toID(name),
       name,
@@ -246,6 +274,8 @@ export function damageGeneration(data: DamageSourceData): DamageGeneration {
       // Moves whose power is worked out in battle (Low Kick, Gyro Ball…) keep the calculator's.
       basePower: move.power ?? known?.basePower ?? 0,
       priority: move.priority,
+      flags: flagsOf(move),
+      target: mergedTarget(move, known?.target),
     });
     moveNames.set(move.id, name);
     if (!known) missingMoves.add(move.id);

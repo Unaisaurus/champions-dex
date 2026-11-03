@@ -351,6 +351,31 @@ export type Family = z.infer<typeof FamilySchema>;
 export const MoveCategorySchema = z.enum(['physical', 'special', 'status']);
 export type MoveCategory = z.infer<typeof MoveCategorySchema>;
 
+/**
+ * Kinds of move the games tell apart, because Abilities and items react to
+ * them: punches (Iron Fist), sound moves (Soundproof), dances (Dancer),
+ * slicing moves (Sharpness), wind moves (Wind Rider), powders (Overcoat),
+ * balls and bombs (Bulletproof), pulses (Mega Launcher), bites (Strong Jaw),
+ * explosions (Damp), moves that affect the mind (Aroma Veil) and healing
+ * moves (Triage).
+ */
+export const MOVE_KINDS = [
+  'punch',
+  'sound',
+  'dance',
+  'slicing',
+  'wind',
+  'powder',
+  'ball',
+  'pulse',
+  'bite',
+  'explosive',
+  'mental',
+  'healing',
+] as const;
+export const MoveKindSchema = z.enum(MOVE_KINDS);
+export type MoveKind = z.infer<typeof MoveKindSchema>;
+
 export const MoveSchema = z.object({
   id: IdSchema,
   type: IdSchema,
@@ -364,6 +389,8 @@ export const MoveSchema = z.object({
   /** Who the move hits, e.g. `selected-pokemon`, `all-opponents`, `user`. */
   target: z.string(),
   makesContact: z.boolean(),
+  /** What kind of move it is (a punch, a sound move…), as the game files say; most moves are none. */
+  kinds: z.array(MoveKindSchema).default([]),
   availableInChampions: z.boolean(),
   /**
    * The main-series values (Scarlet/Violet) of anything Champions changed, so

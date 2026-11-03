@@ -9,7 +9,7 @@
  * moves, multi-hit counts, which moves hit both opponents…).
  */
 import { Generations, toID } from '@smogon/calc';
-import type { CoreData } from '../../../src/data/contracts';
+import type { CoreData, MoveKind } from '../../../src/data/contracts';
 import { damageGeneration } from '../../../src/domain/damage/generation';
 
 export interface CalculatorNotes {
@@ -27,6 +27,18 @@ const STAT_NAMES = {
   spe: 'Speed',
 } as const;
 const SPREAD = new Set(['allAdjacent', 'allAdjacentFoes']);
+/** Move kinds the calculator keeps as flags of its own. */
+export const KIND_FLAGS: ReadonlyArray<
+  [MoveKind, 'punch' | 'sound' | 'bullet' | 'pulse' | 'bite' | 'slicing' | 'wind']
+> = [
+  ['punch', 'punch'],
+  ['sound', 'sound'],
+  ['ball', 'bullet'],
+  ['pulse', 'pulse'],
+  ['bite', 'bite'],
+  ['slicing', 'slicing'],
+  ['wind', 'wind'],
+];
 const ourSpread = (target: string) => target === 'all-opponents' || target === 'all-other-pokemon';
 
 export function calculatorNotes(
@@ -92,10 +104,19 @@ export function calculatorNotes(
     if (move.category !== 'status' && ourSpread(move.target) !== SPREAD.has(theirs.target ?? '')) {
       differences.push(
         `\`${move.id}\`: hits ${ourSpread(move.target) ? 'several Pokémon' : 'one Pokémon'} here (\`${move.target}\`), ` +
-          `${SPREAD.has(theirs.target ?? '') ? 'both opponents' : 'one Pokémon'} in the calculator (\`${theirs.target}\`), ` +
-          'whose target is used for damage. Check which is right.',
+          `${SPREAD.has(theirs.target ?? '') ? 'several' : 'one'} in the calculator (\`${theirs.target}\`). ` +
+          'The game data is used.',
       );
     }
+    const flags = theirs.flags ?? {};
+    const kinds = [
+      ...(move.makesContact !== !!flags.contact ? [`contact ${move.makesContact ? 'yes' : 'no'}`] : []),
+      ...KIND_FLAGS.filter(([kind, flag]) => move.kinds.includes(kind) !== !!flags[flag]).map(
+        ([kind, flag]) =>
+          `${kind} ${move.kinds.includes(kind) ? 'yes' : 'no'} (calculator: ${flags[flag] ? 'yes' : 'no'})`,
+      ),
+    ];
+    if (kinds.length) differences.push(`\`${move.id}\`: ${kinds.join(', ')}. The game data is used.`);
   }
   return { missing, borrowed, differences };
 }

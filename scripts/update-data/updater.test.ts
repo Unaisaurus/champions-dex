@@ -4,7 +4,7 @@
  * so they run offline and in a fraction of a second.
  */
 import { describe, expect, it } from 'vitest';
-import { usualChampionsPp } from './build/catalog';
+import { moveKinds, moveTarget, usualChampionsPp } from './build/catalog';
 import {
   cleanEntryText,
   closestLine,
@@ -111,6 +111,19 @@ describe('Pokémon Showdown names', () => {
 });
 
 describe('moves', () => {
+  it("reads the game's move targets and kinds", () => {
+    expect(moveTarget(5, 'selected-pokemon')).toBe('all-opponents');
+    expect(moveTarget(14, 'user-and-allies')).toBe('all-allies');
+    // An unknown game number falls back to PokéAPI's target.
+    expect(moveTarget(3, 'selected-pokemon-me-first')).toBe('selected-pokemon-me-first');
+    expect(moveTarget(3, undefined)).toBe('selected-pokemon');
+    expect(moveTarget(7, 'fainting-pokemon')).toBe('fainting-pokemon');
+    expect(moveKinds([1, 12])).toEqual(['punch', 'healing']);
+    expect(moveKinds([2, 2])).toEqual(['sound']);
+    expect(moveKinds([0, 0])).toEqual([]);
+    expect(moveKinds([99, 0])).toEqual([]);
+  });
+
   it('knows the usual Champions PP', () => {
     expect(usualChampionsPp(5)).toBe(8);
     expect(usualChampionsPp(10)).toBe(12);

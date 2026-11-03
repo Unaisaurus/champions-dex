@@ -20,10 +20,9 @@ describe("the update report's damage calculator notes", () => {
     const notes = calculatorNotes(core);
     expect(notes.missing).toEqual([]);
     expect(notes.borrowed).toContain('Move `pound`');
-    // PokéAPI says Matcha Gotcha hits one Pokémon; Showdown, both opponents.
-    expect(notes.differences.some((note) => note.startsWith('`matcha-gotcha`: hits one Pokémon here'))).toBe(
-      true,
-    );
+    // The game files and Showdown agree on targets, contact and move kinds;
+    // only Growth's type (Grass in Champions) is left.
+    expect(notes.differences).toEqual(['`growth`: type grass (calculator: normal). The game data is used.']);
   });
 
   it('notices a changed move or Pokémon', () => {

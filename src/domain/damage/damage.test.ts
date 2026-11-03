@@ -125,16 +125,26 @@ describe("the calculator's data", () => {
   });
 
   it('lets the game data win where it differs from the calculator’s copy', () => {
-    const moves = data.moves.map((move): Move =>
-      move.id === 'thunderbolt' ? { ...move, power: 120 } : move,
-    );
+    const moves = data.moves.map((move): Move => {
+      if (move.id === 'thunderbolt')
+        return { ...move, power: 120, target: 'all-opponents', kinds: ['sound'] };
+      // A spread move the game data says hits one Pokémon, and a punch that isn't one.
+      if (move.id === 'heat-wave') return { ...move, target: 'selected-pokemon' };
+      if (move.id === 'fire-punch') return { ...move, kinds: [], makesContact: false };
+      return move;
+    });
     const forms = data.forms.map((form): Form =>
       form.id === 'pikachu'
         ? { ...form, types: ['electric', 'steel'], baseStats: { ...form.baseStats, spa: 100 } }
         : form,
     );
     const changed = damageGeneration({ ...data, moves, forms });
-    expect(changed.gen.moves.get('thunderbolt' as never)?.basePower).toBe(120);
+    const move = (id: string) => changed.gen.moves.get(id as never);
+    expect(move('thunderbolt')?.basePower).toBe(120);
+    expect(move('thunderbolt')?.target).toBe('allAdjacentFoes');
+    expect(move('thunderbolt')?.flags).toEqual({ sound: 1 });
+    expect(move('heatwave')?.target).toBe('normal');
+    expect(move('firepunch')?.flags).toEqual({});
     const pikachu = changed.gen.species.get('pikachu' as never);
     expect(pikachu?.types).toEqual(['Electric', 'Steel']);
     expect(pikachu?.baseStats.spa).toBe(100);
@@ -159,6 +169,7 @@ describe("the calculator's data", () => {
       priority: 0,
       target: 'all-opponents',
       makesContact: false,
+      kinds: [],
       availableInChampions: true,
       caveats: [],
     };

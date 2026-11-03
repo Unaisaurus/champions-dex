@@ -52,6 +52,19 @@ export function compareData(before: CoreData | null, after: CoreData): Changes {
     before.moves.filter((m) => m.availableInChampions),
     after.moves.filter((m) => m.availableInChampions),
   );
+  // Move kinds arrived later: the update that adds them isn't a change to every move.
+  const compareKinds = before.moves.some((m) => m.kinds.length > 0);
+  const moveFields = [
+    'type',
+    'category',
+    'power',
+    'accuracy',
+    'pp',
+    'priority',
+    'target',
+    'makesContact',
+    ...(compareKinds ? (['kinds'] as const) : []),
+  ] as const;
   record(
     'moves',
     moves,
@@ -59,9 +72,7 @@ export function compareData(before: CoreData | null, after: CoreData): Changes {
       const a = moves.old.get(id);
       const b = moves.now.get(id);
       if (!a || !b) return [];
-      const fields = (
-        ['type', 'category', 'power', 'accuracy', 'pp', 'priority', 'target', 'makesContact'] as const
-      ).filter((f) => !same(a[f], b[f]));
+      const fields = moveFields.filter((f) => !same(a[f], b[f]));
       return fields.length
         ? [`${id} (${fields.map((f) => `${f}: ${String(a[f])} → ${String(b[f])}`).join(', ')})`]
         : [];

@@ -224,4 +224,21 @@ describe.runIf(real)('generated game data', () => {
     expect(move?.pp).toBe(8);
     expect(move?.mainSeries?.pp).toBe(10);
   });
+
+  it('takes move targets and kinds from the game files', () => {
+    const move = (id: string) => core.moves.find((m) => m.id === id);
+    // PokéAPI has these three wrong (or from before Champions changed them).
+    expect(move('matcha-gotcha')?.target).toBe('all-opponents');
+    expect(move('coaching')?.target).toBe('all-allies');
+    expect(move('milk-drink')?.target).toBe('user-or-ally');
+    // PokéAPI's says more than the game's "the user" for Revival Blessing.
+    expect(move('revival-blessing')?.target).toBe('fainting-pokemon');
+    expect(move('heat-wave')?.target).toBe('all-opponents');
+    expect(move('earthquake')?.target).toBe('all-other-pokemon');
+    expect(move('fire-punch')?.kinds).toEqual(['punch']);
+    expect(move('drain-punch')?.kinds).toEqual(['punch', 'healing']);
+    expect(move('aura-sphere')?.kinds).toEqual(['ball', 'pulse']);
+    expect(move('clangorous-soul')?.kinds).toEqual(['sound', 'dance']);
+    expect(move('thunderbolt')?.kinds).toEqual([]);
+  });
 });
