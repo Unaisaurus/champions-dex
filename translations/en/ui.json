@@ -158,6 +158,110 @@
       "forms": "All forms"
     }
   },
+  "dexSections": {
+    "label": "Pokédex lists",
+    "pokemon": "Pokémon",
+    "moves": "Moves",
+    "abilities": "Abilities",
+    "items": "Items"
+  },
+  "moves": {
+    "title": "Moves",
+    "intro": "Every move in Pokémon Champions, with its Champions numbers. Open one to see what it does and which Pokémon can learn it.",
+    "search": "Search moves",
+    "kind": "Kind of move",
+    "anyKind": "Any kind",
+    "kinds": {
+      "punch": "Punching moves",
+      "sound": "Sound moves",
+      "dance": "Dance moves",
+      "slicing": "Slicing moves",
+      "wind": "Wind moves",
+      "powder": "Powder moves",
+      "ball": "Ball and bomb moves",
+      "pulse": "Pulse moves",
+      "bite": "Biting moves",
+      "explosive": "Explosions",
+      "mental": "Moves that affect the mind",
+      "healing": "Healing moves"
+    },
+    "kindNotes": {
+      "punch": "Iron Fist makes punching moves 20% stronger.",
+      "sound": "Sound moves go through a substitute. Soundproof blocks them, Punk Rock makes them 30% stronger (and halves the damage they do to its holder), and Liquid Voice makes them Water-type.",
+      "dance": "When any other Pokémon uses a dance move, a Pokémon with Dancer copies it straight away.",
+      "slicing": "Sharpness makes slicing moves 50% stronger.",
+      "wind": "Wind Rider takes no damage from wind moves and raises its Attack instead; Wind Power gets charged by them, powering up its next Electric move. Tailwind sets off both.",
+      "powder": "Grass-type Pokémon, and Pokémon with Overcoat, aren't affected by powder moves.",
+      "ball": "Bulletproof blocks ball and bomb moves.",
+      "pulse": "Mega Launcher makes pulse moves 50% stronger (and Heal Pulse heal more).",
+      "bite": "Strong Jaw makes biting moves 50% stronger.",
+      "explosive": "No one can use these moves while a Pokémon with Damp is on the field.",
+      "mental": "Aroma Veil protects its holder and its allies from these moves.",
+      "healing": "Triage makes healing moves go first (priority +3), and Psychic Noise stops its target using them for two turns."
+    },
+    "changedOnly": "Changed in Champions",
+    "notFound": "There's no move “{{id}}”.",
+    "backToList": "Moves",
+    "contact": "Contact",
+    "contactYes": "Yes",
+    "contactNo": "No",
+    "notInChampions": "This move can't be used in Pokémon Champions.",
+    "kindsTitle": "Kind of move",
+    "allOfKind": "See them all",
+    "learners_one": "{{count}} Pokémon can learn it",
+    "learners_other": "{{count}} Pokémon can learn it",
+    "showInPokedex": "See them in the Pokédex",
+    "noLearners": "No Pokémon in Champions can learn it.",
+    "more": "All about {{name}}"
+  },
+  "abilities": {
+    "title": "Abilities",
+    "intro": "Every Ability in Pokémon Champions. Open one to see which Pokémon have it.",
+    "search": "Search Abilities",
+    "count_one": "{{count}} Ability",
+    "count_other": "{{count}} Abilities",
+    "noMatches": "No Abilities match.",
+    "pokemonCount_one": "{{count}} Pokémon",
+    "pokemonCount_other": "{{count}} Pokémon",
+    "notFound": "There's no Ability “{{id}}”.",
+    "backToList": "Abilities",
+    "notInChampions": "No Pokémon has this Ability in Pokémon Champions.",
+    "affectedMoves": "Moves it reacts to: {{kinds}}",
+    "holders_one": "{{count}} Pokémon can have it",
+    "holders_other": "{{count}} Pokémon can have it",
+    "showInPokedex": "See them in the Pokédex",
+    "noHolders": "No Pokémon in Champions has it.",
+    "more": "All about this Ability"
+  },
+  "items": {
+    "title": "Items",
+    "intro": "Every item a Pokémon can hold in Pokémon Champions: held items, Berries and Mega Stones.",
+    "search": "Search items",
+    "groupLabel": "Kind of item",
+    "groups": {
+      "held": "Held items",
+      "berry": "Berries",
+      "mega-stone": "Mega Stones"
+    },
+    "kinds": {
+      "held": "Held item",
+      "berry": "Berry",
+      "mega-stone": "Mega Stone",
+      "evolution": "Evolution item"
+    },
+    "count_one": "{{count}} item",
+    "count_other": "{{count}} items",
+    "noMatches": "No items match.",
+    "notFound": "There's no item “{{id}}”.",
+    "backToList": "Items",
+    "notInChampions": "This item can't be used in Pokémon Champions.",
+    "evolutions": "Evolution",
+    "evolutionHow": {
+      "use": "Use the item",
+      "hold": "While holding it"
+    },
+    "more": "All about {{name}}"
+  },
   "pokemon": {
     "notFound": "There's no Pokémon with the ID “{{id}}” in the current data.",
     "backToList": "Back to the Pokédex",
@@ -221,6 +325,10 @@
       "changed": "Changed",
       "changedTitle": "Changed in Champions.",
       "mainSeriesValues": "In the main series games: {{values}}.",
+      "kindsAdded_one": "Kind of move added: {{kinds}}.",
+      "kindsAdded_other": "Kinds of move added: {{kinds}}.",
+      "kindsRemoved_one": "Kind of move removed: {{kinds}}.",
+      "kindsRemoved_other": "Kinds of move removed: {{kinds}}.",
       "target": "Target",
       "contact": "Makes contact",
       "noContact": "Doesn't make contact",
@@ -404,7 +512,7 @@
     "intro": "Damage, KO chances and who moves first at level {{level}}, as in Pokémon Champions. Choose both Pokémon, or load them from your teams.",
     "credit": {
       "prefix": "Damage is worked out with",
-      "name": "Smogon’s damage calculator",
+      "name": "Smogon's damage calculator",
       "licence": "MIT licence"
     },
     "swap": "Swap sides",
@@ -412,7 +520,7 @@
     "showSide": "Show",
     "sides": {
       "ours": "Your Pokémon",
-      "theirs": "Opponent’s Pokémon"
+      "theirs": "Opponent's Pokémon"
     },
     "sidesShort": {
       "ours": "You",
@@ -423,12 +531,12 @@
       "fromTeam": "From a team",
       "change": "Change",
       "remove": "Remove",
-      "missing": "This Pokémon ({{id}}) isn’t in the game data anymore.",
+      "missing": "This Pokémon ({{id}}) isn't in the game data anymore.",
       "pick": {
         "ours": "Your Pokémon",
-        "theirs": "Opponent’s Pokémon"
+        "theirs": "Opponent's Pokémon"
       },
-      "noTeams": "You don’t have any teams with Pokémon yet.",
+      "noTeams": "You don't have any teams with Pokémon yet.",
       "form": "Form",
       "abilityOn": {
         "intimidate": "Intimidate the opponent",
@@ -500,7 +608,7 @@
       "wonderRoom": "Wonder Room",
       "sides": {
         "ours": "Your side",
-        "theirs": "Opponent’s side"
+        "theirs": "Opponent's side"
       },
       "reflect": "Reflect",
       "lightScreen": "Light Screen",
@@ -515,7 +623,7 @@
       "title": "Results",
       "choose": "Choose both Pokémon to see what their moves do to each other.",
       "against": "against",
-      "noMoves": "Choose {{name}}’s moves to see their damage.",
+      "noMoves": "Choose {{name}}'s moves to see their damage.",
       "statusMove": "Status move",
       "noDamage": "No effect",
       "movesFirst": "{{name}} moves first",
@@ -523,21 +631,21 @@
       "inTrickRoom": "(Trick Room)",
       "speeds": "Speed {{first}} vs {{second}}",
       "speedValue": "Speed {{speed}}",
-      "detailsTitle": "{{attacker}}’s {{move}} against {{defender}}",
+      "detailsTitle": "{{attacker}}'s {{move}} against {{defender}}",
       "hpRange": "{{min}}–{{max}} of {{total}} HP",
       "spread": "Hits both opponents, so it does 75% of its damage to each.",
       "recovery": "The attacker gets back {{min}}–{{max}} HP.",
       "hpLoss": "The attacker loses {{min}}–{{max}} HP.",
-      "recoil": "Recoil: {{min}} – {{max}} of the attacker’s HP.",
+      "recoil": "Recoil: {{min}} – {{max}} of the attacker's HP.",
       "crash": "If it misses, the attacker loses half its HP.",
       "currentHp": "The target has {{hp}} of {{max}} HP left.",
-      "incomplete": "Smogon’s calculator doesn’t know everything about one of these yet (such as which moves are punches or sound moves), so the result may be slightly off.",
+      "incomplete": "Smogon's calculator doesn't know everything about one of these yet (such as which moves are punches or sound moves), so the result may be slightly off.",
       "rolls": "Possible damage (each is equally likely)",
       "hit": "Hit {{n}}:",
-      "showdown": "As Pokémon Showdown’s calculator writes it (in English):",
+      "showdown": "As Pokémon Showdown's calculator writes it (in English):",
       "copy": "Copy",
       "copied": "Copied",
-      "copyFailed": "Couldn’t copy it. Select the text and copy it yourself."
+      "copyFailed": "Couldn't copy it. Select the text and copy it yourself."
     },
     "ko": {
       "ohko": "OHKO",

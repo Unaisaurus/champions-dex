@@ -2,6 +2,7 @@
  * Moves, Abilities, items, Stat Alignments and types: Champions values from
  * the game files, compared with the main series where that's useful.
  */
+import { Generations, toID } from '@smogon/calc';
 import type {
   Ability,
   Alignment,
@@ -12,6 +13,7 @@ import type {
   StatId,
   TypesFile,
 } from '../../../src/data/contracts';
+import { KIND_FLAGS } from '../../../src/domain/damage/generation';
 import { int } from '../lib/csv';
 import type { Context } from './context';
 import type { FormDraft, MegaStone } from './forms';
@@ -68,6 +70,12 @@ export const GAME_MOVE_TARGETS: Readonly<Record<number, string>> = {
 /** PokéAPI's targets that say more than the game's number does (Revival Blessing: a fainted ally). */
 const MORE_SPECIFIC_TARGETS = new Set(['fainting-pokemon']);
 
+/**
+ * Moves whose PokéAPI target is wrong for the main series too, so a different
+ * target in the game files isn't a Champions change (see `GAME_MOVE_TARGETS`).
+ */
+const WRONG_POKEAPI_TARGETS = new Set(['matcha-gotcha', 'coaching']);
+
 /** The game's move kind numbers (0: none). */
 export const GAME_MOVE_KINDS: Readonly<Record<number, MoveKind>> = {
   1: 'punch',
@@ -101,6 +109,27 @@ export function moveKinds(numbers: readonly number[]): MoveKind[] {
     if (kind && !kinds.includes(kind)) kinds.push(kind);
   }
   return kinds;
+}
+
+/**
+ * A move's kinds in the main series, when Champions changed them (it made
+ * Double Shock a punching move, for one). Smogon's Scarlet and Violet data
+ * (from Pokémon Showdown) says which of the kinds it keeps the move has; the
+ * others are taken to be as in Champions. Undefined when nothing changed, or
+ * when the calculator doesn't know the move.
+ */
+export function mainSeriesKinds(id: string, kinds: readonly MoveKind[]): MoveKind[] | undefined {
+  const theirs = Generations.get(9).moves.get(toID(id));
+  if (!theirs) return undefined;
+  const flags = theirs.flags ?? {};
+  const hasKind = (kind: MoveKind) => {
+    const flag = KIND_FLAGS.find(([known]) => known === kind)?.[1];
+    return flag ? !!flags[flag] : kinds.includes(kind);
+  };
+  const main = [...kinds, ...KIND_FLAGS.map(([kind]) => kind).filter((kind) => !kinds.includes(kind))].filter(
+    hasKind,
+  );
+  return main.length === kinds.length && main.every((kind) => kinds.includes(kind)) ? undefined : main;
 }
 
 /** Champions' usual PP from the main-series PP: 5 → 8, 10 → 12, 15 → 16, 20 or more → 20. */
@@ -176,6 +205,11 @@ export function buildMoves(ctx: Context, referenced: ReadonlySet<string>): Moves
       if (accuracyMatters && mainAccuracy !== move.accuracy) differences.accuracy = mainAccuracy;
       if (mainPp > 0 && usualChampionsPp(mainPp) !== move.pp) differences.pp = mainPp;
       if (int(main.priority) !== move.priority) differences.priority = int(main.priority);
+      if (pokeapiTarget && pokeapiTarget !== target && !WRONG_POKEAPI_TARGETS.has(id)) {
+        differences.target = pokeapiTarget;
+      }
+      const mainKinds = mainSeriesKinds(id, move.kinds);
+      if (mainKinds) differences.kinds = mainKinds;
       if (Object.keys(differences).length > 0) move.mainSeries = differences;
     }
     moves.push(move);

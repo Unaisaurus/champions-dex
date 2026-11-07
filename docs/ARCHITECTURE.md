@@ -101,6 +101,29 @@ and brings Back to where you were; the Pokédex list remembers its position per
 address. Changes within a page (filters, switching forms, picking a team
 member) pass `preventScrollReset`, so the page stays put.
 
+**Moves, Abilities and items** (`src/features/catalog/`, routes `#/moves`,
+`#/abilities`, `#/items` and a page for each, like `#/moves/drain-punch`).
+The tabs above these lists and the Pokédex are `DexSections`, built on
+`SectionTabs` (`src/ui/components/`, which the calculator's tabs use too), and
+the menu's Pokédex item stays lit on all of them (`AppShell`).
+
+- `src/domain/moveList.ts`: the move list's query (search, type, category,
+  kind, changed in Champions, sort), kept in the page address like the
+  Pokédex's (`useAddressQuery`); rows are sorted by the learnset's
+  `sortMoveRows`.
+- `src/domain/references.ts`: who uses what, worked out once per data load
+  (`useReferences`): the Pokémon that learn each move (each gameplay form
+  once; Megas left out, as they use their regular form's moves), the Pokémon
+  with each Ability (Megas included), the evolutions each item is used or
+  held for, and the Abilities that react to each kind of move
+  (`KIND_ABILITIES`, kept by hand: the game files don't link them). Move kinds
+  themselves come from the game files (`kinds`, see
+  [DATA-SOURCES.md](DATA-SOURCES.md)).
+- Links to these pages: the Ability bubble (`AbilityName`), a learnset row's
+  details, the evolution tree's items and moves (`useEvolutionText.tsx`
+  returns the method with links in it), the Mega Stone on a Pokémon's page,
+  and the team builder's move and item details.
+
 **The team builder** (`src/features/team-builder/`) edits teams that store
 only IDs and numbers (`src/domain/team.ts`), never names or copied game values,
 so a data update can't silently change a team.

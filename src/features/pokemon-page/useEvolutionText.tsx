@@ -1,21 +1,48 @@
-import { useCallback } from 'react';
+import { Fragment, useCallback, type ReactNode } from 'react';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { EvolutionCondition } from '@/data/contracts';
 import { describeCondition, type EvolutionPhrase } from '@/domain/evolution';
 import { useGameText } from '@/i18n/useGameText';
+import styles from './EvolutionTree.module.css';
+
+/** Stands in for a name in a translated sentence, so a link can take its place. */
+const SLOT = '\u0001';
+
+/** The sentence with the link where the slot was. */
+function withLink(sentence: string, link: ReactNode): ReactNode {
+  const index = sentence.indexOf(SLOT);
+  if (index < 0) return sentence;
+  return (
+    <>
+      {sentence.slice(0, index)}
+      {link}
+      {sentence.slice(index + SLOT.length)}
+    </>
+  );
+}
 
 /**
  * Evolution methods in the current language: "Level 16", "Thunder Stone, in
- * Alola". Alternatives (any one works) are joined with "or".
+ * Alola". Alternatives (any one works) are joined with "or". Items and moves
+ * open their own pages.
  */
-export function useEvolutionText(): (conditions: readonly EvolutionCondition[]) => string {
+export function useEvolutionText(): (conditions: readonly EvolutionCondition[]) => ReactNode {
   const { t } = useTranslation();
   const text = useGameText();
 
   const phrase = useCallback(
-    (p: EvolutionPhrase): string => {
-      const item = (id: string) => text.name('item-names', id);
-      const move = (id: string) => text.name('move-names', id);
+    (p: EvolutionPhrase): ReactNode => {
+      const item = (id: string) => (
+        <Link to={`/items/${id}`} className={styles.methodLink}>
+          {text.name('item-names', id)}
+        </Link>
+      );
+      const move = (id: string) => (
+        <Link to={`/moves/${id}`} className={styles.methodLink}>
+          {text.name('move-names', id)}
+        </Link>
+      );
       const type = (id: string) => text.name('type-names', id);
       const pokemon = (id: string) => text.name('pokemon-names', id);
       switch (p.key) {
@@ -26,16 +53,16 @@ export function useEvolutionText(): (conditions: readonly EvolutionCondition[]) 
         case 'useMove':
         case 'agileStyle':
         case 'strongStyle':
-          return t(`evolution.${p.key}`, { move: move(p.move), count: p.count });
+          return withLink(t(`evolution.${p.key}`, { move: SLOT, count: p.count }), move(p.move));
         case 'recoil':
         case 'takeDamage':
           return t(`evolution.${p.key}`, { damage: p.damage });
         case 'tower':
           return t(`evolution.tower.${p.tower}`);
         case 'holding':
-          return t('evolution.holding', { item: item(p.item) });
+          return withLink(t('evolution.holding', { item: SLOT }), item(p.item));
         case 'knowingMove':
-          return t('evolution.knowingMove', { move: move(p.move) });
+          return withLink(t('evolution.knowingMove', { move: SLOT }), move(p.move));
         case 'knowingMoveType':
           return t('evolution.knowingMoveType', { type: type(p.type) });
         case 'time':
@@ -65,9 +92,17 @@ export function useEvolutionText(): (conditions: readonly EvolutionCondition[]) 
 
   return useCallback(
     (conditions) =>
-      conditions
-        .map((condition) => describeCondition(condition).map(phrase).join(', '))
-        .join(t('evolution.or')),
+      conditions.map((condition, alternative) => (
+        <Fragment key={alternative}>
+          {alternative > 0 && t('evolution.or')}
+          {describeCondition(condition).map((part, index) => (
+            <Fragment key={index}>
+              {index > 0 && ', '}
+              {phrase(part)}
+            </Fragment>
+          ))}
+        </Fragment>
+      )),
     [phrase, t],
   );
 }

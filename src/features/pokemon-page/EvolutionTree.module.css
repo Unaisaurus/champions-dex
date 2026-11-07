@@ -148,3 +148,9 @@
     max-width: 260px;
   }
 }
+
+/* Items and moves in an evolution method open their pages. */
+.methodLink {
+  color: inherit;
+  text-underline-offset: 3px;
+}

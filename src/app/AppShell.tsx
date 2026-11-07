@@ -1,5 +1,5 @@
 import { Calculator, LayoutGrid, Settings, Users } from 'lucide-react';
-import { NavLink, Outlet, ScrollRestoration, type Location } from 'react-router';
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation, type Location } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { AddToTeamDialog } from '@/features/team-builder/AddToTeamDialog';
 import { LanguageSwitcher } from '@/ui/components/LanguageSwitcher';
@@ -14,6 +14,9 @@ const NAV_ITEMS = [
   { to: '/settings', labelKey: 'nav.settings', Icon: Settings, end: false },
 ] as const;
 
+/** The Pokédex's pages: its lists (Pokémon, moves, Abilities, items) and what they open. */
+const POKEDEX_PAGES = /^\/(?:$|pokemon\/|moves(?:\/|$)|abilities(?:\/|$)|items(?:\/|$))/;
+
 /**
  * Where each page's scroll position is remembered: the Pokédex list by its
  * address (so coming back to the same list lands where you left it), every
@@ -26,13 +29,27 @@ const scrollKey = (location: Location) =>
 /** Header, navigation (top bar on wide screens, tab bar on phones) and the page area. */
 export function AppShell() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const inPokedex = POKEDEX_PAGES.test(pathname);
   const navLinks = (className: string) =>
-    NAV_ITEMS.map(({ to, labelKey, Icon, end }) => (
-      <NavLink key={to} to={to} end={end} className={className}>
-        <Icon size={20} strokeWidth={2} aria-hidden="true" />
-        <span>{t(labelKey)}</span>
-      </NavLink>
-    ));
+    NAV_ITEMS.map(({ to, labelKey, Icon, end }) => {
+      const content = (
+        <>
+          <Icon size={20} strokeWidth={2} aria-hidden="true" />
+          <span>{t(labelKey)}</span>
+        </>
+      );
+      // The Pokédex item stays lit on the Pokédex's other pages too.
+      return to === '/' ? (
+        <Link key={to} to={to} className={className} aria-current={inPokedex ? 'page' : undefined}>
+          {content}
+        </Link>
+      ) : (
+        <NavLink key={to} to={to} end={end} className={className}>
+          {content}
+        </NavLink>
+      );
+    });
 
   return (
     <div className={styles.shell}>

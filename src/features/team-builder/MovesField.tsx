@@ -1,4 +1,5 @@
 import { useId, useMemo } from 'react';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import type { Form, Id, Move } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
@@ -135,6 +136,9 @@ function MoveFacts({ move }: { move: Move }) {
         )}
       </div>
       {description && <p className={styles.moveDescription}>{description}</p>}
+      <Link to={`/moves/${move.id}`} className={styles.textLink}>
+        {t('moves.more', { name: text.name('move-names', move.id) })}
+      </Link>
     </div>
   );
 }

@@ -9,8 +9,8 @@
  * moves, multi-hit counts, which moves hit both opponents…).
  */
 import { Generations, toID } from '@smogon/calc';
-import type { CoreData, MoveKind } from '../../../src/data/contracts';
-import { damageGeneration } from '../../../src/domain/damage/generation';
+import type { CoreData } from '../../../src/data/contracts';
+import { damageGeneration, KIND_FLAGS } from '../../../src/domain/damage/generation';
 
 export interface CalculatorNotes {
   missing: string[];
@@ -27,18 +27,6 @@ const STAT_NAMES = {
   spe: 'Speed',
 } as const;
 const SPREAD = new Set(['allAdjacent', 'allAdjacentFoes']);
-/** Move kinds the calculator keeps as flags of its own. */
-export const KIND_FLAGS: ReadonlyArray<
-  [MoveKind, 'punch' | 'sound' | 'bullet' | 'pulse' | 'bite' | 'slicing' | 'wind']
-> = [
-  ['punch', 'punch'],
-  ['sound', 'sound'],
-  ['ball', 'bullet'],
-  ['pulse', 'pulse'],
-  ['bite', 'bite'],
-  ['slicing', 'slicing'],
-  ['wind', 'wind'],
-];
 const ourSpread = (target: string) => target === 'all-opponents' || target === 'all-other-pokemon';
 
 export function calculatorNotes(

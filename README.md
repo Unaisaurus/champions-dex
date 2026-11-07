@@ -11,8 +11,27 @@ computer: no account, no server of your own, nothing to pay.
 > editor inside the app, an installable app that works offline, and a page
 > listing what each data update changed. Shiny artwork is lined up with the
 > regular art, and missing or odd artwork can be replaced with credited fan
-> art. Since then: a damage calculator and Speed tiers. See
-> [docs/ROADMAP.md](docs/ROADMAP.md).
+> art. Since then: a damage calculator, Speed tiers, and a page for every
+> move, Ability and item. See [docs/ROADMAP.md](docs/ROADMAP.md).
+
+## Moves, Abilities and items
+
+The tabs above the Pokédex (**Pokémon · Moves · Abilities · Items**) list
+every move, Ability and item in Champions.
+
+- **Moves** can be searched, filtered by type, category, kind (punching,
+  sound, slicing moves…) or just the ones Champions changed, and sorted by
+  any column. A move's page has its Champions numbers, its target, whether it
+  makes contact, what changed from the main series, the Abilities that react
+  to its kind (Iron Fist for punching moves, say), and every Pokémon that can
+  learn it.
+- An **Ability's** page has what it does, the moves it reacts to, and every
+  Pokémon that can have it, Mega Evolutions included.
+- An **item's** page has what it does and, for a Mega Stone or an evolution
+  item, which Pokémon it's for.
+
+The names of moves, Abilities and items elsewhere in the app (on a Pokémon's
+page, in its evolutions and moves, in the team builder) link to these pages.
 
 ## Building teams
 

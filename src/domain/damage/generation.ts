@@ -98,8 +98,8 @@ function mergedTarget(move: Move, known: I.MoveTarget | undefined): I.MoveTarget
   return SPREAD_TARGETS.has(ours) === SPREAD_TARGETS.has(known) ? known : ours;
 }
 
-/** The game data's move kinds, as the calculator's flags. */
-const KIND_FLAGS: ReadonlyArray<[MoveKind, keyof I.MoveFlags]> = [
+/** The game data's move kinds that the calculator keeps, as its flags. */
+export const KIND_FLAGS: ReadonlyArray<[MoveKind, keyof I.MoveFlags]> = [
   ['punch', 'punch'],
   ['sound', 'sound'],
   ['ball', 'bullet'],

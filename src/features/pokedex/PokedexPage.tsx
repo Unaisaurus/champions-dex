@@ -11,6 +11,7 @@ import {
   type PokedexQuery,
   type PokedexRow,
 } from '@/domain/pokedex';
+import { DexSections } from '@/features/catalog/DexSections';
 import { useGameText } from '@/i18n/useGameText';
 import { Button } from '@/ui/components/Button';
 import { Notice } from '@/ui/components/Notice';
@@ -80,7 +81,10 @@ export function PokedexPage() {
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <h1>{t('pokedex.title')}</h1>
+        <div className={styles.headingRow}>
+          <h1>{t('pokedex.title')}</h1>
+          <DexSections />
+        </div>
         {data.manifest.sample && <Notice>{t('data.sampleNotice')}</Notice>}
       </header>
 

@@ -551,6 +551,19 @@ button.freeSlot:hover {
   line-height: 1.45;
 }
 
+.itemCardText {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.itemCardText .textLink,
+.moveFacts .textLink {
+  justify-self: start;
+  font-size: 14px;
+}
+
 .mega {
   display: flex;
   align-items: center;

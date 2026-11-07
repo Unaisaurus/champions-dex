@@ -305,6 +305,16 @@
   color: var(--lens);
 }
 
+.moveLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 650;
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chevron {
     transition: none;

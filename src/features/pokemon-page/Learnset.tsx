@@ -1,7 +1,8 @@
-import { ArrowDownWideNarrow, ArrowUpNarrowWide, ChevronDown, Search } from 'lucide-react';
+import { ArrowDownWideNarrow, ArrowRight, ArrowUpNarrowWide, ChevronDown, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import type { Form, Id, LearnMethod, Move, MoveCategory } from '@/data/contracts';
+import type { Form, Id, LearnMethod, Move, MoveCategory, MoveKind } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import {
   DEFAULT_LEARNSET_QUERY,
@@ -26,7 +27,8 @@ import styles from './Learnset.module.css';
 const CATEGORIES: readonly MoveCategory[] = ['physical', 'special', 'status'];
 const METHOD_ORDER = LEARN_FILTERS.filter((tag): tag is LearnMethod => tag !== 'new');
 
-function MainSeriesChanges({ move }: { move: Move }) {
+/** What Champions changed about a move, with the main series' values. */
+export function MainSeriesChanges({ move }: { move: Move }) {
   const { t } = useTranslation();
   const text = useGameText();
   const changes = move.mainSeries;
@@ -40,10 +42,24 @@ function MainSeriesChanges({ move }: { move: Move }) {
     parts.push(`${t('pokemon.moves.accuracy')}: ${changes.accuracy ?? '—'}`);
   if (changes.pp !== undefined) parts.push(`${t('pokemon.moves.pp')}: ${changes.pp}`);
   if (changes.priority !== undefined) parts.push(`${t('pokemon.moves.priority')}: ${changes.priority}`);
+  if (changes.target)
+    parts.push(
+      `${t('pokemon.moves.target')}: ${t(`moveTargets.${changes.target}`, { defaultValue: changes.target })}`,
+    );
+  const sentences = parts.length ? [t('pokemon.moves.mainSeriesValues', { values: parts.join(' · ') })] : [];
+  if (changes.kinds) {
+    const kindNames = (kinds: readonly MoveKind[]) =>
+      kinds.map((kind) => t(`moves.kinds.${kind}`)).join(', ');
+    const added = move.kinds.filter((kind) => !changes.kinds?.includes(kind));
+    const removed = changes.kinds.filter((kind) => !move.kinds.includes(kind));
+    if (added.length)
+      sentences.push(t('pokemon.moves.kindsAdded', { count: added.length, kinds: kindNames(added) }));
+    if (removed.length)
+      sentences.push(t('pokemon.moves.kindsRemoved', { count: removed.length, kinds: kindNames(removed) }));
+  }
   return (
     <p className={styles.changes}>
-      <strong>{t('pokemon.moves.changedTitle')}</strong>{' '}
-      {t('pokemon.moves.mainSeriesValues', { values: parts.join(' · ') })}
+      <strong>{t('pokemon.moves.changedTitle')}</strong> {sentences.join(' ')}
     </p>
   );
 }
@@ -311,6 +327,10 @@ export function Learnset({ form }: { form: Form }) {
                         )}
                       </p>
                       <MainSeriesChanges move={move} />
+                      <Link to={`/moves/${move.id}`} className={styles.moveLink}>
+                        {t('moves.more', { name })}
+                        <ArrowRight size={15} aria-hidden="true" />
+                      </Link>
                     </td>
                   </tr>
                 )}

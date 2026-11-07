@@ -4,7 +4,7 @@
  * so they run offline and in a fraction of a second.
  */
 import { describe, expect, it } from 'vitest';
-import { moveKinds, moveTarget, usualChampionsPp } from './build/catalog';
+import { mainSeriesKinds, moveKinds, moveTarget, usualChampionsPp } from './build/catalog';
 import {
   cleanEntryText,
   closestLine,
@@ -122,6 +122,16 @@ describe('moves', () => {
     expect(moveKinds([2, 2])).toEqual(['sound']);
     expect(moveKinds([0, 0])).toEqual([]);
     expect(moveKinds([99, 0])).toEqual([]);
+  });
+
+  it('finds the move kinds Champions changed', () => {
+    // Champions made Double Shock a punching move; it's none in the main series.
+    expect(mainSeriesKinds('double-shock', ['punch'])).toEqual([]);
+    expect(mainSeriesKinds('fire-punch', ['punch'])).toBeUndefined();
+    // Kinds the calculator doesn't keep (healing) are taken to be unchanged.
+    expect(mainSeriesKinds('drain-punch', ['punch', 'healing'])).toBeUndefined();
+    expect(mainSeriesKinds('drain-punch', ['healing'])).toEqual(['healing', 'punch']);
+    expect(mainSeriesKinds('not-a-move', ['punch'])).toBeUndefined();
   });
 
   it('knows the usual Champions PP', () => {

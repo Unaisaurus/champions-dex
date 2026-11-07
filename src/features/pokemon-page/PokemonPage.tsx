@@ -97,9 +97,11 @@ function SpeciesFacts({ species, profile }: { species: Species; profile: Form })
         {megaStone && (
           <div>
             <dt>{t('pokemon.megaStone')}</dt>
-            <dd className={styles.item}>
-              <ArtImage keys={[megaStone.icon]} alt="" width={28} height={28} />
-              {text.name('item-names', megaStone.id)}
+            <dd>
+              <Link to={`/items/${megaStone.id}`} className={styles.item}>
+                <ArtImage keys={[megaStone.icon]} alt="" width={28} height={28} />
+                {text.name('item-names', megaStone.id)}
+              </Link>
             </dd>
           </div>
         )}

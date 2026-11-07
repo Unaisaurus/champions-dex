@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router';
 import { useTranslation } from 'react-i18next';
+import { SectionTabs } from '@/ui/components/SectionTabs';
 import styles from './Calculator.module.css';
 
 /** The calculator's title and its two views: damage and Speed tiers. */
@@ -9,14 +9,13 @@ export function CalcHeader({ intro }: { intro: string }) {
     <header className={styles.header}>
       <div className={styles.headingRow}>
         <h1>{t('calc.title')}</h1>
-        <nav className={styles.tabs} aria-label={t('calc.tabs.label')}>
-          <NavLink to="/calc" end className={styles.tab}>
-            {t('calc.tabs.damage')}
-          </NavLink>
-          <NavLink to="/calc/speed" className={styles.tab}>
-            {t('calc.tabs.speed')}
-          </NavLink>
-        </nav>
+        <SectionTabs
+          label={t('calc.tabs.label')}
+          tabs={[
+            { to: '/calc', label: t('calc.tabs.damage'), end: true },
+            { to: '/calc/speed', label: t('calc.tabs.speed') },
+          ]}
+        />
       </div>
       <p className={styles.intro}>{intro}</p>
     </header>

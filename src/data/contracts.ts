@@ -395,7 +395,8 @@ export const MoveSchema = z.object({
   /**
    * The main-series values (Scarlet/Violet) of anything Champions changed, so
    * the app can point out differences. PP is listed when it isn't the usual
-   * Champions conversion of the main-series PP.
+   * Champions conversion of the main-series PP; kinds, the whole main-series
+   * list when it isn't the Champions one (an empty list: none).
    */
   mainSeries: z
     .object({
@@ -405,6 +406,8 @@ export const MoveSchema = z.object({
       accuracy: z.number().int().nullable().optional(),
       pp: z.number().int().optional(),
       priority: z.number().int().optional(),
+      target: z.string().optional(),
+      kinds: z.array(MoveKindSchema).optional(),
     })
     .optional(),
   caveats: z.array(CaveatSchema).default([]),

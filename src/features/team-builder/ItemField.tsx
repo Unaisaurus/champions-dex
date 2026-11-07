@@ -64,7 +64,12 @@ export function ItemField({
       {item && (
         <div className={styles.itemCard}>
           <ArtImage keys={[item.icon]} alt="" width={40} height={40} />
-          {description && <p>{description}</p>}
+          <div className={styles.itemCardText}>
+            {description && <p>{description}</p>}
+            <Link to={`/items/${item.id}`} className={styles.textLink}>
+              {t('items.more', { name: text.name('item-names', item.id) })}
+            </Link>
+          </div>
         </div>
       )}
       {mega && <MegaPreview mega={mega} />}

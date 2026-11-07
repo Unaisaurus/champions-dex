@@ -1,6 +1,6 @@
-# Data update 2026-11-03.6
+# Data update 2026-11-07
 
-Generated 2026-11-03T20:46:53Z.
+Generated 2026-11-07T10:36:15Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -10,7 +10,7 @@ Game: version 1.2.2, Regulation M-C.
 - Reference forms (family members outside Champions): 270
 - Evolution families: 209
 - Moves available in Champions: 512
-- Moves changed from the main series: 29
+- Moves changed from the main series: 36
 - Abilities: 215
 - Items in Champions: 166
 - Learnset entries: 16073
@@ -22,12 +22,7 @@ Game: version 1.2.2, Regulation M-C.
 
 ## Changes since the previous update
 
-### Changed: moves (3)
-
-- coaching (target: user-and-allies → all-allies)
-- matcha-gotcha (target: selected-pokemon → all-opponents)
-- milk-drink (target: user → user-or-ally)
-
+No changes to Pokémon, moves, items, learnsets or text.
 
 ## Sources
 

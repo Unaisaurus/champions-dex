@@ -241,4 +241,16 @@ describe.runIf(real)('generated game data', () => {
     expect(move('clangorous-soul')?.kinds).toEqual(['sound', 'dance']);
     expect(move('thunderbolt')?.kinds).toEqual([]);
   });
+
+  it('notes the targets and kinds Champions changed', () => {
+    const move = (id: string) => core.moves.find((m) => m.id === id);
+    expect(move('milk-drink')?.mainSeries?.target).toBe('user');
+    // PokéAPI is wrong about these two, so they aren't changes.
+    expect(move('matcha-gotcha')?.mainSeries?.target).toBeUndefined();
+    expect(move('coaching')?.mainSeries?.target).toBeUndefined();
+    expect(move('double-shock')?.mainSeries?.kinds).toEqual([]);
+    expect(move('dragon-claw')?.mainSeries?.kinds).toEqual([]);
+    expect(move('dragon-cheer')?.mainSeries?.kinds).toEqual([]);
+    expect(move('fire-punch')?.mainSeries).toBeUndefined();
+  });
 });

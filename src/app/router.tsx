@@ -1,5 +1,11 @@
 import { createHashRouter } from 'react-router';
 import { ArtworkPage } from '@/features/artwork/ArtworkPage';
+import { AbilitiesPage } from '@/features/catalog/AbilitiesPage';
+import { AbilityPage } from '@/features/catalog/AbilityPage';
+import { ItemPage } from '@/features/catalog/ItemPage';
+import { ItemsPage } from '@/features/catalog/ItemsPage';
+import { MovePage } from '@/features/catalog/MovePage';
+import { MovesPage } from '@/features/catalog/MovesPage';
 import { ChangelogPage } from '@/features/changelog/ChangelogPage';
 import { PokedexPage } from '@/features/pokedex/PokedexPage';
 import { PokemonPage } from '@/features/pokemon-page/PokemonPage';
@@ -22,6 +28,12 @@ export const router = createHashRouter([
     children: [
       { index: true, element: <PokedexPage /> },
       { path: 'pokemon/:formId', element: <PokemonPage /> },
+      { path: 'moves', element: <MovesPage /> },
+      { path: 'moves/:moveId', element: <MovePage /> },
+      { path: 'abilities', element: <AbilitiesPage /> },
+      { path: 'abilities/:abilityId', element: <AbilityPage /> },
+      { path: 'items', element: <ItemsPage /> },
+      { path: 'items/:itemId', element: <ItemPage /> },
       { path: 'teams', element: <TeamsPage /> },
       { path: 'teams/:teamId', element: <TeamEditorPage /> },
       { path: 'calc', element: <CalculatorRoute /> },

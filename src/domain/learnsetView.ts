@@ -116,9 +116,19 @@ export function viewLearnset(
     rows.push({ entry, move, name: source.name(move.id) });
   }
 
-  const direction = query.direction === 'asc' ? 1 : -1;
-  const byName = (a: LearnsetRow, b: LearnsetRow) => source.compareNames(a.name, b.name);
-  const compare: Record<MoveSortKey, (a: LearnsetRow, b: LearnsetRow) => number> = {
+  return sortMoveRows(rows, source, query.sort, query.direction);
+}
+
+/** Sorts move rows by a column; ties (and everything else) by name. */
+export function sortMoveRows<T extends { move: Move; name: string }>(
+  rows: T[],
+  source: Pick<LearnsetViewSource, 'compareNames' | 'typeOrder'>,
+  sort: MoveSortKey,
+  direction: 'asc' | 'desc',
+): T[] {
+  const sign = direction === 'asc' ? 1 : -1;
+  const byName = (a: T, b: T) => source.compareNames(a.name, b.name);
+  const compare: Record<MoveSortKey, (a: T, b: T) => number> = {
     name: byName,
     type: (a, b) => source.typeOrder(a.move.type) - source.typeOrder(b.move.type),
     category: (a, b) => CATEGORY_ORDER[a.move.category] - CATEGORY_ORDER[b.move.category],
@@ -126,13 +136,12 @@ export function viewLearnset(
     accuracy: (a, b) => accuracyValue(a.move) - accuracyValue(b.move),
     pp: (a, b) => a.move.pp - b.move.pp,
   };
-  const primary = compare[query.sort];
-  rows.sort((a, b) => {
+  const primary = compare[sort];
+  return rows.sort((a, b) => {
     // Moves without power (status moves) stay at the bottom when sorting by power.
-    if (query.sort === 'power' && (a.move.power === null) !== (b.move.power === null)) {
+    if (sort === 'power' && (a.move.power === null) !== (b.move.power === null)) {
       return a.move.power === null ? 1 : -1;
     }
-    return primary(a, b) * direction || byName(a, b);
+    return primary(a, b) * sign || byName(a, b);
   });
-  return rows;
 }

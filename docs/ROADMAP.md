@@ -49,18 +49,25 @@ and a visual review.
       Shiny artwork lined up with the regular art, credited fan art for
       missing or odd artwork, and an artwork check page.
 
-Next: pages for moves, Abilities and items.
-
 Done since Stage 6:
 
-- "Report a problem" on every Pokémon page and in Settings, opening a GitHub
-  issue with the page and data version filled in.
+- "Report a problem" on every Pokémon, move, Ability and item page and in
+  Settings, opening a GitHub issue with the page and data version filled in.
 - Damage calculator (Smogon's calculator with the Champions game data: both
   Pokémon with battle forms, Abilities, items, Stat Points, stages, status and
   HP; the battlefield; damage, KO chances, every roll and who moves first,
   both ways; loading from your teams) and Speed tiers (every Pokémon and Mega
   at the usual spreads, your team marked, Tailwind, Choice Scarf, stages,
   paralysis and Trick Room).
+- Pages for every move, Ability and item in Champions, in tabs next to the
+  Pokédex: lists with search and filters (moves by type, category, kind or
+  changes in Champions), and a page for each with its Champions details, the
+  Abilities that react to a move's kind, and the Pokémon that learn the move,
+  have the Ability, or use the Mega Stone or evolution item. Names around the
+  app link to them. Move targets and kinds (punching, sound…) now come from
+  the game files, and moves whose kind or target Champions changed (Double
+  Shock is a punching move, Milk Drink can heal an ally…) are marked as
+  changed.
 
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
 Generation 10, a regulation filter, pages for reference-only Pokémon.

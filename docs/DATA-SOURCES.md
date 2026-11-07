@@ -19,11 +19,12 @@ public sources:
 
 The damage calculator uses one more: [Smogon's damage calculator](https://github.com/smogon/damage-calc)
 (`@smogon/calc`, MIT licence, pinned in `package.json`; the licence ships with
-the app in `public/licenses/`). It isn't read by the updater for the game
-data: the app gives it the game data's base stats, types and weights, and each
-move's type, category, power, priority, contact, kind and whether it hits
-several Pokémon, and it adds the details it keeps itself (recoil and draining,
-multi-hit counts, secondary effects). Anything its Champions copy lacks is
+the app in `public/licenses/`). The game data takes only one thing from it,
+the moves' main-series kinds (see "Move changes" below). The app gives it the
+game data's base stats, types and weights, and each move's type, category,
+power, priority, contact, kind and whether it hits several Pokémon, and it
+adds the details it keeps itself (recoil and draining, multi-hit counts,
+secondary effects). Anything its Champions copy lacks is
 taken from its Scarlet and Violet copy. The update report lists what
 it doesn't have yet and every disagreement with the game data, so a newer
 version can be installed when one is needed (`npm update @smogon/calc`).
@@ -121,8 +122,14 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
   shiny art, is lined up the same way, and is credited to its artist on the
   Pokémon page.
 - **Move changes.** Where Champions changed a move (power, accuracy, type, PP
-  beyond the usual conversion), the main-series value is kept alongside
-  (`mainSeries` in `moves.json`), so the app can point it out.
+  beyond the usual conversion, target, kind), the main-series value is kept
+  alongside (`mainSeries` in `moves.json`), so the app can point it out. The
+  main-series kinds come from the Scarlet and Violet data of Smogon's damage
+  calculator (from Pokémon Showdown), for the kinds it keeps: punching, sound,
+  ball and bomb, pulse, biting, slicing and wind moves. Champions made Double
+  Shock a punching move, Crush Claw, Dire Claw, Dragon Claw and Shadow Claw
+  slicing moves, and Dragon Cheer a sound move; the calculator's own Champions
+  data agrees.
 
 ## Checks
 
@@ -153,8 +160,10 @@ and other game text.
 - **Move targets come from the game files**, read through PokéAPI's names
   for them. PokéAPI's own targets are wrong for Matcha Gotcha (it hits both
   opponents) and Coaching (only the allies), and miss a Champions change
-  (Milk Drink can heal an ally); the update report lists every move where the
-  two differ.
+  (Milk Drink can heal an ally, which is noted as a change); the update report
+  lists every move where the two differ. A new difference counts as a
+  Champions change unless it's added to `WRONG_POKEAPI_TARGETS` in
+  `scripts/update-data/build/catalog.ts`.
 - **Minor gender differences** (Venusaur, Pikachu…) have no artwork in the
   official style, so only forms with real artwork get a female toggle.
 - **Images are loaded from the sprite repository**, pinned to the same
