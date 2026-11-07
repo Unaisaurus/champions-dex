@@ -133,11 +133,16 @@ describe.runIf(real)('generated game data', () => {
     const wikidex = JSON.parse(
       readFileSync(join(ROOT, 'data', 'wikidex', 'dex-entries-es.json'), 'utf8'),
     ) as {
+      retrieved: string;
       pages: Record<string, unknown>;
       leftOut: Record<string, string[]>;
     };
     expect(wikidex.leftOut.azumarill).toContain('black');
-    const imported = (key: string) => (forms.get(key)?.speciesId ?? key) in wikidex.pages;
+    // Only Pokémon imported for the data as built: an import is saved just before
+    // the data update that uses it.
+    const builtWith = manifest.sources.find((source) => source.id === 'wikidex')?.revision;
+    const sameImport = builtWith === wikidex.retrieved || builtWith === wikidex.retrieved.slice(0, 10);
+    const imported = (key: string) => sameImport && (forms.get(key)?.speciesId ?? key) in wikidex.pages;
     const older = ['red', 'yellow', 'gold', 'ruby', 'firered', 'diamond', 'heartgold', 'black', 'black-2'];
     const missing = Object.entries(en)
       .filter(([key]) => imported(key))

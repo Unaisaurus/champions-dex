@@ -390,7 +390,8 @@ async function main() {
               id: 'wikidex',
               name: 'WikiDex (Spanish Pokédex entries for the games before X and Y)',
               url: wikidex.source,
-              revision: wikidex.retrieved.slice(0, 10),
+              // When the pages were retrieved: which import the data was built with.
+              revision: wikidex.retrieved,
             },
           ]
         : []),

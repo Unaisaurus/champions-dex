@@ -13,6 +13,8 @@ on:
 
 permissions:
   contents: write
+  # To start "Publish the app" once new data is saved.
+  actions: write
 
 concurrency:
   group: update-data
@@ -49,6 +51,8 @@ jobs:
         run: npm run check
 
       - name: Save the new data
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           if git diff --quiet -- public/data translations data/update-report.md; then
             echo "No changes: the data was already up to date." >> "$GITHUB_STEP_SUMMARY"
@@ -60,3 +64,5 @@ jobs:
           git add public/data translations data/update-report.md data/artwork-measurements.json
           git commit -m "Update game data to $(node -p "require('./public/data/manifest.json').dataVersion")"
           git push
+          # A push made by a workflow doesn't start other workflows, so publish the app from here.
+          gh workflow run deploy.yml

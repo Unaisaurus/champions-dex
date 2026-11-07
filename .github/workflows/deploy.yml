@@ -10,10 +10,8 @@ name: Publish the app
 on:
   push:
     branches: [main]
-  # After a data update has saved new data (its own push doesn't start this workflow).
-  workflow_run:
-    workflows: [Update game data]
-    types: [completed]
+  # Also started by "Update game data" once it has saved new data (pushes made by
+  # a workflow don't start other workflows), and by "Run workflow" on the Actions tab.
   workflow_dispatch:
 
 permissions:
@@ -27,14 +25,12 @@ concurrency:
 
 jobs:
   build:
-    if: >-
-      ${{ !github.event.repository.private &&
-          (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') }}
+    if: ${{ !github.event.repository.private }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          # After a data update, publish the newest version, including the data it saved.
+          # The newest version, including any data a data update has just saved.
           ref: main
 
       - uses: actions/setup-node@v6
