@@ -1,7 +1,7 @@
 {
  "note": "Spanish Pokédex entries for the games before X and Y, from WikiDex (https://www.wikidex.net), made by `npm run import-wikidex`. See import-report.md for what was checked and corrected.",
  "source": "https://www.wikidex.net",
- "retrieved": "2026-11-07T11:29:47.595Z",
+ "retrieved": "2026-11-07T11:33:45.851Z",
  "pages": {
   "abomasnow": {
    "title": "Abomasnow",
@@ -1619,9 +1619,20 @@
    "gold": "La semilla de su lomo está llena de nutrientes. La semilla brota a medida que el Pokémon crece.",
    "silver": "Lleva una semilla en su lomo desde que nació. A medida que crece, la semilla se hace más grande.",
    "crystal": "Cuando es joven, crece con los nutrientes que almacena en las semillas de su espalda.",
+   "ruby": "A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.",
+   "sapphire": "A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.",
+   "emerald": "A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.",
    "firered": "Este Pokémon nace con una semilla en el lomo. Con el tiempo, la semilla brota.",
+   "leafgreen": "Una rara semilla le fue plantada en el lomo al nacer. La planta brota y crece con este Pokémon.",
+   "diamond": "Después de nacer, crece alimentándose de las semillas de su lomo.",
+   "pearl": "Después de nacer, crece alimentándose de las semillas de su lomo.",
+   "platinum": "Después de nacer, crece alimentándose de las semillas de su lomo.",
    "heartgold": "La semilla de su lomo está llena de nutrientes. La semilla brota a medida que el Pokémon crece.",
-   "soulsilver": "Lleva una semilla en su lomo desde que nació. A medida que crece, la semilla se hace más grande."
+   "soulsilver": "Lleva una semilla en su lomo desde que nació. A medida que crece, la semilla se hace más grande.",
+   "black": "Después de nacer, crece alimentándose de las semillas de su lomo.",
+   "white": "Después de nacer, crece alimentándose de las semillas de su lomo.",
+   "black-2": "Después de nacer, crece alimentándose de las semillas de su lomo.",
+   "white-2": "Después de nacer, crece alimentándose de las semillas de su lomo."
   },
   "buneary": {
    "diamond": "Ataca a sus enemigos con un golpe rápido de sus orejas. Sus picotazos son muy dolorosos.",
@@ -2790,8 +2801,14 @@
    "gold": "Puede aumentar su fuerza con energía solar. Esta también hace que crezca el capullo de su lomo.",
    "silver": "Si el capullo de su lomo comienza a oler dulce, indica que la gran flor pronto florecerá.",
    "crystal": "El bulbo de la espalda crece al absorber nutrientes. Cuando florece, emite un aroma delicioso.",
+   "ruby": "Este Pokémon lleva un bulbo en el lomo y, para poder con su peso, tiene unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, será porque el bulbo está a punto de hacerse una flor grande.",
+   "sapphire": "Este Pokémon lleva un bulbo en el lomo y, para poder con su peso, tiene unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, será porque el bulbo está a punto de hacerse una flor grande.",
    "emerald": "Soporta el peso del bulbo gracias a sus fuertes patas y a su tronco. Si pasa mucho tiempo al sol, el bulbo se convierte en una enorme flor.",
+   "firered": "Este Pokémon tiene un bulbo en el lomo. Dicen que, al absorber nutrientes, el bulbo se transforma en una flor grande.",
    "leafgreen": "Cuando el bulbo del lomo crece, le cuesta un poco ponerse de pie sobre las patas traseras.",
+   "diamond": "Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.",
+   "pearl": "Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.",
+   "platinum": "Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.",
    "heartgold": "Puede aumentar su fuerza con energía solar. Esta también hace que crezca el capullo de su lomo.",
    "soulsilver": "Si el capullo de su lomo comienza a oler dulce, indica que la gran flor pronto florecerá.",
    "black": "Cuando el capullo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.",
