@@ -112,6 +112,9 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
     entries of the two games differ, that shortcut is wrong: the entry is
     taken from a game whose English entry is the same (from WikiDex, or from
     the games' own text), or left out.
+  - Where WikiDex gives Latin America's and Spain's text side by side
+    (`{{N|…|…}}`, as on Bulbasaur's page), Spain's is used: it's the one
+    the games kept in X, Y, Omega Ruby and Alpha Sapphire.
   - Corrections found by hand are in `data/overrides/wikidex.json`.
 - **Artwork.** PokéAPI's official artwork and its shiny set share one frame,
   but the shiny drawing is sometimes bigger, smaller or off-centre (Toxtricity's

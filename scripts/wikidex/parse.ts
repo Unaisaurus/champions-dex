@@ -159,16 +159,21 @@ export function resolveEntries(parameters: ReadonlyMap<string, string>): Map<str
 
 /** Plain text from a wikitext value: links, bold and italics, comments and line breaks removed. */
 export function cleanWikiText(value: string): string {
-  return value
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<ref[^>]*\/>/gi, '')
-    .replace(/<ref[^>]*>[\s\S]*?<\/ref>/gi, '')
-    .replace(/<\/?nowiki>/gi, '')
-    .replace(/<br\s*\/?>/gi, ' ')
-    .replace(/\[\[(?:[^\]|]*\|)?([^\]|]*)\]\]/g, '$1')
-    .replace(/'{2,3}/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    value
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<ref[^>]*\/>/gi, '')
+      .replace(/<ref[^>]*>[\s\S]*?<\/ref>/gi, '')
+      .replace(/<\/?nowiki>/gi, '')
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/\[\[(?:[^\]|]*\|)?([^\]|]*)\]\]/g, '$1')
+      // {{N|Hispanoamérica|España}} (also written {{NombreHaEs|…}}): two Spanish
+      // versions of a text. The app's Spanish is Spain's.
+      .replace(/\{\{\s*(?:n|nombreHaEs)\s*\|([^{}|]*)\|([^{}|]*)\}\}/gi, '$2')
+      .replace(/'{2,3}/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 /** What's left that isn't plain text (a template, a link, a tag…), if anything. */

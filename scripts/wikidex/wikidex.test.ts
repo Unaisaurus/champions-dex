@@ -52,6 +52,15 @@ describe('reading a WikiDex page', () => {
     expect(leftoverMarkup('Texto {{sic}}')).toBe('{{');
     expect(leftoverMarkup('Texto limpio.')).toBeNull();
   });
+
+  it("takes Spain's text where WikiDex gives Latin America's and Spain's", () => {
+    expect(cleanWikiText('{{NombreHaEs|Nace con un extraño bulbo.|Una rara semilla le fue plantada.}}')).toBe(
+      'Una rara semilla le fue plantada.',
+    );
+    expect(cleanWikiText('{{n|Tiene un capullo en el lomo.|Tiene un [[bulbo]] en el lomo.}}')).toBe(
+      'Tiene un bulbo en el lomo.',
+    );
+  });
 });
 
 describe('importing the entries', () => {
