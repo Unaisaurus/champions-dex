@@ -237,7 +237,8 @@ export function importEntries(
       if (!text) continue;
       const markup = leftoverMarkup(text);
       if (markup) {
-        problems.push(`${where}: leftover markup "${markup}"`);
+        // The text itself, so the markup can be handled in parse.ts.
+        problems.push(`${where}: leftover markup "${markup}" in \`${text}\``);
         continue;
       }
       // Every entry ends with a full stop in the games; WikiDex sometimes leaves it out.
