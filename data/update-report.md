@@ -1,6 +1,6 @@
-# Data update 2026-11-07.2
+# Data update 2026-11-07.3
 
-Generated 2026-11-07T11:20:02Z.
+Generated 2026-11-07T11:34:51Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -16,18 +16,15 @@ Game: version 1.2.2, Regulation M-C.
 - Learnset entries: 16073
 - Learnset entries new in Champions: 110
 - Forms with Pokédex entries of their own: 178
-- Spanish Pokédex entries from WikiDex (games before X and Y): 1615
+- Spanish Pokédex entries from WikiDex (games before X and Y): 3573
 - Shiny artwork lined up with the regular art: 149
 - Fan art (data/overrides/art.json): 0
 
 ## Changes since the previous update
 
-### Changed: dex-entries (265)
+### Changed: dex-entries (154)
 
 - abra
-- amaura
-- applin
-- arctibax
 - aron
 - azurill
 - bagon
@@ -36,103 +33,54 @@ Game: version 1.2.2, Regulation M-C.
 - beldum
 - bellossom
 - bellsprout
-- bergmite
-- binacle
 - bisharp
-- bounsweet
-- braixen
-- brionne
 - budew
 - bulbasaur
 - buneary
-- bunnelby
-- capsakid
 - carvanha
-- charcadet
 - charmander
 - charmeleon
-- chespin
 - chikorita
 - chimchar
 - chingling
-- clauncher
 - clefairy
 - cleffa
-- clobbopus
 - combusken
-- corvisquire
 - cottonee
-- crabrawler
 - cranidos
 - croagunk
-- crocalor
 - croconaw
 - cubchoo
 - cyndaquil
-- dartrix
 - deino
 - dewott
-- dewpider
-- dipplin
-- dolliv
-- doublade
 - dragonair
-- drakloak
 - dratini
-- dreepy
 - drilbur
-- drizzile
 - duosion
-- duraludon
 - eelektrik
 - eevee
 - ekans
 - electrike
-- espurr
 - feebas
-- fennekin
-- finizen
 - flaaffy
-- flabebe
-- fletchinder
-- fletchling
-- flittle
-- floragato
-- frigibax
-- froakie
-- frogadier
-- fuecoco
 - gabite
 - gastly
 - gible
-- gimmighoul
 - girafarig
 - gligar
-- glimmet
 - gloom
 - golett
-- goomy
-- greavard
-- grookey
 - grotle
 - grovyle
 - growlithe
-- growlithe-hisui
 - gulpin
 - gurdurr
-- hakamo-o
-- hatenna
-- hattrem
 - haunter
-- helioptile
 - hippopotas
-- honedge
 - houndour
 - igglybuff
-- impidimp
-- inkay
 - ivysaur
-- jangmo-o
 - jigglypuff
 - kadabra
 - kakuna
@@ -142,115 +90,114 @@ Game: version 1.2.2, Regulation M-C.
 - lampent
 - larvesta
 - larvitar
-- litleo
-- litten
 - litwick
 - luxio
 - machoke
 - machop
 - magikarp
 - mankey
-- mareanie
 - mareep
 - marill
 - marshtomp
-- maschiff
 - meditite
 - meowth
-- meowth-alola
-- meowth-galar
 - metang
-- milcery
 - mime-jr
 - monferno
-- morgrem
-- mudbray
 - mudkip
 - munchlax
 - munna
-- nacli
-- naclstack
-- nickit
-- noibat
 - numel
 - oddish
 - onix
 - oshawott
-- pancham
 - panpour
 - pansage
 - pansear
 - patrat
-- pawmi
-- pawmo
 - pawniard
-- phantump
 - pichu
 - pidgeotto
 - pidgey
 - pignite
-- pikipek
 - piloswine
 - pineco
 - piplup
 - poliwag
 - poliwhirl
 - poliwrath
-- poltchageist
-- popplio
 - primeape
 - prinplup
-- pumpkaboo
 - pupitar
 - purrloin
-- quaxly
-- quaxwell
 - quilava
-- quilladin
-- raboot
 - ralts
 - rhydon
 - rhyhorn
 - riolu
-- rockruff
-- rookidee
 - roselia
-- rowlet
-- salandit
 - sandile
-- scatterbug
-- scorbunny
 - scraggy
 - scyther
 - servine
 - shelgon
-- … and 65 more
-
-### Changed: text (2)
-
-- ability-descriptions:3
-- ability-names:3
+- shieldon
+- shinx
+- shuppet
+- slowpoke
+- sneasel
+- snivy
+- snorunt
+- snover
+- solosis
+- spinarak
+- squirtle
+- stantler
+- staravia
+- starly
+- staryu
+- swablu
+- swinub
+- tepig
+- timburr
+- torchic
+- totodile
+- treecko
+- trubbish
+- turtwig
+- tynamo
+- vanillish
+- vanillite
+- venipede
+- vulpix
+- wartortle
+- weedle
+- weepinbell
+- whirlipede
+- wingull
+- yamask
+- zorua
+- zweilous
 
 
 ## Sources
 
 - [Pokémon Champions datamine (Project Pokémon)](https://github.com/projectpokemon/champout) at `50e7233b78c3`
-- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `e5b79b2e15d7`
-- [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1dd55c0436d2`
-- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `035c1a1f3c2e`
+- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `6ea97b5641fa`
+- [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1b3b7c0a538d`
+- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `567c1cedddea`
 - [Pokémon main series text dumps (tanripj)](https://github.com/tanripj/pokemon_text_dumps) at `d67e1c3cbcf5`
 - [Brilliant Diamond and Shining Pearl text dumps (tanripj)](https://github.com/tanripj/bdsp_text_dumps) at `1f94006a6838`
 - [Pokémon Legends: Z-A text dump with labels (CPokemon)](https://github.com/CPokemon/plza-text) at `3f149c41285b`
 - [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `0660d1e1f492`
 - [Pokémon JSON API by towakey (Japanese Pokédex text per form)](https://github.com/towakey/pokedex) at `142c54d3f6a8`
-- [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-03`
+- [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-07`
 
-## Things to check (2)
+## Things to check (1)
 
 Nothing here stops the app from working; these are spots where the sources disagree or data is missing.
 
 - scarlet/violet: 1 entries sit on different lines in the two versions, so entries missing from one weren't taken from the other
-- No Spanish entries for the games before X and Y for: bulbasaur, ivysaur, charmander, charmeleon, squirtle, wartortle, weedle, kakuna, pidgey, pidgeotto, ekans, clefairy, vulpix, jigglypuff, oddish, gloom, meowth, mankey, primeape, growlithe, poliwag, poliwhirl, poliwrath, abra, kadabra, machop, machoke, bellsprout, weepinbell, slowpoke, gastly, haunter, onix, rhyhorn, rhydon, staryu, scyther, magikarp, eevee, dratini, dragonair, chikorita, bayleef, cyndaquil, quilava, totodile, croconaw, spinarak, pichu, cleffa, igglybuff, mareep, flaaffy, bellossom, marill, girafarig, pineco, gligar, sneasel, swinub, piloswine, houndour, stantler, larvitar, pupitar, treecko, grovyle, torchic, combusken, mudkip, marshtomp, wingull, ralts, kirlia, azurill, aron, lairon, meditite, electrike, roselia, gulpin, carvanha, numel, swablu, feebas, shuppet, snorunt, bagon, shelgon, beldum, metang, turtwig, grotle, chimchar, monferno, piplup, prinplup, starly, staravia, shinx, luxio, budew, cranidos, shieldon, buneary, chingling, mime-jr, gible, gabite, munchlax, riolu, hippopotas, croagunk, snover, snivy, servine, tepig, pignite, oshawott, dewott, patrat, purrloin, pansage, pansear, panpour, munna, drilbur, timburr, gurdurr, venipede, whirlipede, cottonee, basculin, sandile, krokorok, scraggy, yamask, trubbish, zorua, solosis, duosion, vanillite, vanillish, tynamo, eelektrik, litwick, lampent, cubchoo, golett, pawniard, bisharp, deino, zweilous, larvesta. Run "Import Spanish Pokédex entries" on GitHub (or npm run import-wikidex -- --download).
 
 ## Learnsets that differ from PokéAPI's copy of the Champions learnsets (32)
 
