@@ -9,4 +9,3 @@ export const SOURCES_DIR = join(ROOT, 'data', 'sources');
 export const OVERRIDES_DIR = join(ROOT, 'data', 'overrides');
 /** Where the app reads its game data from. */
 export const OUTPUT_DIR = join(ROOT, 'public', 'data');
-export const TRANSLATIONS_DIR = join(ROOT, 'translations');

@@ -33,8 +33,8 @@ export function SnapshotsSection() {
                 <p className={styles.muted}>
                   {t(`settings.snapshots.reason.${item.reason}`)}:{' '}
                   {t('settings.snapshots.summary', {
-                    teams: item.backup.teams.length,
-                    favourites: item.backup.favourites.length,
+                    teams: t('settings.backup.teamCount', { count: item.backup.teams.length }),
+                    favourites: t('settings.backup.favouriteCount', { count: item.backup.favourites.length }),
                   })}
                 </p>
               </div>

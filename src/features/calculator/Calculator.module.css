@@ -378,11 +378,11 @@
 }
 
 .raised {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .lowered {
-  color: var(--lens);
+  color: var(--lens-text);
 }
 
 /* Moves */
@@ -616,7 +616,7 @@ button.resultRow:hover {
 }
 
 .ko-ohko .koText {
-  color: var(--accent);
+  color: var(--accent-text);
   font-weight: 650;
 }
 

@@ -20,10 +20,11 @@ import { z } from 'zod';
 // Basic building blocks
 // ---------------------------------------------------------------------------
 
+/** What every ID looks like: lowercase letters and digits, words joined by single dashes. */
+export const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 /** A stable ID such as `venusaur-mega` or `choice-scarf`. */
-export const IdSchema = z
-  .string()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'IDs use lowercase letters, digits and single dashes');
+export const IdSchema = z.string().regex(ID_PATTERN, 'IDs use lowercase letters, digits and single dashes');
 export type Id = z.infer<typeof IdSchema>;
 
 const count = z.number().int().nonnegative();

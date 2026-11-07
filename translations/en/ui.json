@@ -722,8 +722,16 @@
       "restore": "Restore from a file",
       "restoreMerge": "Add to what's here",
       "restoreReplace": "Replace everything",
-      "restoreQuestion": "This backup has {{teams}} teams and {{favourites}} favourites. How do you want to restore it?",
-      "restored": "Backup restored: {{added}} teams added, {{updated}} updated.",
+      "restoreQuestion": "This backup has {{teams}} and {{favourites}}. How do you want to restore it?",
+      "teamCount_one": "{{count}} team",
+      "teamCount_other": "{{count}} teams",
+      "favouriteCount_one": "{{count}} favourite",
+      "favouriteCount_other": "{{count}} favourites",
+      "restored": "Backup restored: {{added}}, {{updated}}.",
+      "teamsAdded_one": "{{count}} team added",
+      "teamsAdded_other": "{{count}} teams added",
+      "teamsUpdated_one": "{{count}} updated",
+      "teamsUpdated_other": "{{count}} updated",
       "notABackup": "This file isn't a Champions Dex backup.",
       "tooNew": "This backup was made by a newer version of the app. Update the app first.",
       "invalid": "This backup file is damaged, so nothing was restored."
@@ -732,7 +740,7 @@
       "title": "Automatic backups",
       "description": "Once a day, and before every restore, a copy of your data is kept inside the browser. Restoring one first saves the current state, so it can be undone too.",
       "empty": "No automatic backups yet. One is made each day you have teams or favourites.",
-      "summary": "{{teams}} teams, {{favourites}} favourites",
+      "summary": "{{teams}}, {{favourites}}",
       "reason": {
         "auto": "Daily",
         "before-restore": "Before a restore",
@@ -758,7 +766,8 @@
       "stop": "Stop",
       "saved_one": "{{count}} image saved for offline use.",
       "saved_other": "All {{count}} images saved for offline use.",
-      "savedSome": "{{count}} images saved; {{failed}} couldn't be downloaded (try again later).",
+      "savedSome_one": "{{count}} image saved; {{failed}} couldn't be downloaded (try again later).",
+      "savedSome_other": "{{count}} images saved; {{failed}} couldn't be downloaded (try again later).",
       "stopped": "Stopped after {{done}} of {{total}} images."
     },
     "storage": {

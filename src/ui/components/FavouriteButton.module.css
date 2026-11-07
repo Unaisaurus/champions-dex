@@ -11,9 +11,9 @@
 
 .button:hover {
   background: var(--surface-sunken);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .button[aria-pressed='true'] {
-  color: var(--accent);
+  color: var(--accent-text);
 }

@@ -1,4 +1,3 @@
-import { Search } from 'lucide-react';
 import { useDeferredValue, useMemo } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +5,7 @@ import { useGameData } from '@/data/useGameData';
 import { matchesSearch } from '@/domain/search';
 import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
+import { SearchField } from '@/ui/components/SearchField';
 import { useTextSearchIndex } from '@/ui/useTextSearchIndex';
 import { DexSections } from './DexSections';
 import { useAddressQuery } from './useAddressQuery';
@@ -53,16 +53,11 @@ export function AbilitiesPage() {
       </header>
 
       <div className={styles.toolbar}>
-        <div className={styles.search}>
-          <Search size={18} aria-hidden="true" className={styles.searchIcon} />
-          <input
-            type="search"
-            aria-label={t('abilities.search')}
-            placeholder={t('abilities.search')}
-            value={query.search}
-            onChange={(event) => update({ search: event.target.value })}
-          />
-        </div>
+        <SearchField
+          label={t('abilities.search')}
+          value={query.search}
+          onChange={(search) => update({ search })}
+        />
       </div>
       <p className={styles.count} aria-live="polite">
         {t('abilities.count', { count: rows.length })}

@@ -214,12 +214,12 @@
 
 .raised,
 .raised dt {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .lowered,
 .lowered dt {
-  color: var(--lens);
+  color: var(--lens-text);
 }
 
 .moves {

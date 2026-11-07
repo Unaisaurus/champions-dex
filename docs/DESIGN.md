@@ -13,6 +13,11 @@ All colours and sizes are in `src/ui/styles/tokens.css`.
 - Surfaces: cool light grey page (`--paper`), white cards (`--surface`), dark
   variants for dark mode.
 - Accent: Pokédex red `--accent` (#d63a2f), lens blue `--lens` (#2f7fd8).
+  For text in those colours (links, "Changed" badges, raised and lowered
+  stats) use `--accent-text` and `--lens-text`: shades that keep a 4.5:1
+  contrast on any surface in both themes. Dark mode uses a deeper red for
+  `--accent`, so white text on red buttons and the header stays readable.
+- Move categories: `--category-physical`, `--category-special`, `--category-status`.
 - Types: `--type-<type>` and `--type-<type>-ink`, checked for readable contrast.
 - Pokédex colours: `--dex-<colour>` (page panel) and `--dex-<colour>-swatch` (filters).
 

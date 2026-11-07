@@ -53,7 +53,10 @@ export function BackupSection() {
     }
     setStatus({
       ok: true,
-      message: t('settings.backup.restored', { added: summary.teamsAdded, updated: summary.teamsUpdated }),
+      message: t('settings.backup.restored', {
+        added: t('settings.backup.teamsAdded', { count: summary.teamsAdded }),
+        updated: t('settings.backup.teamsUpdated', { count: summary.teamsUpdated }),
+      }),
     });
   };
 
@@ -89,8 +92,8 @@ export function BackupSection() {
         open={pending !== null}
         title={t('settings.backup.restore')}
         message={t('settings.backup.restoreQuestion', {
-          teams: pending?.teams.length ?? 0,
-          favourites: pending?.favourites.length ?? 0,
+          teams: t('settings.backup.teamCount', { count: pending?.teams.length ?? 0 }),
+          favourites: t('settings.backup.favouriteCount', { count: pending?.favourites.length ?? 0 }),
         })}
         choices={[
           {

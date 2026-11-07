@@ -18,8 +18,16 @@
   --accent: #d63a2f;
   --accent-strong: #b52c22;
   --accent-ink: #ffffff;
+  /* Red and blue for text (links, "raised" stats…): darker, to read well on any surface */
+  --accent-text: #b52c22;
   --lens: #2f7fd8;
+  --lens-text: #2468b8;
   --focus: #2f7fd8;
+
+  /* Move categories (the dot next to "Physical", "Special", "Status") */
+  --category-physical: #e8833a;
+  --category-special: #2f7fd8;
+  --category-status: #8d96a3;
 
   /* Stat bars, by how high the value is */
   --stat-low: #e8833a;
@@ -123,8 +131,10 @@
     --ink-muted: #9aa5b5;
     --line: #263140;
     --line-strong: #3a4759;
-    --accent: #e5483c;
-    --accent-strong: #c93a2f;
+    --accent: #c8382d;
+    --accent-strong: #ad2f26;
+    --accent-text: #ff7569;
+    --lens-text: #6aaaf2;
     --info-bg: #15263c;
     --info-ink: #a9c8f0;
     --success: #6fcf8a;
@@ -152,8 +162,10 @@
   --ink-muted: #9aa5b5;
   --line: #263140;
   --line-strong: #3a4759;
-  --accent: #e5483c;
-  --accent-strong: #c93a2f;
+  --accent: #c8382d;
+  --accent-strong: #ad2f26;
+  --accent-text: #ff7569;
+  --lens-text: #6aaaf2;
   --info-bg: #15263c;
   --info-ink: #a9c8f0;
   --success: #6fcf8a;

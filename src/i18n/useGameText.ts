@@ -212,11 +212,19 @@ export function useGeneratedText(also?: LanguageCode): {
   return { generated, dexEntries };
 }
 
-/** Whether the generated text of the current language has arrived (for loading states). */
+/**
+ * Whether the generated text of the current language (and English, its
+ * fallback) has arrived, asking for it if needed. Until then names show as IDs.
+ */
 export function useGameTextReady(): boolean {
   const [language] = useLanguage();
   const { manifest } = useGameData();
   const generated = useTextStore((state) => state.generated);
+  const ensure = useTextStore((state) => state.ensure);
+  useEffect(() => {
+    void ensure(FALLBACK_LANGUAGE, manifest);
+    void ensure(language, manifest);
+  }, [ensure, language, manifest]);
   const needs = [FALLBACK_LANGUAGE, language].filter((code) => manifest.textLanguages.includes(code));
   return needs.every((code) => generated[code] !== undefined);
 }

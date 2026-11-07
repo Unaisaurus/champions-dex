@@ -1,4 +1,3 @@
-import { Search } from 'lucide-react';
 import { useDeferredValue, useMemo } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +7,7 @@ import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { ArtImage } from '@/ui/components/ArtImage';
 import { ToggleChip } from '@/ui/components/ToggleChip';
+import { SearchField } from '@/ui/components/SearchField';
 import { useTextSearchIndex } from '@/ui/useTextSearchIndex';
 import { DexSections } from './DexSections';
 import { useAddressQuery } from './useAddressQuery';
@@ -66,16 +66,11 @@ export function ItemsPage() {
       </header>
 
       <div className={styles.toolbar}>
-        <div className={styles.search}>
-          <Search size={18} aria-hidden="true" className={styles.searchIcon} />
-          <input
-            type="search"
-            aria-label={t('items.search')}
-            placeholder={t('items.search')}
-            value={query.search}
-            onChange={(event) => update({ search: event.target.value })}
-          />
-        </div>
+        <SearchField
+          label={t('items.search')}
+          value={query.search}
+          onChange={(search) => update({ search })}
+        />
         <div className={styles.chips} role="group" aria-label={t('items.groupLabel')}>
           {ITEM_GROUPS.map((group) => (
             <ToggleChip

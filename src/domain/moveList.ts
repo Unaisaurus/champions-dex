@@ -11,6 +11,7 @@ import {
   type MoveSortKey,
 } from './learnsetView';
 import { matchesSearch } from './search';
+import { idParam, oneOf } from './addressParams';
 
 export interface MoveListQuery {
   search: string;
@@ -34,19 +35,15 @@ export const DEFAULT_MOVE_LIST_QUERY: MoveListQuery = {
 };
 
 const CATEGORIES: readonly MoveCategory[] = ['physical', 'special', 'status'];
-const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const oneOf = <T extends string>(values: readonly T[], value: string | null): T | null =>
-  values.find((candidate) => candidate === value) ?? null;
 
 /** Reads the list's choices from the address, ignoring anything malformed. */
 export function moveListFromParams(params: URLSearchParams): MoveListQuery {
   const sort = oneOf(MOVE_SORT_KEYS, params.get('sort')) ?? DEFAULT_MOVE_LIST_QUERY.sort;
-  const type = params.get('type');
   return {
     search: params.get('q') ?? '',
-    type: type && ID_PATTERN.test(type) ? type : null,
-    category: oneOf(CATEGORIES, params.get('cat')),
-    kind: oneOf(MOVE_KINDS, params.get('kind')),
+    type: idParam(params.get('type')),
+    category: oneOf(CATEGORIES, params.get('cat')) ?? null,
+    kind: oneOf(MOVE_KINDS, params.get('kind')) ?? null,
     changedOnly: params.get('changed') === '1',
     sort,
     direction: oneOf(['asc', 'desc'] as const, params.get('dir')) ?? defaultMoveDirection(sort),

@@ -108,6 +108,12 @@ does; fallbacks to the regular art are shown as they are. The measuring is in
 image group). The artwork check page (`src/features/artwork/`, route
 `#/artwork`) lists every form's regular and shiny art.
 
+**Game text** (names, descriptions) arrives just after the game data, per
+language (`src/i18n/useGameText.ts`), with Pokédex entries last because
+they're the biggest file. On first start, the loading screen waits for the
+names in your language (`WaitForGameText` in `src/app/App.tsx`), so the first
+screen never shows IDs.
+
 **Scrolling.** `ScrollRestoration` (in `AppShell`) opens new pages at the top
 and brings Back to where you were; the Pokédex list remembers its position per
 address. Changes within a page (filters, switching forms, picking a team
@@ -121,8 +127,13 @@ the menu's Pokédex item stays lit on all of them (`AppShell`).
 
 - `src/domain/moveList.ts`: the move list's query (search, type, category,
   kind, changed in Champions, sort), kept in the page address like the
-  Pokédex's (`useAddressQuery`); rows are sorted by the learnset's
-  `sortMoveRows`.
+  Pokédex's (`useAddressQuery`, reading it with `src/domain/addressParams.ts`);
+  rows are sorted by the learnset's `sortMoveRows`.
+- `src/ui/components/MoveTable.tsx`: what the move list and a Pokémon's
+  learnset share (filters, the count with sorting for phones, the table with
+  sortable columns, the phone card layout). Each page adds its own: the move
+  list a kind filter and links, the learnset its "learned before" column and
+  the details row.
 - `src/domain/references.ts`: who uses what, worked out once per data load
   (`useReferences`): the Pokémon that learn each move (each gameplay form
   once; Megas left out, as they use their regular form's moves), the Pokémon

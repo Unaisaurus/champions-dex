@@ -303,8 +303,3 @@ export function buildContext(sources: Sources, overrides: Overrides): Context {
 export function defaultPokemonOf(ctx: Context, speciesId: number): ApiPokemon | undefined {
   return ctx.pokemonBySpecies.get(speciesId)?.find((p) => p.isDefault);
 }
-
-export function defaultFormOf(ctx: Context, pokemonId: number): ApiForm | undefined {
-  const list = ctx.formsByPokemon.get(pokemonId) ?? [];
-  return list.find((form) => form.isDefault) ?? list[0];
-}

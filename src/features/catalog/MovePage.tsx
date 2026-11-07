@@ -7,6 +7,7 @@ import { localeOf } from '@/i18n/languages';
 import { useGameText } from '@/i18n/useGameText';
 import { MainSeriesChanges } from '@/features/pokemon-page/Learnset';
 import { ReportProblemButton } from '@/features/report/ReportProblem';
+import { CategoryLabel } from '@/ui/components/MoveTable';
 import { Notice } from '@/ui/components/Notice';
 import { TypeBadge } from '@/ui/components/TypeBadge';
 import { PokemonLinks } from './PokemonLinks';
@@ -48,9 +49,7 @@ export function MovePage() {
         <h1 className={styles.heroName}>{name}</h1>
         <div className={styles.badges}>
           <TypeBadge type={move.type} />
-          <span className={styles.category} data-category={move.category}>
-            {t(`moveCategories.${move.category}`)}
-          </span>
+          <CategoryLabel category={move.category} />
         </div>
         {description && <p className={styles.description}>{description}</p>}
         <dl className={styles.facts}>

@@ -723,7 +723,15 @@
       "restoreMerge": "",
       "restoreReplace": "",
       "restoreQuestion": "",
+      "teamCount_one": "",
+      "teamCount_other": "",
+      "favouriteCount_one": "",
+      "favouriteCount_other": "",
       "restored": "",
+      "teamsAdded_one": "",
+      "teamsAdded_other": "",
+      "teamsUpdated_one": "",
+      "teamsUpdated_other": "",
       "notABackup": "",
       "tooNew": "",
       "invalid": ""
@@ -758,7 +766,8 @@
       "stop": "",
       "saved_one": "",
       "saved_other": "",
-      "savedSome": "",
+      "savedSome_one": "",
+      "savedSome_other": "",
       "stopped": ""
     },
     "storage": {

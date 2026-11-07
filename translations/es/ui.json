@@ -722,8 +722,16 @@
       "restore": "Restaurar desde un archivo",
       "restoreMerge": "Añadir a lo que hay",
       "restoreReplace": "Sustituirlo todo",
-      "restoreQuestion": "Esta copia tiene {{teams}} equipos y {{favourites}} favoritos. ¿Cómo quieres restaurarla?",
-      "restored": "Copia restaurada: {{added}} equipos añadidos y {{updated}} actualizados.",
+      "restoreQuestion": "Esta copia tiene {{teams}} y {{favourites}}. ¿Cómo quieres restaurarla?",
+      "teamCount_one": "{{count}} equipo",
+      "teamCount_other": "{{count}} equipos",
+      "favouriteCount_one": "{{count}} favorito",
+      "favouriteCount_other": "{{count}} favoritos",
+      "restored": "Copia restaurada: {{added}} y {{updated}}.",
+      "teamsAdded_one": "{{count}} equipo añadido",
+      "teamsAdded_other": "{{count}} equipos añadidos",
+      "teamsUpdated_one": "{{count}} actualizado",
+      "teamsUpdated_other": "{{count}} actualizados",
       "notABackup": "Este archivo no es una copia de seguridad de Champions Dex.",
       "tooNew": "Esta copia se hizo con una versión más nueva de la aplicación. Actualiza la aplicación primero.",
       "invalid": "Este archivo de copia está dañado, así que no se ha restaurado nada."
@@ -732,7 +740,7 @@
       "title": "Copias automáticas",
       "description": "Una vez al día, y antes de cada restauración, se guarda una copia de tus datos dentro del navegador. Restaurar una guarda antes el estado actual, así que también se puede deshacer.",
       "empty": "Aún no hay copias automáticas. Se hace una cada día que tengas equipos o favoritos.",
-      "summary": "{{teams}} equipos, {{favourites}} favoritos",
+      "summary": "{{teams}}, {{favourites}}",
       "reason": {
         "auto": "Diaria",
         "before-restore": "Antes de restaurar",
@@ -758,7 +766,8 @@
       "stop": "Detener",
       "saved_one": "{{count}} imagen guardada para usarla sin conexión.",
       "saved_other": "Las {{count}} imágenes están guardadas para usarlas sin conexión.",
-      "savedSome": "{{count}} imágenes guardadas; {{failed}} no se han podido descargar (inténtalo más tarde).",
+      "savedSome_one": "{{count}} imagen guardada; {{failed}} no se han podido descargar (inténtalo más tarde).",
+      "savedSome_other": "{{count}} imágenes guardadas; {{failed}} no se han podido descargar (inténtalo más tarde).",
       "stopped": "Detenido tras {{done}} de {{total}} imágenes."
     },
     "storage": {

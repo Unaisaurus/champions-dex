@@ -3,9 +3,6 @@
  */
 
 .page {
-  --category-physical: #e8833a;
-  --category-special: #2f7fd8;
-  --category-status: #8d96a3;
   display: grid;
   gap: var(--space-4);
   min-width: 0;
@@ -55,137 +52,28 @@
   gap: var(--space-3);
 }
 
-.search {
-  position: relative;
-  flex: 1 1 240px;
-  max-width: 360px;
-}
-
-.search input {
-  width: 100%;
-  min-height: 44px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  padding: var(--space-2) var(--space-3) var(--space-2) 40px;
-  font-size: 16px;
-}
-
-.searchIcon {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--ink-muted);
-  pointer-events: none;
-}
-
-.select {
-  min-height: 40px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  padding: var(--space-1) var(--space-3);
-  font-size: 15px;
-}
-
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
 }
 
-.bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.mobileSort {
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.iconButton {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-control);
-  background: var(--surface);
-  color: var(--ink);
-}
-
-/* The move table */
-
+/* The move table (its own styles are in MoveTable), in a card: row lines run
+   from edge to edge, text keeps off the edges. */
 .tableWrap {
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--surface);
+  padding-top: var(--space-3);
   overflow: hidden;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 15px;
+.tableWrap tr > :first-child {
+  padding-left: var(--space-4);
 }
 
-.table thead th {
-  text-align: left;
-  font-size: 13px;
-  font-weight: 650;
-  color: var(--ink-muted);
-  border-bottom: 1px solid var(--line-strong);
-  padding: var(--space-3) var(--space-3) var(--space-2);
-  white-space: nowrap;
-}
-
-.table thead button {
-  border: 0;
-  background: none;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-}
-
-.table thead button:hover {
-  color: var(--ink);
-}
-
-.row {
-  border-bottom: 1px solid var(--line);
-}
-
-.row:last-child {
-  border-bottom: 0;
-}
-
-.row > th,
-.row > td {
-  padding: var(--space-2) var(--space-3);
-  vertical-align: middle;
-  text-align: left;
-  font-weight: 400;
-}
-
-.col-power,
-.col-accuracy,
-.col-pp {
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-
-.table thead .col-power,
-.table thead .col-accuracy,
-.table thead .col-pp,
-.row .col-power,
-.row .col-accuracy,
-.row .col-pp {
-  text-align: right;
+.tableWrap tr > :last-child {
+  padding-right: var(--space-4);
 }
 
 .rowLink {
@@ -199,131 +87,31 @@
   text-decoration-color: currentColor;
 }
 
-.changedBadge,
+/* "New" on a Pokémon that learns the move only in Champions */
 .newBadge {
-  display: inline-block;
-  margin-left: var(--space-2);
+  flex: none;
+  margin-left: auto;
   padding: 0 8px;
   border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
   font-size: 11px;
   font-weight: 700;
   line-height: 18px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  vertical-align: 1px;
   white-space: nowrap;
 }
 
-.changedBadge {
-  border: 1px solid var(--lens);
-  color: var(--lens);
-  line-height: 16px;
-}
-
-.newBadge {
-  flex: none;
-  margin-left: auto;
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.category {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.category::before {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--category-status);
-}
-
-.category[data-category='physical']::before {
-  background: var(--category-physical);
-}
-
-.category[data-category='special']::before {
-  background: var(--category-special);
-}
-
-/* Phones: each move becomes a small card. */
 @media (max-width: 700px) {
-  .mobileSort {
-    display: flex;
-  }
-
-  .table thead {
-    display: none;
-  }
-
-  .table,
-  .table tbody,
-  .row {
-    display: block;
-  }
-
-  .table {
+  .tableWrap {
     padding: 0 var(--space-3);
   }
 
-  .row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-areas:
-      'name name name'
-      'type category category'
-      'power accuracy pp';
-    align-items: center;
-    gap: var(--space-1) var(--space-3);
-    padding: var(--space-3) 0;
-  }
-
-  .row > th,
-  .row > td {
-    padding: 0;
-  }
-
-  .row .col-name {
-    grid-area: name;
-  }
-
-  .row .col-type {
-    grid-area: type;
-  }
-
-  .row .col-category {
-    grid-area: category;
-  }
-
-  .row .col-power {
-    grid-area: power;
-  }
-
-  .row .col-accuracy {
-    grid-area: accuracy;
-  }
-
-  .row .col-pp {
-    grid-area: pp;
-  }
-
-  .row .col-power,
-  .row .col-accuracy,
-  .row .col-pp {
-    text-align: left;
-    font-size: 14px;
-  }
-
-  .row .col-power::before,
-  .row .col-accuracy::before,
-  .row .col-pp::before {
-    content: attr(data-label) ' ';
-    color: var(--ink-muted);
+  .tableWrap tr > :first-child,
+  .tableWrap tr > :last-child {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

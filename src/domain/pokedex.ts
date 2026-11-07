@@ -21,6 +21,7 @@
  */
 import type { Form, Id, LearnsetEntry, PokedexColor, Species } from '@/data/contracts';
 import { POKEDEX_COLORS, STAT_IDS } from '@/data/contracts';
+import { idParam, listParam, oneOf } from './addressParams';
 import { generationTags, type GenerationMode } from './generations';
 import { hasAnyTag, LEARN_FILTERS, type LearnFilter } from './learnsetView';
 import { matchesSearch, parseDexNumberQuery } from './search';
@@ -101,35 +102,33 @@ export function defaultDirection(sort: SortKey): SortDirection {
 // The page address: ?q=…&sort=spe&gen=1,2&types=fire&…
 // ---------------------------------------------------------------------------
 
-const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const list = (value: string | null) => (value ? value.split(',').filter(Boolean) : []);
-const oneOf = <T extends string>(values: readonly T[], value: string | null): T | undefined =>
-  values.find((candidate) => candidate === value);
 const unique = <T>(values: readonly T[]) => [...new Set(values)];
 
 /** Reads a query from the address, ignoring anything malformed or unknown. */
 export function queryFromParams(params: URLSearchParams): PokedexQuery {
   const sort = oneOf(SORT_KEYS, params.get('sort')) ?? DEFAULT_QUERY.sort;
-  const id = (value: string | null) => (value && ID_PATTERN.test(value) ? value : null);
-  const move = id(params.get('move'));
+  const move = idParam(params.get('move'));
   return {
     search: params.get('q') ?? '',
     sort,
     direction: oneOf(['asc', 'desc'] as const, params.get('dir')) ?? defaultDirection(sort),
     generations: unique(
-      list(params.get('gen'))
+      listParam(params.get('gen'))
         .map(Number)
         .filter((n) => (GENERATIONS as readonly number[]).includes(n)),
     ).sort((a, b) => a - b),
-    types: unique(list(params.get('types')).filter((t) => ID_PATTERN.test(t))).slice(0, MAX_TYPE_FILTERS),
+    types: unique(listParam(params.get('types')).filter((t) => idParam(t) !== null)).slice(
+      0,
+      MAX_TYPE_FILTERS,
+    ),
     colors: unique(
-      list(params.get('colors')).flatMap((c) => {
+      listParam(params.get('colors')).flatMap((c) => {
         const colour = oneOf(POKEDEX_COLORS, c);
         return colour ? [colour] : [];
       }),
     ),
     categories: unique(
-      list(params.get('cat')).flatMap((c) => {
+      listParam(params.get('cat')).flatMap((c) => {
         const category = oneOf(CATEGORY_FILTERS, c);
         return category ? [category] : [];
       }),
@@ -139,8 +138,8 @@ export function queryFromParams(params: URLSearchParams): PokedexQuery {
     listMode: oneOf(LIST_MODES, params.get('list')) ?? (params.get('forms') === '1' ? 'forms' : 'regional'),
     move,
     // In the order they're shown, whatever the order in the address.
-    moveMethods: move ? LEARN_FILTERS.filter((tag) => list(params.get('how')).includes(tag)) : [],
-    ability: id(params.get('ability')),
+    moveMethods: move ? LEARN_FILTERS.filter((tag) => listParam(params.get('how')).includes(tag)) : [],
+    ability: idParam(params.get('ability')),
   };
 }
 

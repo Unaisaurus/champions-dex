@@ -756,11 +756,11 @@ button.freeSlot:hover {
 }
 
 .raised {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .lowered {
-  color: var(--lens);
+  color: var(--lens-text);
 }
 
 /* A custom track: filled up to the value, lighter up to what's still allowed. */

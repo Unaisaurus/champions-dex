@@ -1,0 +1,241 @@
+/* The parts every move table shares: see MoveTable.tsx. */
+
+/* Search, type and category */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.select {
+  min-height: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  padding: var(--space-1) var(--space-3);
+  font-size: 15px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* How many, and sorting on phones */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.count {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.mobileSort {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* The table: one body per move, so details can sit under it */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.table thead th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--ink-muted);
+  border-bottom: 1px solid var(--line-strong);
+  padding: 0 var(--space-2) var(--space-2);
+  white-space: nowrap;
+}
+
+.table thead button {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.table thead button:hover {
+  color: var(--ink);
+}
+
+.move {
+  border-bottom: 1px solid var(--line);
+}
+
+.move:last-child {
+  border-bottom: 0;
+}
+
+.row > th,
+.row > td {
+  padding: var(--space-2);
+  vertical-align: middle;
+  text-align: left;
+  font-weight: 400;
+}
+
+.col-power,
+.col-accuracy,
+.col-pp {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.table thead .col-power,
+.table thead .col-accuracy,
+.table thead .col-pp,
+.row .col-power,
+.row .col-accuracy,
+.row .col-pp {
+  text-align: right;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+
+.newBadge {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.changedBadge {
+  border: 1px solid var(--lens-text);
+  color: var(--lens-text);
+  line-height: 16px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.category::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--category-status);
+}
+
+.category[data-category='physical']::before {
+  background: var(--category-physical);
+}
+
+.category[data-category='special']::before {
+  background: var(--category-special);
+}
+
+/* Phones: each move becomes a small card. */
+@media (max-width: 700px) {
+  .mobileSort {
+    display: flex;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .move {
+    display: block;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas:
+      'name name name'
+      'type category category'
+      'power accuracy pp';
+    align-items: center;
+    gap: var(--space-1) var(--space-3);
+    padding: var(--space-2) 0;
+  }
+
+  .row > th,
+  .row > td {
+    padding: 0;
+  }
+
+  .row .col-name {
+    grid-area: name;
+  }
+
+  .row .col-type {
+    grid-area: type;
+  }
+
+  .row .col-category {
+    grid-area: category;
+  }
+
+  .row .col-power {
+    grid-area: power;
+  }
+
+  .row .col-accuracy {
+    grid-area: accuracy;
+  }
+
+  .row .col-pp {
+    grid-area: pp;
+  }
+
+  /* A page's own columns (after the six shared ones) take a full line. */
+  .row > :nth-child(n + 7) {
+    grid-column: 1 / -1;
+  }
+
+  .row .col-power,
+  .row .col-accuracy,
+  .row .col-pp {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .row .col-power::before,
+  .row .col-accuracy::before,
+  .row .col-pp::before {
+    content: attr(data-label) ' ';
+    color: var(--ink-muted);
+  }
+}
