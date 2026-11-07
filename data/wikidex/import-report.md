@@ -1,6 +1,6 @@
 # Spanish Pokédex entries from WikiDex
 
-Pages retrieved 2026-11-07T11:23:50.118Z. 3556 entries for 281 Pokémon, for the games before X and Y.
+Pages retrieved 2026-11-07T11:29:47.595Z. 3556 entries for 281 Pokémon, for the games before X and Y.
 
 ## How reliable WikiDex is
 
@@ -54,23 +54,23 @@ For X and Y onwards, the app has the games' own Spanish text. On these pages, Wi
 
 ## Problems (17)
 
-- bulbasaur (ruby): leftover markup "{{"
-- bulbasaur (sapphire): leftover markup "{{"
-- bulbasaur (emerald): leftover markup "{{"
-- bulbasaur (leafgreen): leftover markup "{{"
-- bulbasaur (diamond): leftover markup "{{"
-- bulbasaur (pearl): leftover markup "{{"
-- bulbasaur (platinum): leftover markup "{{"
-- bulbasaur (black): leftover markup "{{"
-- bulbasaur (white): leftover markup "{{"
-- bulbasaur (black-2): leftover markup "{{"
-- bulbasaur (white-2): leftover markup "{{"
-- ivysaur (ruby): leftover markup "{{"
-- ivysaur (sapphire): leftover markup "{{"
-- ivysaur (firered): leftover markup "{{"
-- ivysaur (diamond): leftover markup "{{"
-- ivysaur (pearl): leftover markup "{{"
-- ivysaur (platinum): leftover markup "{{"
+- bulbasaur (ruby): leftover markup "{{" in `{{NombreHaEs|Bulbasaur suele tomar siestas bajo el sol. La semilla que tiene en el lomo crece poco a poco a medida que absorbe los rayos del sol.|A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.}}`
+- bulbasaur (sapphire): leftover markup "{{" in `{{NombreHaEs|Bulbasaur suele tomar siestas bajo el sol. La semilla que tiene en el lomo crece poco a poco a medida que absorbe los rayos del sol.|A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.}}`
+- bulbasaur (emerald): leftover markup "{{" in `{{NombreHaEs|Bulbasaur suele tomar siestas bajo el sol. La semilla que tiene en el lomo crece poco a poco a medida que absorbe los rayos del sol.|A Bulbasaur es fácil verle echándose una siesta al sol. La semilla que tiene en el lomo va creciendo cada vez más a medida que absorbe los rayos del sol.}}`
+- bulbasaur (leafgreen): leftover markup "{{" in `{{NombreHaEs|Nace con un extraño bulbo plantado en el lomo que se va desarrollando a medida que el Pokémon crece.|Una rara semilla le fue plantada en el lomo al nacer. La planta brota y crece con este Pokémon.}}`
+- bulbasaur (diamond): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (pearl): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (platinum): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (black): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (white): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (black-2): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- bulbasaur (white-2): leftover markup "{{" in `{{NombreHaEs|Durante un tiempo tras nacer, se alimenta de la semilla que tiene en el lomo para crecer.|Después de nacer, crece alimentándose de las semillas de su lomo.}}`
+- ivysaur (ruby): leftover markup "{{" in `{{n|Este Pokémon lleva un bulbo en su lomo y, para soportar su peso, cuenta con unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, es una señal de que pronto brotará una gran flor de su bulbo.|Este Pokémon lleva un bulbo en el lomo y, para poder con su peso, tiene unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, será porque el bulbo está a punto de hacerse una flor grande.}}`
+- ivysaur (sapphire): leftover markup "{{" in `{{n|Este Pokémon lleva un bulbo en su lomo y, para soportar su peso, cuenta con unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, es una señal de que pronto brotará una gran flor de su bulbo.|Este Pokémon lleva un bulbo en el lomo y, para poder con su peso, tiene unas patas y un tronco gruesos y fuertes. Si empieza a pasar más tiempo al sol, será porque el bulbo está a punto de hacerse una flor grande.}}`
+- ivysaur (firered): leftover markup "{{" in `{{n|Este Pokémon tiene un capullo en el lomo. Dicen que, al absorber nutrientes, el capullo se transforma en una flor grande.|Este Pokémon tiene un bulbo en el lomo. Dicen que, al absorber nutrientes, el bulbo se transforma en una flor grande.}}`
+- ivysaur (diamond): leftover markup "{{" in `{{n|Cuando se le hincha el bulbo de su lomo, desprende un dulce aroma para indicar que su gran flor se va a abrir.|Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.}}`
+- ivysaur (pearl): leftover markup "{{" in `{{n|Cuando se le hincha el bulbo de su lomo, desprende un dulce aroma para indicar que su gran flor se va a abrir.|Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.}}`
+- ivysaur (platinum): leftover markup "{{" in `{{n|Cuando se le hincha el bulbo de su lomo, desprende un dulce aroma para indicar que su gran flor se va a abrir.|Cuando el bulbo de su lomo se hincha, desprende un dulce aroma para indicar el florecimiento.}}`
 
 ## Entries for X onwards that differ from the games' text (98)
 

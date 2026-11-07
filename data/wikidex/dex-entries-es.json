@@ -1,7 +1,7 @@
 {
  "note": "Spanish Pokédex entries for the games before X and Y, from WikiDex (https://www.wikidex.net), made by `npm run import-wikidex`. See import-report.md for what was checked and corrected.",
  "source": "https://www.wikidex.net",
- "retrieved": "2026-11-07T11:23:50.118Z",
+ "retrieved": "2026-11-07T11:29:47.595Z",
  "pages": {
   "abomasnow": {
    "title": "Abomasnow",
