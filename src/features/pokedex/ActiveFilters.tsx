@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { countActiveFilters, type PokedexQuery } from '@/domain/pokedex';
 import { useGameText } from '@/i18n/useGameText';
+import { categoryLabelKey } from './categoryLabel';
 import styles from './PokedexPage.module.css';
 
 interface Removable {
@@ -42,7 +43,7 @@ export function ActiveFilters({
     })),
     ...query.categories.map((category) => ({
       key: `cat-${category}`,
-      label: t(`categories.${category}`),
+      label: t(categoryLabelKey(category, query.listMode)),
       remove: () => ({ categories: query.categories.filter((c) => c !== category) }),
     })),
   ];
@@ -54,10 +55,16 @@ export function ActiveFilters({
     });
   }
   if (query.move) {
+    const name = text.name('move-names', query.move);
+    const methods = query.moveMethods
+      .map((tag) => (tag === 'new' ? t('pokemon.moves.newInChampions') : t(`learnMethods.${tag}.filter`)))
+      .join(', ');
     items.push({
       key: 'move',
-      label: t('pokedex.filters.moveValue', { name: text.name('move-names', query.move) }),
-      remove: () => ({ move: null }),
+      label: methods
+        ? t('pokedex.filters.moveMethodsValue', { name, methods })
+        : t('pokedex.filters.moveValue', { name }),
+      remove: () => ({ move: null, moveMethods: [] }),
     });
   }
   if (query.ability) {

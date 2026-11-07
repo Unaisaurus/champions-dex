@@ -18,7 +18,7 @@ import { int } from '../lib/csv';
 import type { Context } from './context';
 import type { FormDraft, MegaStone } from './forms';
 import { formKey } from '../sources/champions';
-import { abilityId, itemId, moveId } from './naming';
+import { abilityId, itemId, mainSeriesAbilityNumbers, moveId } from './naming';
 
 /** Types in the order the games list them. */
 export const TYPE_ORDER = [
@@ -227,6 +227,11 @@ export interface AbilitiesResult {
   abilities: Ability[];
   /** Ability ID → game ability number (for the text labels). */
   numberById: Map<string, number>;
+  /**
+   * Abilities only Pokémon outside Champions have → their number in Scarlet
+   * and Violet's text, which has their name and description.
+   */
+  mainSeriesNumberById: Map<string, number>;
 }
 
 export function buildAbilities(ctx: Context, drafts: readonly FormDraft[]): AbilitiesResult {
@@ -237,10 +242,25 @@ export function buildAbilities(ctx: Context, drafts: readonly FormDraft[]): Abil
       if (id && !numberById.has(id)) numberById.set(id, number);
     }
   }
-  const abilities = [...numberById.keys()]
-    .sort()
-    .map((id): Ability => ({ id, availableInChampions: true, caveats: [] }));
-  return { abilities, numberById };
+  // Pokémon outside Champions (family members) have their main-series Abilities.
+  const mainSeries = mainSeriesAbilityNumbers(ctx);
+  const mainSeriesNumberById = new Map<string, number>();
+  for (const draft of drafts) {
+    if (draft.personal) continue;
+    for (const id of draft.form.abilities) {
+      const number = mainSeries.get(id);
+      if (!numberById.has(id) && number !== undefined) mainSeriesNumberById.set(id, number);
+    }
+  }
+  const abilities = [
+    ...[...numberById.keys()].map((id): Ability => ({ id, availableInChampions: true, caveats: [] })),
+    ...[...mainSeriesNumberById.keys()].map((id): Ability => ({
+      id,
+      availableInChampions: false,
+      caveats: [],
+    })),
+  ].sort((a, b) => a.id.localeCompare(b.id));
+  return { abilities, numberById, mainSeriesNumberById };
 }
 
 export interface ItemsResult {

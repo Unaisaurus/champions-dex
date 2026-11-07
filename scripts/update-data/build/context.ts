@@ -71,6 +71,8 @@ export interface Context extends Sources {
   formsBySpecies: Map<number, ApiForm[]>;
   pokemonTypes: Map<number, string[]>;
   pokemonStats: Map<number, Stats>;
+  /** Each Pokémon's Abilities in PokéAPI (identifiers, in slot order: the hidden one last). */
+  pokemonAbilities: Map<number, string[]>;
   typeIdentifier: Map<number, string>;
   moveIdentifier: Map<number, string>;
   itemIdentifier: Map<number, string>;
@@ -223,6 +225,16 @@ export function buildContext(sources: Sources, overrides: Overrides): Context {
     );
   }
 
+  const abilityIdentifier = identifiers(api.abilities);
+  const pokemonAbilities = new Map<number, string[]>();
+  for (const [pokemonId, rows] of groupBy(api.pokemon_abilities, (row) => int(row.pokemon_id))) {
+    const ids = rows
+      .sort((a, b) => int(a.slot) - int(b.slot))
+      .map((row) => abilityIdentifier.get(int(row.ability_id)) ?? '')
+      .filter(Boolean);
+    pokemonAbilities.set(pokemonId, [...new Set(ids)]);
+  }
+
   const statIdentifier = identifiers(api.stats);
   const pokemonStats = new Map<number, Stats>();
   for (const row of api.pokemon_stats) {
@@ -262,6 +274,7 @@ export function buildContext(sources: Sources, overrides: Overrides): Context {
     formsBySpecies,
     pokemonTypes,
     pokemonStats,
+    pokemonAbilities,
     typeIdentifier,
     moveIdentifier: identifiers(api.moves),
     itemIdentifier,

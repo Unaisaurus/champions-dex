@@ -4,7 +4,9 @@
  * so they run offline and in a fraction of a second.
  */
 import { describe, expect, it } from 'vitest';
+import type { Form, Species } from '../../src/data/contracts';
 import { mainSeriesKinds, moveKinds, moveTarget, usualChampionsPp } from './build/catalog';
+import { applyColours } from './build/colors';
 import {
   cleanEntryText,
   closestLine,
@@ -107,6 +109,31 @@ describe('Pokémon Showdown names', () => {
     ]);
     expect(showdownCandidates('tauros-paldea-combat-breed')).toContain('taurospaldeacombat');
     expect(showdownCandidates('squawkabilly-blue-plumage')).toContain('squawkabillyblue');
+  });
+});
+
+describe('Pokédex colours', () => {
+  it("uses Showdown's colours for species, and for the forms coloured differently", () => {
+    const colours: Record<string, string> = {
+      tauros: 'brown',
+      taurospaldeacombat: 'black',
+      ceruledge: 'purple',
+    };
+    const species = [
+      { id: 'tauros', color: 'brown' },
+      { id: 'ceruledge', color: 'blue' },
+    ] as Species[];
+    const forms = [
+      { id: 'tauros', speciesId: 'tauros', color: null },
+      { id: 'tauros-paldea-combat-breed', speciesId: 'tauros', color: null },
+      { id: 'ceruledge', speciesId: 'ceruledge', color: null },
+      // Not in Showdown: its species' colour.
+      { id: 'tauros-unknown', speciesId: 'tauros', color: 'red' },
+    ] as Form[];
+    const notes = applyColours(species, forms, { speciesColor: (id) => colours[id] });
+    expect(species.map((s) => s.color)).toEqual(['brown', 'purple']);
+    expect(forms.map((f) => f.color)).toEqual([null, 'black', null, null]);
+    expect(notes).toEqual(['`ceruledge`: purple in Pokémon Showdown, blue in PokéAPI']);
   });
 });
 

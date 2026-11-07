@@ -161,6 +161,7 @@
 "sheer-force": "Aumenta un 30 % la potencia de los movimientos del Pokémon, pero anula sus efectos secundarios.",
 "shell-armor": "Evita que el Pokémon reciba golpes críticos.",
 "shield-dust": "Hace al Pokémon inmune a los efectos secundarios de los ataques.",
+"simple": "Duplica los cambios en las características.",
 "skill-link": "Permite ejecutar siempre los movimientos de ataque múltiple con el número máximo de golpes.",
 "slush-rush": "Duplica la Velocidad del Pokémon cuando nieva.",
 "sniper": "Aumenta un 125 % la potencia de los golpes críticos del Pokémon en vez de un 50 %.",
@@ -211,7 +212,9 @@
 "wandering-spirit": "Intercambia las habilidades del Pokémon y el objetivo si el Pokémon recibe un movimiento de contacto.",
 "water-absorb": "Hace al Pokémon inmune a los movimientos de tipo Agua y restaura 1/4 de sus PS máximos si recibe uno.",
 "water-bubble": "Reduce a la mitad el daño que el Pokémon recibe de movimientos de tipo Fuego y duplica la potencia de sus movimientos de tipo Agua. Además, evita que pueda ser quemado.",
+"water-veil": "Evita las quemaduras gracias a la capa de agua que lo envuelve.",
 "weak-armor": "Reduce un nivel la Defensa del Pokémon y aumenta dos niveles su Velocidad cuando recibe daño de un ataque físico.",
 "white-smoke": "Evita que los movimientos o la habilidad de otros Pokémon reduzcan las características del Pokémon.",
+"wimp-out": "Se asusta y abandona el terreno de combate cuando sus PS se ven reducidos a la mitad.",
 "zero-to-hero": "El Pokémon adopta su Forma Heroica cuando se retira del combate."
 }

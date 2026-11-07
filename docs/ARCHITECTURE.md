@@ -73,10 +73,22 @@ Rules of thumb: `domain/` never imports React; pages use `domain/` and
 filters) into the cards to show. The query lives in the page address
 (`#/?types=fire&sort=spe…`), so the back button, reloading and shared links
 keep it. The list can show one card per species, one per Pokédex entry (the
-default: regional forms get their own card) or one per form (Megas too). When
-several forms share a card, it shows whichever one matched (filtering Dragon
-shows Charizard as Mega Charizard X). Generation and favourites always look at
-the Pokédex entry a form belongs to.
+default: regional forms get their own card) or one per form (Megas too). One
+card per species means the species' regular form only, judged on its own:
+regional forms, Megas and other forms never show there (its "regional form"
+filter finds the species that have one). When an entry and its other forms
+share a card, it shows whichever one matched (filtering Dragon shows Charizard
+as Mega Charizard X). Generation and favourites always look at the Pokédex
+entry a form belongs to. The move filter can be narrowed down by how the move
+was learned before (`how=level-up,machine`, the learnset's tags), using
+`learnsetOf` in the list's source.
+
+**Pages for family members outside Champions** (reference forms: Bulbasaur,
+Alolan Vulpix…) are ordinary Pokémon pages: the updater gives them their
+main-series stats, Abilities and Pokédex entries, and the page leaves out what
+only Pokémon in Champions have (favourites, Add to team, the learnset) by
+checking `availability`. Nothing else tells them apart, so a Pokémon Champions
+adds later gets the full page as soon as the data has it.
 
 **Pokédex entries** (`dex-entries.json`, per language) are keyed by species,
 plus one key per form with entries of its own (`raichu-alola`, or an empty

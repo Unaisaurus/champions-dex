@@ -11,8 +11,9 @@ computer: no account, no server of your own, nothing to pay.
 > editor inside the app, an installable app that works offline, and a page
 > listing what each data update changed. Shiny artwork is lined up with the
 > regular art, and missing or odd artwork can be replaced with credited fan
-> art. Since then: a damage calculator, Speed tiers, and a page for every
-> move, Ability and item. See [docs/ROADMAP.md](docs/ROADMAP.md).
+> art. Since then: a damage calculator, Speed tiers, a page for every move,
+> Ability and item, and pages for the family members outside Champions. See
+> [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## Moves, Abilities and items
 

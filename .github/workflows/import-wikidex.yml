@@ -1,11 +1,12 @@
 name: Import Spanish Pokédex entries (WikiDex)
 
-# Downloads the WikiDex page of every Pokémon in Champions and imports the
-# Spanish Pokédex entries of the games before X and Y into data/wikidex/,
-# checked against the English entries (see scripts/wikidex/import.ts).
+# Downloads the WikiDex page of every Pokémon with a page in the app (the ones
+# in Champions and their family members) and imports the Spanish Pokédex
+# entries of the games before X and Y into data/wikidex/, checked against the
+# English entries (see scripts/wikidex/import.ts).
 #
-# Run it by hand ("Run workflow" on the Actions tab) when new Pokémon join
-# Champions: the data update report says when it's needed. Afterwards it starts
+# Run it by hand ("Run workflow" on the Actions tab) when new Pokémon join the
+# app: the data update report says when it's needed. Afterwards it starts
 # "Update game data", which puts the entries in the app.
 on:
   workflow_dispatch:

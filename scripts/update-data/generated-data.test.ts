@@ -8,7 +8,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import type { CoreData, DexEntriesFile, FamilyNode, Manifest } from '../../src/data/contracts';
 import { CORE_FILES } from '../../src/data/contracts';
-import { OUTPUT_DIR } from './lib/paths';
+import { OUTPUT_DIR, ROOT } from './lib/paths';
 
 const read = <T>(path: string): T => JSON.parse(readFileSync(join(OUTPUT_DIR, path), 'utf8')) as T;
 const manifest = read<Manifest>('manifest.json');
@@ -126,15 +126,31 @@ describe.runIf(real)('generated game data', () => {
       expect.arrayContaining(['red', 'blue', 'yellow', 'gold', 'emerald', 'diamond', 'black-2']),
     );
     expect(es.ninetales?.find((e) => e.games.includes('red'))?.text).toMatch(/^Muy inteligente y vengativo/);
-    // Every older English entry has a Spanish one, apart from the few left out on purpose
-    // (WikiDex's text for them is another game's).
+    // Every older English entry of a Pokémon whose WikiDex page was imported has a Spanish
+    // one, apart from the few the import left out on purpose (WikiDex's text for them is
+    // another game's). Pokémon new to the app wait for the next import (the update report
+    // says so).
+    const wikidex = JSON.parse(
+      readFileSync(join(ROOT, 'data', 'wikidex', 'dex-entries-es.json'), 'utf8'),
+    ) as {
+      pages: Record<string, unknown>;
+      leftOut: Record<string, string[]>;
+    };
+    expect(wikidex.leftOut.azumarill).toContain('black');
+    const imported = (key: string) => (forms.get(key)?.speciesId ?? key) in wikidex.pages;
     const older = ['red', 'yellow', 'gold', 'ruby', 'firered', 'diamond', 'heartgold', 'black', 'black-2'];
-    const missing = Object.entries(en).flatMap(([key, list]) =>
-      list.flatMap((e) =>
-        e.games.filter((g) => older.includes(g) && !spanishGames(key).has(g)).map((g) => `${key}/${g}`),
-      ),
-    );
-    expect(missing.sort()).toEqual(['azumarill/black', 'sceptile/firered']);
+    const missing = Object.entries(en)
+      .filter(([key]) => imported(key))
+      .flatMap(([key, list]) =>
+        list.flatMap((e) =>
+          e.games
+            .filter(
+              (g) => older.includes(g) && !spanishGames(key).has(g) && !wikidex.leftOut[key]?.includes(g),
+            )
+            .map((g) => `${key}/${g}`),
+        ),
+      );
+    expect(missing).toEqual([]);
   });
 
   it('gives forms their own Pokédex entries', () => {
@@ -204,6 +220,22 @@ describe.runIf(real)('generated game data', () => {
     expect(group.get('scarlet')).toBe(group.get('violet'));
     expect(group.get('legends-za')).toBe('legends-za');
     expect(manifest.games.at(-1)?.id).toBe('legends-za');
+  });
+
+  it('gives forms their own Pokédex colours', () => {
+    const species = (id: string) => core.species.find((s) => s.id === id);
+    expect(forms.get('tauros-paldea-combat-breed')?.color).toBe('black');
+    expect(forms.get('ninetales-alola')?.color).toBe('blue');
+    expect(forms.get('charizard-mega-x')?.color).toBe('black');
+    expect(forms.get('meowstic-female')?.color).toBe('white');
+    // Forms coloured like their species keep the species' colour.
+    expect(forms.get('tauros')?.color).toBeNull();
+    expect(species('tauros')?.color).toBe('brown');
+    // PokéAPI's colour is out of date here; Showdown's (and the games') is purple.
+    expect(species('ceruledge')?.color).toBe('purple');
+    // The regular Vivillon is the Meadow Pattern.
+    expect(species('vivillon')?.color).toBe('pink');
+    expect(forms.get('vivillon-icy-snow')?.color).toBe('white');
   });
 
   it("knows every Champions form's name on Pokémon Showdown", () => {

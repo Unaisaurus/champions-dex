@@ -100,7 +100,8 @@
     "fossil": "",
     "baby": "",
     "mega": "",
-    "regional": ""
+    "regional": "",
+    "regionalSpecies": ""
   },
   "pokedex": {
     "title": "",
@@ -136,6 +137,7 @@
       "showResults_other": "",
       "remove": "",
       "moveValue": "",
+      "moveMethodsValue": "",
       "abilityValue": ""
     },
     "sort": {
@@ -270,7 +272,6 @@
     "showShiny": "",
     "showFemale": "",
     "fanArt": "",
-    "notInChampions": "",
     "speciesInfo": "",
     "genderLabel": "",
     "genderRatio": "",
@@ -334,7 +335,8 @@
       "noContact": "",
       "priority": "",
       "neverMisses": ""
-    }
+    },
+    "notInChampions": ""
   },
   "teams": {
     "title": "",

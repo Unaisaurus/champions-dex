@@ -86,8 +86,24 @@ function hasTag(entry: LearnsetEntry, tag: LearnFilter): boolean {
   return tag === 'new' ? entry.newInChampions : entry.methods.includes(tag);
 }
 
-function hasAnyTag(entry: LearnsetEntry, tags: readonly LearnFilter[]): boolean {
+/** True if the move has any of these tags (or no tags are chosen). */
+export function hasAnyTag(entry: LearnsetEntry, tags: readonly LearnFilter[]): boolean {
   return tags.length === 0 || tags.some((tag) => hasTag(entry, tag));
+}
+
+/** Every tag of one learnset entry, in the order they're shown. */
+export function tagsOf(entry: LearnsetEntry): LearnFilter[] {
+  return LEARN_FILTERS.filter((tag) => hasTag(entry, tag));
+}
+
+/** The tags a move has in any of these learnsets (how anyone learned it), in the order they're shown. */
+export function tagsOfMove(learnsets: Iterable<readonly LearnsetEntry[]>, move: Id): LearnFilter[] {
+  const found = new Set<LearnFilter>();
+  for (const entries of learnsets) {
+    const entry = entries.find((candidate) => candidate.move === move);
+    if (entry) for (const tag of tagsOf(entry)) found.add(tag);
+  }
+  return LEARN_FILTERS.filter((tag) => found.has(tag));
 }
 
 /** How many moves of a learnset have each tag; tags no move has are left out. */

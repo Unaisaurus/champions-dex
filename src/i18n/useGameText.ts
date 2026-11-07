@@ -56,11 +56,11 @@ const useTextStore = create<TextStore>((set, get) => ({
         if (parsed.success) domains[domain] = parsed.data;
       }),
     );
+    set((state) => ({ generated: { ...state.generated, [language]: domains } }));
+    // Pokédex entries are the largest text file and only show on Pokémon pages,
+    // so they come after the rest and never hold up the first screen.
     const dex = DexEntriesFileSchema.safeParse(await fetchOptional(`text/${language}/dex-entries.json`));
-    set((state) => ({
-      generated: { ...state.generated, [language]: domains },
-      dexEntries: dex.success ? { ...state.dexEntries, [language]: dex.data } : state.dexEntries,
-    }));
+    if (dex.success) set((state) => ({ dexEntries: { ...state.dexEntries, [language]: dex.data } }));
   },
 }));
 

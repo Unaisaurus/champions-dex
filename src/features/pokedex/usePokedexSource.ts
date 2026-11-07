@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { Form, Id } from '@/data/contracts';
+import type { Form, Id, LearnsetEntry } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
 import { learnsetFormId } from '@/domain/learnsetView';
 import type { PokedexSource } from '@/domain/pokedex';
@@ -10,7 +10,7 @@ import { useFavourites } from '@/state/userData';
 import { useFormLabels } from '@/ui/useFormLabels';
 import { useSearchIndex } from './useSearchIndex';
 
-const NO_MOVES: ReadonlySet<Id> = new Set();
+const NO_MOVES: ReadonlyMap<Id, LearnsetEntry> = new Map();
 
 /** Connects the Pokédex list logic (domain/pokedex) to the loaded data, your favourites and settings. */
 export function usePokedexSource(): PokedexSource {
@@ -21,9 +21,11 @@ export function usePokedexSource(): PokedexSource {
   const { favourites } = useFavourites();
   const generationMode = useSettings((state) => state.generationMode);
 
-  const moveSets = useMemo(
+  const learnsets = useMemo(
     () =>
-      new Map([...data.learnsetsByForm].map(([id, entries]) => [id, new Set(entries.map((e) => e.move))])),
+      new Map(
+        [...data.learnsetsByForm].map(([id, entries]) => [id, new Map(entries.map((e) => [e.move, e]))]),
+      ),
     [data],
   );
   const megaBase = data.megaBase;
@@ -35,19 +37,19 @@ export function usePokedexSource(): PokedexSource {
   );
 
   return useMemo(() => {
-    const movesOf = (form: Form): ReadonlySet<Id> => {
+    const learnsetOf = (form: Form): ReadonlyMap<Id, LearnsetEntry> => {
       const id = learnsetFormId(
         form,
-        (formId) => moveSets.has(formId),
+        (formId) => learnsets.has(formId),
         (formId) => megaBase.get(formId),
       );
-      return (id && moveSets.get(id)) || NO_MOVES;
+      return (id && learnsets.get(id)) || NO_MOVES;
     };
     return {
       entries: data.championsEntries,
       profilesOf: (id) => data.profilesByEntry.get(id) ?? [],
       species: (id) => data.speciesById.get(id),
-      movesOf,
+      learnsetOf,
       canMegaEvolve: (form) => canMega.has(form.id),
       searchText: (id) => searchIndex.get(id) ?? '',
       displayName: (form) => {
@@ -59,5 +61,5 @@ export function usePokedexSource(): PokedexSource {
       favourites,
       generationMode,
     };
-  }, [data, moveSets, megaBase, canMega, searchIndex, text, labels, collator, favourites, generationMode]);
+  }, [data, learnsets, megaBase, canMega, searchIndex, text, labels, collator, favourites, generationMode]);
 }

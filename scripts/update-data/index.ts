@@ -36,6 +36,7 @@ import {
   MEASUREMENTS_NOTE,
   readMeasurements,
 } from './build/artwork';
+import { applyColours } from './build/colors';
 import { buildContext } from './build/context';
 import { buildDexEntries, gamesUsed, TEXT_LANGUAGES } from './build/dexEntries';
 import { buildFamilies } from './build/families';
@@ -165,7 +166,8 @@ async function main() {
   log.step('Moves, Abilities, items');
   const moves = buildMoves(ctx, referencedMoves);
   moves.problems.forEach((p) => log.warn(p));
-  const abilities = buildAbilities(ctx, championsForms.drafts);
+  // Family members outside Champions bring their main-series Abilities.
+  const abilities = buildAbilities(ctx, drafts);
   const items = buildItems(ctx, championsForms.drafts, stones.stones, referencedItems);
   items.problems.forEach((p) => log.warn(p));
 
@@ -180,9 +182,10 @@ async function main() {
   speciesResult.problems.forEach((p) => log.warn(p));
 
   log.step('Text and Pokédex entries');
-  const championsSpecies = [...new Set(championsForms.drafts.map((d) => d.speciesNo))];
+  // Every Pokémon with a page: the ones in Champions and their family members.
+  const dexSpecies = [...new Set(drafts.map((d) => d.speciesNo))];
   const wikidex = loadWikidexEntries();
-  const dex = buildDexEntries(ctx, { drafts, speciesNos: championsSpecies, dumps, wikidex });
+  const dex = buildDexEntries(ctx, { drafts, speciesNos: dexSpecies, dumps, wikidex });
   dex.problems.forEach((p) => log.warn(p));
   dex.notes.matching.forEach((line) => log.info(`Pokédex text, ${line}`));
   log.info(`${dex.notes.formsWithEntries.length} forms with Pokédex entries of their own`);
@@ -228,6 +231,12 @@ async function main() {
     if (name) form.showdownName = name;
     else if (form.availability === 'champions') withoutShowdownName.push(form.id);
   }
+  // Pokédex colours of species and forms, from Showdown (see build/colors.ts).
+  const colourNotes = applyColours(
+    speciesResult.species,
+    drafts.map((d) => d.form),
+    showdown,
+  );
   if (withoutShowdownName.length > 0) {
     log.warn(`No Pokémon Showdown name for: ${withoutShowdownName.join(', ')}`);
   }
@@ -481,6 +490,7 @@ async function main() {
         learnsets.stats.pokeapiDifferences,
       'Items Showdown treats differently': items.notes,
       "Move targets the game files give differently from PokéAPI (the game's are used)": moves.targetNotes,
+      "Pokédex colours Pokémon Showdown gives differently from PokéAPI (Showdown's are used)": colourNotes,
       'Pokédex entries of single forms found in each game': dex.notes.matching,
       'Forms without Pokédex entries of their own yet': dex.notes.formsWithoutEntries,
       "Forms whose regular and shiny art aren't the same drawing (better art welcome)": artwork.different,

@@ -242,7 +242,9 @@ export function PokemonPage() {
         <SpeciesFacts species={species} profile={profile} />
       </section>
 
-      {!inChampions && <Notice tone="warning">{t('pokemon.notInChampions')}</Notice>}
+      {/* Pokémon outside Champions (family members) show their main-series details; once
+          Champions adds one, the data gives it everything else and this page fills in. */}
+      {!inChampions && <Notice tone="warning">{t('pokemon.notInChampions', { name: shortName })}</Notice>}
 
       {profiles.length > 1 && (
         <nav className={styles.chipRow} aria-label={t('pokemon.forms')}>

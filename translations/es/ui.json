@@ -100,7 +100,8 @@
     "fossil": "Fósil",
     "baby": "Bebé",
     "mega": "Puede megaevolucionar",
-    "regional": "Forma regional"
+    "regional": "Forma regional",
+    "regionalSpecies": "Tiene forma regional"
   },
   "pokedex": {
     "title": "Pokédex",
@@ -136,6 +137,7 @@
       "showResults_other": "Ver {{count}} Pokémon",
       "remove": "Quitar filtro: {{name}}",
       "moveValue": "Movimiento: {{name}}",
+      "moveMethodsValue": "Movimiento: {{name}} ({{methods}})",
       "abilityValue": "Habilidad: {{name}}"
     },
     "sort": {
@@ -270,7 +272,6 @@
     "showShiny": "Colores variocolor",
     "showFemale": "Hembra",
     "fanArt": "Fan art de {{artist}}",
-    "notInChampions": "No disponible en Pokémon Champions",
     "speciesInfo": "Especie",
     "genderLabel": "Sexo",
     "genderRatio": "{{female}} % hembras, {{male}} % machos",
@@ -334,7 +335,8 @@
       "noContact": "No es de contacto",
       "priority": "Prioridad",
       "neverMisses": "No falla nunca"
-    }
+    },
+    "notInChampions": "{{name}} no está en Pokémon Champions, así que no se puede usar en equipos. Sus características base y sus habilidades son las de los juegos principales."
   },
   "teams": {
     "title": "Equipos",

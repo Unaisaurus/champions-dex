@@ -161,6 +161,7 @@
 "sheer-force": "Potencia Bruta",
 "shell-armor": "Caparazón",
 "shield-dust": "Polvo Escudo",
+"simple": "Simple",
 "skill-link": "Encadenado",
 "slush-rush": "Quitanieves",
 "sniper": "Francotirador",
@@ -211,7 +212,9 @@
 "wandering-spirit": "Alma Errante",
 "water-absorb": "Absorbe Agua",
 "water-bubble": "Pompa",
+"water-veil": "Velo Agua",
 "weak-armor": "Armadura Frágil",
 "white-smoke": "Humo Blanco",
+"wimp-out": "Huida",
 "zero-to-hero": "Cambio Heroico"
 }

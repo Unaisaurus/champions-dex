@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { POKEDEX_COLORS } from '@/data/contracts';
+import { POKEDEX_COLORS, type Id } from '@/data/contracts';
 import { useGameData } from '@/data/useGameData';
+import { LEARN_FILTERS, tagsOfMove, type LearnFilter } from '@/domain/learnsetView';
 import {
   GENERATIONS,
   MAX_TYPE_FILTERS,
@@ -16,6 +17,7 @@ import { SearchSelect } from '@/ui/components/SearchSelect';
 import { Switch } from '@/ui/components/Switch';
 import { ToggleChip } from '@/ui/components/ToggleChip';
 import { TypeBadge } from '@/ui/components/TypeBadge';
+import { categoryLabelKey } from './categoryLabel';
 import type { FilterOptions } from './useFilterOptions';
 import styles from './PokedexPage.module.css';
 
@@ -54,6 +56,26 @@ export function FilterPanel({
       }),
     [options.moves, data],
   );
+  // The ways anyone learned the chosen move, to narrow it down by.
+  const methodsOf = (move: Id) => tagsOfMove(data.learnsetsByForm.values(), move);
+  const moveMethods = useMemo(() => {
+    if (!query.move) return [];
+    const offered = tagsOfMove(data.learnsetsByForm.values(), query.move);
+    // One way only narrows nothing down, but chosen ones always show (so they can be undone).
+    return LEARN_FILTERS.filter(
+      (tag) => (offered.length > 1 && offered.includes(tag)) || query.moveMethods.includes(tag),
+    );
+  }, [data, query.move, query.moveMethods]);
+  // A new move keeps the chosen ways it can be learned by.
+  const chooseMove = (move: Id | null) =>
+    onChange({
+      move,
+      moveMethods: move ? query.moveMethods.filter((tag) => methodsOf(move).includes(tag)) : [],
+    });
+  const toggleMethod = (tag: LearnFilter) => {
+    const chosen = toggleValue(query.moveMethods, tag);
+    onChange({ moveMethods: LEARN_FILTERS.filter((candidate) => chosen.includes(candidate)) });
+  };
 
   return (
     <section id={id} className={styles.panel} aria-label={t('pokedex.filters.title')}>
@@ -124,7 +146,7 @@ export function FilterPanel({
               pressed={query.categories.includes(category)}
               onToggle={() => onChange({ categories: toggleValue(query.categories, category) })}
             >
-              {t(`categories.${category}`)}
+              {t(categoryLabelKey(category, query.listMode))}
             </ToggleChip>
           ))}
         </div>
@@ -136,15 +158,36 @@ export function FilterPanel({
       <fieldset className={`${styles.group} ${styles.wide}`}>
         <legend>{t('pokedex.filters.battle')}</legend>
         <div className={styles.selects}>
-          <SearchSelect
-            label={t('pokedex.filters.move')}
-            options={moveOptions}
-            value={query.move}
-            onChange={(move) => onChange({ move })}
-            placeholder={t('pokedex.filters.any')}
-            noMatches={t('pokedex.filters.noMatches')}
-            clearLabel={t('pokedex.filters.clearChoice')}
-          />
+          <div className={styles.moveFilter}>
+            <SearchSelect
+              label={t('pokedex.filters.move')}
+              options={moveOptions}
+              value={query.move}
+              onChange={chooseMove}
+              placeholder={t('pokedex.filters.any')}
+              noMatches={t('pokedex.filters.noMatches')}
+              clearLabel={t('pokedex.filters.clearChoice')}
+            />
+            {moveMethods.length > 0 && (
+              <div className={styles.methods} role="group" aria-labelledby={`${id}-methods`}>
+                <span id={`${id}-methods`} className={styles.methodsLabel}>
+                  {t('pokemon.moves.learnedBefore')}
+                </span>
+                <div className={styles.chips}>
+                  {moveMethods.map((tag) => (
+                    <ToggleChip
+                      key={tag}
+                      pressed={query.moveMethods.includes(tag)}
+                      onToggle={() => toggleMethod(tag)}
+                      title={tag === 'new' ? undefined : t(`learnMethods.${tag}.long`)}
+                    >
+                      {tag === 'new' ? t('pokemon.moves.newInChampions') : t(`learnMethods.${tag}.filter`)}
+                    </ToggleChip>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
           <SearchSelect
             label={t('pokedex.filters.ability')}
             options={options.abilities}

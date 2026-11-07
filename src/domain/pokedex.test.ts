@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { Form, Species } from '@/data/contracts';
+import type { Form, LearnMethod, LearnsetEntry, Species } from '@/data/contracts';
+import type { LearnFilter } from './learnsetView';
 import {
   DEFAULT_QUERY,
   clearFilters,
@@ -143,12 +144,18 @@ const names = new Map([
   ['rotom', 'Rotom'],
   ['rotom-wash', 'Rotom Wash Rotom'],
 ]);
-const moves = new Map<string, string[]>([
-  ['charizard', ['flamethrower', 'dragon-claw']],
-  ['raichu', ['thunderbolt']],
-  ['raichu-alola', ['thunderbolt', 'psychic']],
-  ['rotom', ['thunderbolt']],
-  ['rotom-wash', ['thunderbolt', 'hydro-pump']],
+/** A move and how it was learned in earlier games (`new`: new in Champions). */
+const learned = (move: string, ...tags: LearnFilter[]): LearnsetEntry => ({
+  move,
+  methods: tags.filter((tag): tag is LearnMethod => tag !== 'new'),
+  newInChampions: tags.includes('new'),
+});
+const moves = new Map<string, LearnsetEntry[]>([
+  ['charizard', [learned('flamethrower', 'level-up', 'machine'), learned('dragon-claw', 'machine')]],
+  ['raichu', [learned('thunderbolt', 'machine')]],
+  ['raichu-alola', [learned('thunderbolt', 'level-up'), learned('psychic', 'new')]],
+  ['rotom', [learned('thunderbolt', 'level-up')]],
+  ['rotom-wash', [learned('thunderbolt', 'level-up'), learned('hydro-pump', 'form-change')]],
 ]);
 
 function source(extra: Partial<PokedexSource> = {}): PokedexSource {
@@ -157,7 +164,10 @@ function source(extra: Partial<PokedexSource> = {}): PokedexSource {
     profilesOf: (id) => profiles.get(id) ?? [],
     species: (id) => speciesById.get(id),
     // Megas use their base form's moves.
-    movesOf: (f) => new Set(moves.get(f.parentEntry && f.kind === 'mega' ? f.parentEntry : f.id) ?? []),
+    learnsetOf: (f) =>
+      new Map(
+        (moves.get(f.parentEntry && f.kind === 'mega' ? f.parentEntry : f.id) ?? []).map((e) => [e.move, e]),
+      ),
     canMegaEvolve: (f) => f.id === 'charizard',
     searchText: (id) => buildSearchText([names.get(id) ?? id]),
     displayName: (f) => names.get(f.id) ?? f.id,
@@ -197,16 +207,24 @@ describe('Pokédex list', () => {
     expect(run({ listMode: 'forms' })).toHaveLength(7);
   });
 
-  it('folds regional forms into their species when listing one card per species', () => {
+  it('lists only regular forms when listing one card per species', () => {
     expect(run({ listMode: 'species' })).toEqual(['charizard', 'raichu', 'rotom']);
-    // The card shows whichever form matched.
-    expect(run({ listMode: 'species', types: ['psychic'] })).toEqual(['raichu-alola']);
-    expect(run({ listMode: 'species', generations: [7] }, { generationMode: 'strict' })).toEqual([
-      'raichu-alola',
+    // Each card is judged on the species' regular form alone: regional forms,
+    // Megas and other forms never show here.
+    expect(run({ listMode: 'species', types: ['psychic'] })).toEqual([]);
+    expect(run({ listMode: 'species', types: ['dragon'] })).toEqual([]);
+    expect(run({ listMode: 'species', move: 'hydro-pump' })).toEqual([]);
+    expect(run({ listMode: 'species', generations: [7] })).toEqual([]);
+    expect(run({ listMode: 'species', generations: [1] }, { generationMode: 'strict' })).toEqual([
+      'charizard',
+      'raichu',
     ]);
     expect(
       run({ listMode: 'species', favouritesOnly: true }, { favourites: new Set(['raichu-alola']) }),
-    ).toEqual(['raichu-alola']);
+    ).toEqual([]);
+    // The regional-form filter finds the species that have one.
+    expect(run({ listMode: 'species', categories: ['regional'] })).toEqual(['raichu']);
+    expect(run({ listMode: 'species', categories: ['mega'] })).toEqual(['charizard']);
   });
 
   it('needs all chosen types', () => {
@@ -238,6 +256,19 @@ describe('Pokédex list', () => {
       'charizard-mega-x',
       'charizard-mega-y',
     ]);
+  });
+
+  it('filters by how a move is learned', () => {
+    expect(run({ move: 'thunderbolt' })).toEqual(['raichu', 'raichu-alola', 'rotom']);
+    expect(run({ move: 'thunderbolt', moveMethods: ['machine'] })).toEqual(['raichu']);
+    // Any of the chosen ways.
+    expect(run({ move: 'thunderbolt', moveMethods: ['machine', 'level-up'] })).toEqual([
+      'raichu',
+      'raichu-alola',
+      'rotom',
+    ]);
+    expect(run({ move: 'psychic', moveMethods: ['new'] })).toEqual(['raichu-alola']);
+    expect(run({ move: 'psychic', moveMethods: ['level-up'] })).toEqual([]);
   });
 
   it('finds Pokémon by number', () => {
@@ -291,9 +322,11 @@ describe('Pokédex address', () => {
       favouritesOnly: true,
       listMode: 'forms',
       move: 'thunderbolt',
+      moveMethods: ['level-up', 'new'],
       ability: 'levitate',
     };
     const params = paramsFromQuery(query);
+    expect(params.get('how')).toBe('level-up,new');
     // Speed sorts highest-first by default, so the direction isn't written.
     expect(params.has('dir')).toBe(false);
     expect(queryFromParams(new URLSearchParams(params.toString()))).toEqual(query);
@@ -321,6 +354,12 @@ describe('Pokédex address', () => {
     expect(query.colors).toEqual(['red']);
     expect(query.categories).toEqual(['starter']);
     expect(query.move).toBeNull();
+    // Learn methods only count with a move, and unknown ones are dropped.
+    expect(queryFromParams(new URLSearchParams('how=machine')).moveMethods).toEqual([]);
+    expect(queryFromParams(new URLSearchParams('move=surf&how=new,nope,egg')).moveMethods).toEqual([
+      'egg',
+      'new',
+    ]);
   });
 
   it('counts and clears filters, keeping search and sorting', () => {

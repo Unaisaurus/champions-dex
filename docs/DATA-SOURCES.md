@@ -4,18 +4,18 @@ The data updater (`npm run update-data`, `update-data.bat`, or the **Update
 game data** action on GitHub) builds everything in `public/data/` from these
 public sources:
 
-| Source                                                                                                 | Used for                                                                                                                                                                                                                                                                                                                               |
-| ------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Pokémon Champions datamine](https://github.com/projectpokemon/champout) (Project Pokémon)             | **The source of truth for Champions**: roster and forms, base stats, types, Abilities, weights, moves (power, accuracy, PP, priority, target, contact, kind such as punch or sound move, availability), learnsets, items and Mega Stones, and the game's own text in English and Spanish (Spain), plus eight more languages for search |
-| [PokéAPI data](https://github.com/PokeAPI/pokeapi)                                                     | History and background: evolution families and methods, earlier games' learn methods, Pokédex entries, categories, heights, Pokédex colours, gender ratios, legendary/mythical/baby flags, game and region names; a cross-check of the Champions learnsets                                                                             |
-| [PokéAPI sprites](https://github.com/PokeAPI/sprites)                                                  | Official artwork and its shiny set (including cosmetic forms such as Vivillon patterns), the Champions menu icons (regular and shiny), item icons                                                                                                                                                                                      |
-| [Pokémon Showdown](https://github.com/smogon/pokemon-showdown)                                         | More learn-method history (Scarlet/Violet DLC, both Legends games, event-only moves); a cross-check of which items its Champions rules allow; each form's Showdown name, for importing and exporting teams                                                                                                                             |
-| [Pokémon main series text dumps](https://github.com/tanripj/pokemon_text_dumps) (tanripj)              | The games' own text, DLC included: Pokédex entries in both languages that PokéAPI doesn't have (Sun/Moon to Legends: Z-A and its Mega Dimension, the entries of single forms such as Megas, regional forms, Rotom's appliances or Vivillon's patterns), and Spanish categories                                                         |
-| [Brilliant Diamond and Shining Pearl text dumps](https://github.com/tanripj/bdsp_text_dumps) (tanripj) | Those games' own Pokédex entries in both languages (one per species, by National Dex number), which PokéAPI doesn't have                                                                                                                                                                                                               |
-| [Legends: Z-A text dump](https://github.com/CPokemon/plza-text) (CPokemon)                             | The label of each Legends: Z-A entry (which species and form it belongs to)                                                                                                                                                                                                                                                            |
-| [Pokémon JSON API](https://github.com/towakey/pokedex) by towakey                                      | Japanese Pokédex text per form, to tell which unlabelled line of a dump belongs to which form                                                                                                                                                                                                                                          |
-| [WikiDex](https://www.wikidex.net)                                                                     | Spanish Pokédex entries for the games before X and Y (Red and Blue to Black 2 and White 2), which no game text dump has; imported into `data/wikidex/` and checked against the English entries                                                                                                                                         |
-| [PKHeX](https://github.com/kwsch/PKHeX)                                                                | Ultra Sun/Ultra Moon's and Let's Go's form tables (how many forms each species has), which fix where each form's entry sits                                                                                                                                                                                                            |
+| Source                                                                                                 | Used for                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Pokémon Champions datamine](https://github.com/projectpokemon/champout) (Project Pokémon)             | **The source of truth for Champions**: roster and forms, base stats, types, Abilities, weights, moves (power, accuracy, PP, priority, target, contact, kind such as punch or sound move, availability), learnsets, items and Mega Stones, and the game's own text in English and Spanish (Spain), plus eight more languages for search              |
+| [PokéAPI data](https://github.com/PokeAPI/pokeapi)                                                     | History and background: evolution families and methods, earlier games' learn methods, Pokédex entries, categories, heights, Pokédex colours (where Showdown has none), gender ratios, legendary/mythical/baby flags, game and region names; the main-series Abilities of family members outside Champions; a cross-check of the Champions learnsets |
+| [PokéAPI sprites](https://github.com/PokeAPI/sprites)                                                  | Official artwork and its shiny set (including cosmetic forms such as Vivillon patterns), the Champions menu icons (regular and shiny), item icons                                                                                                                                                                                                   |
+| [Pokémon Showdown](https://github.com/smogon/pokemon-showdown)                                         | More learn-method history (Scarlet/Violet DLC, both Legends games, event-only moves); a cross-check of which items its Champions rules allow; each form's Showdown name, for importing and exporting teams; the Pokédex colour of every species and form                                                                                            |
+| [Pokémon main series text dumps](https://github.com/tanripj/pokemon_text_dumps) (tanripj)              | The games' own text, DLC included: Pokédex entries in both languages that PokéAPI doesn't have (Sun/Moon to Legends: Z-A and its Mega Dimension, the entries of single forms such as Megas, regional forms, Rotom's appliances or Vivillon's patterns), Spanish categories, and the names and descriptions of Abilities Champions doesn't use       |
+| [Brilliant Diamond and Shining Pearl text dumps](https://github.com/tanripj/bdsp_text_dumps) (tanripj) | Those games' own Pokédex entries in both languages (one per species, by National Dex number), which PokéAPI doesn't have                                                                                                                                                                                                                            |
+| [Legends: Z-A text dump](https://github.com/CPokemon/plza-text) (CPokemon)                             | The label of each Legends: Z-A entry (which species and form it belongs to)                                                                                                                                                                                                                                                                         |
+| [Pokémon JSON API](https://github.com/towakey/pokedex) by towakey                                      | Japanese Pokédex text per form, to tell which unlabelled line of a dump belongs to which form                                                                                                                                                                                                                                                       |
+| [WikiDex](https://www.wikidex.net)                                                                     | Spanish Pokédex entries for the games before X and Y (Red and Blue to Black 2 and White 2), which no game text dump has; imported into `data/wikidex/` and checked against the English entries                                                                                                                                                      |
+| [PKHeX](https://github.com/kwsch/PKHeX)                                                                | Ultra Sun/Ultra Moon's and Let's Go's form tables (how many forms each species has), which fix where each form's entry sits                                                                                                                                                                                                                         |
 
 The damage calculator uses one more: [Smogon's damage calculator](https://github.com/smogon/damage-calc)
 (`@smogon/calc`, MIT licence, pinned in `package.json`; the licence ships with
@@ -50,7 +50,12 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
   (hidden in its sort key) the Mega form.
 - **Evolution families** come from PokéAPI, with the canonical (newest) method
   of each evolution. Family members outside Champions (Bulbasaur, Pichu,
-  Hisuian Sneasel…) are added as _reference_ forms, with art, names and stats.
+  Hisuian Sneasel…) are added as _reference_ forms, with art, names, their
+  main-series stats and Abilities, and Pokédex entries, so each has a page of
+  its own. Abilities only they have (Simple, Water Veil, Wimp Out) are marked
+  as not in Champions, and their text comes from Scarlet and Violet's. If
+  Champions adds one of them, the next update builds it from the game files
+  like any other Champions Pokémon, under the same ID.
   Variants that only look different are folded into one node.
 - **Learn methods.** Each Champions move is tagged with every way the Pokémon
   could learn it in the main series: level-up, TM, tutor, egg, event, form
@@ -93,7 +98,9 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
 - **Spanish entries before X and Y.** No game text dump covers those games
   in Spanish, so they come from WikiDex, imported by `npm run import-wikidex`
   (the **Import Spanish Pokédex entries** workflow on GitHub, since WikiDex
-  isn't reachable from everywhere) into `data/wikidex/dex-entries-es.json`.
+  isn't reachable from everywhere) into `data/wikidex/dex-entries-es.json`,
+  for every Pokémon with a page: the ones in Champions and their family
+  members.
   The updater uses them only where the games' own text has no Spanish.
   Checks made by the import (results in `data/wikidex/import-report.md`):
   - WikiDex against the games' own Spanish text for X and Y onwards: about
@@ -121,6 +128,13 @@ data set can always be rebuilt identically (`npm run update-data -- --offline`).
   `public/images/custom/`) replaces PokéAPI's image for a form's regular or
   shiny art, is lined up the same way, and is credited to its artist on the
   Pokémon page.
+- **Pokédex colours** come from Pokémon Showdown, which has one for every
+  form (Paldean Tauros is black, Alolan Ninetales blue, each Vivillon pattern
+  its own). PokéAPI only has one per species, and some of its Generation 9
+  ones are out of date (Ceruledge is purple, Baxcalibur blue): Bulbapedia,
+  from Pokémon HOME, agrees with Showdown. A form only stores its own colour
+  when it isn't its species', and the update report lists every species
+  whose colour isn't PokéAPI's.
 - **Move changes.** Where Champions changed a move (power, accuracy, type, PP
   beyond the usual conversion, target, kind), the main-series value is kept
   alongside (`mainSeries` in `moves.json`), so the app can point it out. The

@@ -69,8 +69,17 @@ Done since Stage 6:
   Shock is a punching move, Milk Drink can heal an ally…) are marked as
   changed.
 
+- Pages for the family members outside Champions (Bulbasaur, Alolan
+  Vulpix…), with their main-series stats, Abilities and Pokédex entries; they
+  become full pages on their own if Champions adds them.
+- Pokédex colours per form (Paldean Tauros is black) from Pokémon Showdown,
+  which also corrects a few out-of-date species colours.
+- The Pokédex's Species view lists regular forms only, whatever the filters,
+  and its move filter can be narrowed down by how the move was learned
+  (level-up, TM, Egg Move… or new in Champions).
+
 Later: Terastallization / Dynamax / Z-Move modules once Champions enables them,
-Generation 10, a regulation filter, pages for reference-only Pokémon.
+Generation 10, a regulation filter.
 
 ## Decisions
 

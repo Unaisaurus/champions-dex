@@ -1,10 +1,13 @@
 .page {
   display: grid;
+  /* Never wider than the screen: the sort choice shrinks to fit on phones. */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
 }
 
 .header {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3);
 }
 
@@ -163,7 +166,27 @@
 .selects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  /* Each choice keeps its own height (the move's learn methods make its column taller). */
+  align-items: start;
   gap: var(--space-3) var(--space-5);
+}
+
+/* The move choice, with the ways it can be learned under it. */
+.moveFilter {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.methods {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.methodsLabel {
+  font-size: 14px;
+  font-weight: 650;
 }
 
 .panelFooter {

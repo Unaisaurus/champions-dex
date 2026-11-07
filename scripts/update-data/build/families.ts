@@ -16,6 +16,7 @@ import type { ApiForm, ApiPokemon, Context } from './context';
 import { defaultPokemonOf } from './context';
 import { artFor, artName, type FormDraft } from './forms';
 import { isRegionalIdentifier } from './matching';
+import { mainSeriesAbilityNumbers } from './naming';
 
 interface NodeRef {
   id: string;
@@ -357,6 +358,8 @@ export function buildFamilies(ctx: Context, drafts: readonly FormDraft[]): Famil
 
   // Reference forms for family members that aren't in Champions.
   const reference: FormDraft[] = [];
+  // Their main-series Abilities, wherever the games' text names them.
+  const knownAbilities = mainSeriesAbilityNumbers(ctx);
   const used = new Set<string>();
   const visit = (node: FamilyNode) => {
     used.add(node.form);
@@ -378,6 +381,11 @@ export function buildFamilies(ctx: Context, drafts: readonly FormDraft[]): Famil
       problems.push(`${id}: no stats or types in PokéAPI`);
       continue;
     }
+    const pokeapiAbilities = ctx.pokemonAbilities.get(apiPokemon.id) ?? [];
+    const abilities = pokeapiAbilities.filter((ability) => knownAbilities.has(ability));
+    for (const ability of pokeapiAbilities) {
+      if (!knownAbilities.has(ability)) problems.push(`${id}: no game text for the Ability "${ability}"`);
+    }
     const form: Form = {
       id,
       speciesId: species.identifier,
@@ -391,7 +399,7 @@ export function buildFamilies(ctx: Context, drafts: readonly FormDraft[]): Famil
       lineGeneration: generation,
       types,
       baseStats: stats,
-      abilities: [],
+      abilities,
       heightDm: apiPokemon.heightDm,
       weightHg: apiPokemon.weightHg,
       color: null,

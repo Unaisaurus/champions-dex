@@ -2,6 +2,7 @@
  * Stable IDs for game things that are numbered differently by each source.
  */
 import { slugify } from '../../../src/domain/ids';
+import { cleanDumpText } from '../sources/textDump';
 import type { Context } from './context';
 
 const pad3 = (n: number) => String(n).padStart(3, '0');
@@ -15,6 +16,20 @@ export function abilityId(ctx: Context, number: number): string | null {
   const name = ctx.champions.text('usa', 'tokusei').get(`TOKUSEI_${pad3(number)}`) ?? '';
   const id = slugify(name);
   return id || null;
+}
+
+/**
+ * Every Ability's number in Scarlet and Violet's text, by ID (made from its
+ * English name, as `abilityId` does). Champions' text only has the Abilities
+ * Champions uses; Pokémon outside it can have others.
+ */
+export function mainSeriesAbilityNumbers(ctx: Context): Map<string, number> {
+  const numbers = new Map<string, number>();
+  ctx.sv.file('eng', 'tokusei').forEach((line, number) => {
+    const id = slugify(cleanDumpText(line));
+    if (number > 0 && id && !numbers.has(id)) numbers.set(id, number);
+  });
+  return numbers;
 }
 
 /** Move ID from the move number (the game and PokéAPI number moves the same way). */

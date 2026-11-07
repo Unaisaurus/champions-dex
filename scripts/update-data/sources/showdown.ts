@@ -1,6 +1,7 @@
 /**
  * Pokémon Showdown's data files, used for cross-checks: event-only moves,
  * and which Pokémon and items Showdown's Champions mod treats as available.
+ * Also each form's Showdown name and Pokédex colour.
  * https://github.com/smogon/pokemon-showdown
  */
 import vm from 'node:vm';
@@ -18,6 +19,11 @@ export interface ShowdownData {
   speciesStatus(speciesId: string): Availability;
   /** Showdown's name for a species, form or cosmetic form ID: "Meowstic-F", "Vivillon-High Plains". */
   speciesName(showdownId: string): string | undefined;
+  /**
+   * The Pokédex colour of a species or form with an entry of its own
+   * ("taurospaldeacombat" → "black"); cosmetic forms have none.
+   */
+  speciesColor(showdownId: string): string | undefined;
 }
 
 /** Showdown's IDs: lowercase letters and digits only. */
@@ -97,8 +103,10 @@ export async function loadShowdown(revision: string): Promise<ShowdownData> {
   const formatsTable = (formats.FormatsData ?? {}) as Table;
   // Species and forms by ID, plus cosmetic forms, which Showdown only lists by name.
   const speciesNames = new Map<string, string>();
+  const speciesColors = new Map<string, string>();
   for (const [id, entry] of Object.entries((pokedex.Pokedex ?? {}) as Table)) {
     if (typeof entry.name === 'string') speciesNames.set(id, entry.name);
+    if (typeof entry.color === 'string') speciesColors.set(id, entry.color.toLowerCase());
     const cosmetic = Array.isArray(entry.cosmeticFormes) ? (entry.cosmeticFormes as unknown[]) : [];
     for (const name of cosmetic) if (typeof name === 'string') speciesNames.set(toShowdownId(name), name);
   }
@@ -127,5 +135,6 @@ export async function loadShowdown(revision: string): Promise<ShowdownData> {
       return 'available';
     },
     speciesName: (showdownId) => speciesNames.get(showdownId),
+    speciesColor: (showdownId) => speciesColors.get(showdownId),
   };
 }

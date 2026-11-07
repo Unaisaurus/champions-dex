@@ -5,6 +5,7 @@
 import type { SearchNames, TextDomain } from '../../../src/data/contracts';
 import { slugify } from '../../../src/domain/ids';
 import { GAME_LANGUAGES, type GameLanguage, typeFromTextLabel } from '../sources/champions';
+import { cleanDumpText } from '../sources/textDump';
 import type { AbilitiesResult, ItemsResult, MovesResult } from './catalog';
 import type { Context } from './context';
 import type { TextLanguage } from './dexEntries';
@@ -119,6 +120,12 @@ export function buildText(ctx: Context, input: TextInputs): TextFiles {
     for (const [id, number] of input.abilities.numberById) {
       put('ability-names', id, game('tokusei').get(abilityLabel(number)));
       put('ability-descriptions', id, game('tokuseiinfo_syn').get(abilityInfoLabel(number)));
+    }
+    // Abilities only Pokémon outside Champions have: Scarlet and Violet's text.
+    for (const [id, number] of input.abilities.mainSeriesNumberById) {
+      const sv = (file: string) => cleanDumpText(ctx.sv.file(SV_FILES[language], file)[number] ?? '');
+      put('ability-names', id, sv('tokusei'));
+      put('ability-descriptions', id, sv('tokuseiinfo'));
     }
 
     for (const [id, labels] of input.items.labels) {

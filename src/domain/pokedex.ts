@@ -3,23 +3,26 @@
  * kept in the page address (so the back button and shared links keep it).
  *
  * Three ways of listing (`listMode`):
- * - `species`: one card per Pokédex number. Regional forms fold into their
- *   species' card, like Megas do.
+ * - `species`: one card per Pokédex number, for the species' regular form and
+ *   judged on it alone. Regional forms, Megas and other forms only show in the
+ *   other two ways; here the "regional form" filter finds the species that
+ *   have one, as "can Mega Evolve" finds the ones that can.
  * - `regional` (default): one card per Pokédex entry, so regional forms such
  *   as Alolan Raichu get their own card.
  * - `forms`: every form on its own card, each judged on its own data.
  *
- * When forms share a card, the card matches if any of them matches, and shows
- * the form that matched: filtering Dragon shows Charizard as Mega Charizard X,
- * filtering Psychic in species mode shows Raichu as Alolan Raichu.
+ * When forms share a card (an entry with its Megas or other forms), the card
+ * matches if any of them matches, and shows the form that matched: filtering
+ * Dragon shows Charizard as Mega Charizard X.
  *
  * Species-level filters (generation, favourites) look at the Pokédex entry a
  * form belongs to: Mega Charizard X is a Generation 1 Pokémon here, not a
  * Generation 6 one.
  */
-import type { Form, Id, PokedexColor, Species } from '@/data/contracts';
+import type { Form, Id, LearnsetEntry, PokedexColor, Species } from '@/data/contracts';
 import { POKEDEX_COLORS, STAT_IDS } from '@/data/contracts';
 import { generationTags, type GenerationMode } from './generations';
+import { hasAnyTag, LEARN_FILTERS, type LearnFilter } from './learnsetView';
 import { matchesSearch, parseDexNumberQuery } from './search';
 
 export const SORT_KEYS = ['dex', 'name', 'height', 'weight', ...STAT_IDS, 'total'] as const;
@@ -65,6 +68,11 @@ export interface PokedexQuery {
   listMode: ListMode;
   /** Can learn this move in Champions. */
   move: Id | null;
+  /**
+   * …and learned it in any of these ways in earlier games (or it's new in
+   * Champions: `new`). Empty: any way. Only used with a move.
+   */
+  moveMethods: readonly LearnFilter[];
   /** Has this Ability in Champions. */
   ability: Id | null;
 }
@@ -80,6 +88,7 @@ export const DEFAULT_QUERY: PokedexQuery = {
   favouritesOnly: false,
   listMode: 'regional',
   move: null,
+  moveMethods: [],
   ability: null,
 };
 
@@ -102,6 +111,7 @@ const unique = <T>(values: readonly T[]) => [...new Set(values)];
 export function queryFromParams(params: URLSearchParams): PokedexQuery {
   const sort = oneOf(SORT_KEYS, params.get('sort')) ?? DEFAULT_QUERY.sort;
   const id = (value: string | null) => (value && ID_PATTERN.test(value) ? value : null);
+  const move = id(params.get('move'));
   return {
     search: params.get('q') ?? '',
     sort,
@@ -127,7 +137,9 @@ export function queryFromParams(params: URLSearchParams): PokedexQuery {
     favouritesOnly: params.get('fav') === '1',
     // `forms=1` is how earlier versions of the app wrote "every form".
     listMode: oneOf(LIST_MODES, params.get('list')) ?? (params.get('forms') === '1' ? 'forms' : 'regional'),
-    move: id(params.get('move')),
+    move,
+    // In the order they're shown, whatever the order in the address.
+    moveMethods: move ? LEARN_FILTERS.filter((tag) => list(params.get('how')).includes(tag)) : [],
     ability: id(params.get('ability')),
   };
 }
@@ -145,6 +157,7 @@ export function paramsFromQuery(query: PokedexQuery): URLSearchParams {
   if (query.favouritesOnly) params.set('fav', '1');
   if (query.listMode !== DEFAULT_QUERY.listMode) params.set('list', query.listMode);
   if (query.move) params.set('move', query.move);
+  if (query.move && query.moveMethods.length) params.set('how', query.moveMethods.join(','));
   if (query.ability) params.set('ability', query.ability);
   return params;
 }
@@ -190,8 +203,8 @@ export interface PokedexSource {
   /** The forms shown on an entry's page besides the entry itself (Megas, Rotom forms…). */
   profilesOf(entryId: Id): readonly Form[];
   species(id: Id): Species | undefined;
-  /** The moves a form can use in Champions (a Mega uses its base form's moves). */
-  movesOf(form: Form): ReadonlySet<Id>;
+  /** The moves a form can use in Champions and how it learned them (a Mega uses its base form's). */
+  learnsetOf(form: Form): ReadonlyMap<Id, LearnsetEntry>;
   /** True if this form can Mega Evolve. */
   canMegaEvolve(form: Form): boolean;
   /** Normalised names of a form in every language (see domain/search). */
@@ -229,7 +242,14 @@ export function sortValue(form: Form, sort: SortKey): number | null {
   }
 }
 
-function hasCategory(form: Form, species: Species, category: CategoryFilter, source: PokedexSource) {
+function hasCategory(
+  form: Form,
+  species: Species,
+  category: CategoryFilter,
+  source: PokedexSource,
+  /** In species mode, the species with a regional form (their cards show the regular one). */
+  withRegionalForms: ReadonlySet<Id> | null,
+) {
   switch (category) {
     case 'legendary':
       return species.isLegendary;
@@ -240,7 +260,7 @@ function hasCategory(form: Form, species: Species, category: CategoryFilter, sou
     case 'mega':
       return form.kind === 'mega' || source.canMegaEvolve(form);
     case 'regional':
-      return form.kind === 'regional';
+      return withRegionalForms ? withRegionalForms.has(species.id) : form.kind === 'regional';
     default:
       return species.categories.includes(category);
   }
@@ -249,6 +269,8 @@ function hasCategory(form: Form, species: Species, category: CategoryFilter, sou
 export function runPokedexQuery(source: PokedexSource, query: PokedexQuery): PokedexRow[] {
   const search = query.search.trim();
   const dexNumber = search ? parseDexNumberQuery(search) : null;
+  // Filled in below while the cards are put together.
+  const withRegionalForms = query.listMode === 'species' ? new Set<Id>() : null;
 
   const entryMatches = (entry: Form) => {
     if (query.favouritesOnly && !source.favourites.has(entry.id)) return false;
@@ -271,10 +293,16 @@ export function runPokedexQuery(source: PokedexSource, query: PokedexQuery): Pok
     }
     if (!query.types.every((type) => form.types.includes(type))) return false;
     if (query.colors.length > 0 && !query.colors.includes(form.color ?? species.color)) return false;
-    if (query.categories.length > 0 && !query.categories.some((c) => hasCategory(form, species, c, source))) {
+    if (
+      query.categories.length > 0 &&
+      !query.categories.some((c) => hasCategory(form, species, c, source, withRegionalForms))
+    ) {
       return false;
     }
-    if (query.move && !source.movesOf(form).has(query.move)) return false;
+    if (query.move) {
+      const learned = source.learnsetOf(form).get(query.move);
+      if (!learned || !hasAnyTag(learned, query.moveMethods)) return false;
+    }
     if (query.ability && !form.abilities.includes(query.ability)) return false;
     return true;
   };
@@ -287,7 +315,7 @@ export function runPokedexQuery(source: PokedexSource, query: PokedexQuery): Pok
     order: number;
   }
   const groups: Candidate[][] = [];
-  const groupOfSpecies = new Map<Id, Candidate[]>();
+  const listedSpecies = new Set<Id>();
   source.entries.forEach((entry, entryIndex) => {
     const species = source.species(entry.speciesId);
     if (!species) return;
@@ -299,13 +327,13 @@ export function runPokedexQuery(source: PokedexSource, query: PokedexQuery): Pok
     }));
     if (query.listMode === 'forms') {
       candidates.forEach((candidate) => groups.push([candidate]));
-    } else if (query.listMode === 'species') {
-      const group = groupOfSpecies.get(species.id);
-      if (group) group.push(...candidates);
-      else {
-        groupOfSpecies.set(species.id, candidates);
-        groups.push(candidates);
+    } else if (withRegionalForms) {
+      // A species' first entry is its regular form; any later ones are its regional forms.
+      if (!listedSpecies.has(species.id)) {
+        listedSpecies.add(species.id);
+        groups.push(candidates.slice(0, 1));
       }
+      if (entry.kind === 'regional') withRegionalForms.add(species.id);
     } else {
       groups.push(candidates);
     }

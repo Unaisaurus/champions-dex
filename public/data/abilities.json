@@ -161,6 +161,7 @@
 {"id":"sheer-force","availableInChampions":true,"caveats":[]},
 {"id":"shell-armor","availableInChampions":true,"caveats":[]},
 {"id":"shield-dust","availableInChampions":true,"caveats":[]},
+{"id":"simple","availableInChampions":false,"caveats":[]},
 {"id":"skill-link","availableInChampions":true,"caveats":[]},
 {"id":"slush-rush","availableInChampions":true,"caveats":[]},
 {"id":"sniper","availableInChampions":true,"caveats":[]},
@@ -211,7 +212,9 @@
 {"id":"wandering-spirit","availableInChampions":true,"caveats":[]},
 {"id":"water-absorb","availableInChampions":true,"caveats":[]},
 {"id":"water-bubble","availableInChampions":true,"caveats":[]},
+{"id":"water-veil","availableInChampions":false,"caveats":[]},
 {"id":"weak-armor","availableInChampions":true,"caveats":[]},
 {"id":"white-smoke","availableInChampions":true,"caveats":[]},
+{"id":"wimp-out","availableInChampions":false,"caveats":[]},
 {"id":"zero-to-hero","availableInChampions":true,"caveats":[]}
 ]

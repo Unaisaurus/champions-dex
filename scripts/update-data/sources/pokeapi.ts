@@ -18,6 +18,7 @@ export const POKEAPI_TABLES = [
   'moves',
   'natures',
   'pokemon',
+  'pokemon_abilities',
   'pokemon_colors',
   'pokemon_evolution',
   'pokemon_form_names',

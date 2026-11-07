@@ -35,16 +35,18 @@ export interface PagesFile {
 
 const sleep = (ms: number) => new Promise((done) => setTimeout(done, ms));
 
-/** The Spanish name of each species in Champions, which is its WikiDex page title. */
-function championsSpecies(): Array<{ id: string; title: string }> {
+/**
+ * The Spanish name of each species with a page in the app (in Champions, or
+ * a family member outside it), which is its WikiDex page title.
+ */
+function speciesWithPages(): Array<{ id: string; title: string }> {
   const forms = JSON.parse(readFileSync(join(ROOT, 'public', 'data', 'forms.json'), 'utf8')) as Array<{
     speciesId: string;
-    availability: string;
   }>;
   const names = JSON.parse(
     readFileSync(join(ROOT, 'public', 'data', 'text', 'es', 'pokemon-names.json'), 'utf8'),
   ) as Record<string, string>;
-  const ids = [...new Set(forms.filter((f) => f.availability === 'champions').map((f) => f.speciesId))];
+  const ids = [...new Set(forms.map((f) => f.speciesId))];
   return ids.map((id) => ({ id, title: (names[id] ?? id).replace(/’/g, "'") }));
 }
 
@@ -89,7 +91,7 @@ async function request(titles: string[]): Promise<ApiResponse> {
 }
 
 export async function downloadPages(): Promise<PagesFile> {
-  const species = championsSpecies();
+  const species = speciesWithPages();
   const pages: Record<string, WikidexPage> = {};
   const missing: string[] = [];
   for (let start = 0; start < species.length; start += 20) {

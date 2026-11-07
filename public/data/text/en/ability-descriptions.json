@@ -161,6 +161,7 @@
 "sheer-force": "The Pokémon’s moves lose their additional effects, but the power of those moves will be boosted by 30%.",
 "shell-armor": "Attacks landed on the Pokémon will never be critical hits.",
 "shield-dust": "The Pokémon is immune to additional effects from attacks.",
+"simple": "Doubles the effects of the Pokémon’s stat changes.",
 "skill-link": "The Pokémon’s multistrike moves always hit the maximum number of times.",
 "slush-rush": "Doubles the Pokémon’s Speed stat in snow.",
 "sniper": "Boosts the power of the Pokémon’s critical hits by 125% instead of 50%.",
@@ -211,7 +212,9 @@
 "wandering-spirit": "When the Pokémon is hit by a contact move, it swaps Abilities with the attacker.",
 "water-absorb": "Water-type moves do not work on the Pokémon. Instead, they restore 1/4 of its max HP.",
 "water-bubble": "Halves the damage the Pokémon takes from Fire-type moves and doubles the power of its Water-type moves. The Pokémon cannot be burned.",
+"water-veil": "The Pokémon’s water veil prevents it from being burned.",
 "weak-armor": "When the Pokémon takes damage from a physical move, its Defense stat is lowered by 1 stage, but its Speed stat is boosted by 2 stages.",
 "white-smoke": "The Pokémon’s stats cannot be lowered by other Pokémon’s moves or Abilities.",
+"wimp-out": "The Pokémon cowardly switches out when its HP drops to half or less.",
 "zero-to-hero": "The Pokémon changes into its Hero Form when it switches out of battle."
 }
