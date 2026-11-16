@@ -1,6 +1,6 @@
-# Data update 2026-11-07.3
+# Data update 2026-11-16
 
-Generated 2026-11-07T11:34:51Z.
+Generated 2026-11-16T13:46:45Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -22,176 +22,20 @@ Game: version 1.2.2, Regulation M-C.
 
 ## Changes since the previous update
 
-### Changed: dex-entries (154)
-
-- abra
-- aron
-- azurill
-- bagon
-- basculin
-- bayleef
-- beldum
-- bellossom
-- bellsprout
-- bisharp
-- budew
-- bulbasaur
-- buneary
-- carvanha
-- charmander
-- charmeleon
-- chikorita
-- chimchar
-- chingling
-- clefairy
-- cleffa
-- combusken
-- cottonee
-- cranidos
-- croagunk
-- croconaw
-- cubchoo
-- cyndaquil
-- deino
-- dewott
-- dragonair
-- dratini
-- drilbur
-- duosion
-- eelektrik
-- eevee
-- ekans
-- electrike
-- feebas
-- flaaffy
-- gabite
-- gastly
-- gible
-- girafarig
-- gligar
-- gloom
-- golett
-- grotle
-- grovyle
-- growlithe
-- gulpin
-- gurdurr
-- haunter
-- hippopotas
-- houndour
-- igglybuff
-- ivysaur
-- jigglypuff
-- kadabra
-- kakuna
-- kirlia
-- krokorok
-- lairon
-- lampent
-- larvesta
-- larvitar
-- litwick
-- luxio
-- machoke
-- machop
-- magikarp
-- mankey
-- mareep
-- marill
-- marshtomp
-- meditite
-- meowth
-- metang
-- mime-jr
-- monferno
-- mudkip
-- munchlax
-- munna
-- numel
-- oddish
-- onix
-- oshawott
-- panpour
-- pansage
-- pansear
-- patrat
-- pawniard
-- pichu
-- pidgeotto
-- pidgey
-- pignite
-- piloswine
-- pineco
-- piplup
-- poliwag
-- poliwhirl
-- poliwrath
-- primeape
-- prinplup
-- pupitar
-- purrloin
-- quilava
-- ralts
-- rhydon
-- rhyhorn
-- riolu
-- roselia
-- sandile
-- scraggy
-- scyther
-- servine
-- shelgon
-- shieldon
-- shinx
-- shuppet
-- slowpoke
-- sneasel
-- snivy
-- snorunt
-- snover
-- solosis
-- spinarak
-- squirtle
-- stantler
-- staravia
-- starly
-- staryu
-- swablu
-- swinub
-- tepig
-- timburr
-- torchic
-- totodile
-- treecko
-- trubbish
-- turtwig
-- tynamo
-- vanillish
-- vanillite
-- venipede
-- vulpix
-- wartortle
-- weedle
-- weepinbell
-- whirlipede
-- wingull
-- yamask
-- zorua
-- zweilous
-
+No changes to Pokémon, moves, items, learnsets or text.
 
 ## Sources
 
 - [Pokémon Champions datamine (Project Pokémon)](https://github.com/projectpokemon/champout) at `50e7233b78c3`
-- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `6ea97b5641fa`
-- [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `1b3b7c0a538d`
-- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `567c1cedddea`
+- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `e4f981e5cb03`
+- [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `c0542f7c5121`
+- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `f827a1d41064`
 - [Pokémon main series text dumps (tanripj)](https://github.com/tanripj/pokemon_text_dumps) at `d67e1c3cbcf5`
 - [Brilliant Diamond and Shining Pearl text dumps (tanripj)](https://github.com/tanripj/bdsp_text_dumps) at `1f94006a6838`
 - [Pokémon Legends: Z-A text dump with labels (CPokemon)](https://github.com/CPokemon/plza-text) at `3f149c41285b`
-- [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `0660d1e1f492`
+- [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `6b21d83543db`
 - [Pokémon JSON API by towakey (Japanese Pokédex text per form)](https://github.com/towakey/pokedex) at `142c54d3f6a8`
-- [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-07`
+- [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-07T1`
 
 ## Things to check (1)
 
