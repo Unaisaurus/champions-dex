@@ -1,6 +1,6 @@
-# Data update 2026-11-16
+# Data update 2026-11-23
 
-Generated 2026-11-16T13:46:45Z.
+Generated 2026-11-23T16:08:38Z.
 Game: version 1.2.2, Regulation M-C.
 
 ## Contents
@@ -14,7 +14,7 @@ Game: version 1.2.2, Regulation M-C.
 - Abilities: 218
 - Items in Champions: 166
 - Learnset entries: 16073
-- Learnset entries new in Champions: 110
+- Learnset entries new in Champions: 109
 - Forms with Pokédex entries of their own: 178
 - Spanish Pokédex entries from WikiDex (games before X and Y): 3573
 - Shiny artwork lined up with the regular art: 149
@@ -27,13 +27,13 @@ No changes to Pokémon, moves, items, learnsets or text.
 ## Sources
 
 - [Pokémon Champions datamine (Project Pokémon)](https://github.com/projectpokemon/champout) at `50e7233b78c3`
-- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `e4f981e5cb03`
+- [PokéAPI data](https://github.com/PokeAPI/pokeapi) at `de6760be38b6`
 - [PokéAPI sprites](https://github.com/PokeAPI/sprites) at `c0542f7c5121`
-- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `f827a1d41064`
+- [Pokémon Showdown](https://github.com/smogon/pokemon-showdown) at `e7f50cd7bcb3`
 - [Pokémon main series text dumps (tanripj)](https://github.com/tanripj/pokemon_text_dumps) at `d67e1c3cbcf5`
 - [Brilliant Diamond and Shining Pearl text dumps (tanripj)](https://github.com/tanripj/bdsp_text_dumps) at `1f94006a6838`
 - [Pokémon Legends: Z-A text dump with labels (CPokemon)](https://github.com/CPokemon/plza-text) at `3f149c41285b`
-- [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `6b21d83543db`
+- [PKHeX (game form tables)](https://github.com/kwsch/PKHeX) at `a5311f9f55a8`
 - [Pokémon JSON API by towakey (Japanese Pokédex text per form)](https://github.com/towakey/pokedex) at `142c54d3f6a8`
 - [WikiDex (Spanish Pokédex entries for the games before X and Y)](https://www.wikidex.net) at `2026-11-07T1`
 
